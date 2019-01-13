@@ -25,7 +25,7 @@ main:
 	@ln -fs bin/$(EXEC) .
 #	@strip bin/$(EXEC)
 
-clean:
+clean: ctags
 	@for pkg in $(SRCPKGS); \
 	do \
 		echo "Cleaning $$pkg..."; \
