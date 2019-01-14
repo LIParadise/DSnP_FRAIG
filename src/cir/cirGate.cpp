@@ -60,8 +60,10 @@ CirGate::reportFanin( int total_level, int indent, bool print_exclam ) const {
 
   for( int i = 0; i < indent*2; ++i )
     cout << ' ';
+
   if( print_exclam )
     cout << '!';
+
   if( getGateID() != 0 )
     cout << getTypeStr() << ' ' << getGateID();
   else
@@ -90,7 +92,7 @@ CirGate::reportFanin( int total_level, int indent, bool print_exclam ) const {
           (( isInverted( _parent[1] ))? true : false ) );
   }
 
-  if( indent < total_level 
+  if( indent < (total_level-1) 
       && (_parent[0] != 0 || _parent[1] != 0) ) {
     _haveMetBefore.insert( getGateID() );
   }
@@ -137,7 +139,7 @@ CirGate::reportFanout( int total_level, int indent, size_t parent_ptr ) const {
       reportFanout( total_level, indent+1, 
           reinterpret_cast<size_t>(this) );
 
-  if( indent < total_level && ! _child.empty() )
+  if( indent < (total_level-1) && ! _child.empty() )
     _haveMetBefore.insert( getGateID() );
 }
 

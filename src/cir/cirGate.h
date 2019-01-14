@@ -27,8 +27,12 @@ class CirGate;
 class CirGate
 {
   public:
-    CirGate(): _parent{0}, _active(false), _lineNo(0), _gateID(0), _gateDFSRef(0), _IsDefined(true), _symbolMsg("") {}
-    CirGate(int i) : _parent{0}, _active(false), _lineNo(0), _gateID(i), _gateDFSRef(0), _IsDefined(true ), _symbolMsg("") {}
+    CirGate(): 
+      _parent{0}, _active(false), _lineNo(0), _gateID(0), 
+      _gateDFSRef(0), _IsDefined(true), _symbolMsg("") {}
+    CirGate(int i) : 
+      _parent{0}, _active(false), _lineNo(0), _gateID(i),
+      _gateDFSRef(0), _IsDefined(true ), _symbolMsg("") {}
     virtual ~CirGate() {}
 
     // Basic access methods

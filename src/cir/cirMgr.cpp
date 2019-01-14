@@ -191,7 +191,7 @@ CirMgr::readCircuit(const string& fileName)
       ptr = nullptr;
     }else {
       ptr -> setLineCnt( line_count );
-      PIIDList.push_back( id );
+      PIIDList.emplace_back( id );
     }
     ++line_count;
   }
@@ -220,7 +220,7 @@ CirMgr::readCircuit(const string& fileName)
       ptr = nullptr;
     }else {
       ptr -> setLineCnt( line_count );
-      POIDList.push_back( PO_start_id );
+      POIDList.emplace_back( PO_start_id );
     }
     ++line_count;
     ++PO_start_id;
@@ -239,7 +239,7 @@ CirMgr::readCircuit(const string& fileName)
     definedList.insert( id );
 
     auto ptr       = new AAGate( id, true );
-    auto ret_pair = GateList.insert( make_pair( id, ptr ));
+    auto ret_pair  = GateList.insert( make_pair( id, ptr ));
     ptr -> setLineCnt( line_count );
     if( ret_pair . second == false ){
       // insertion failure.
@@ -488,10 +488,12 @@ CirMgr::printSummary() const
   cout.flags( cout_org_flags );
   cout << "  PO        "  << setw(4) << right << POIDList.size() << endl;
   cout.flags( cout_org_flags );
-  cout << "  AAG       "  << setw(4) << right << GateList.size()-PIIDList.size()-POIDList.size() << endl;
+  cout << "  AAG       "  << setw(4) << right << GateList.size()-PIIDList.size()-POIDList.size()-1 << endl;
+  // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << "  ==================" << endl;
-  cout << "  Total     "  << setw(4) << right << GateList.size();
+  cout << "  Total     "  << setw(4) << right << GateList.size()-1;
+  // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << endl;
 }
