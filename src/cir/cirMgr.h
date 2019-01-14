@@ -11,26 +11,28 @@
 
 #include <vector>
 #include <string>
-#include <fstream>
 #include <iostream>
+#include <fstream>
+#include <set>
+#include <map>
+#include <utility>
+#include "cirDef.h"
 
 using namespace std;
 
 // TODO: Feel free to define your own classes, variables, or functions.
-
-#include "cirDef.h"
 
 extern CirMgr *cirMgr;
 
 class CirMgr
 {
 public:
-   CirMgr() {}
-   ~CirMgr() {} 
+   CirMgr(): globalDFSRef(0)  {}
+   ~CirMgr() { clearGate();}
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
-   CirGate* getGate(unsigned gid) const { return 0; }
+   CirGate* getGate(unsigned ) const ;
 
    // Member functions about circuit construction
    bool readCircuit(const string&);
@@ -62,6 +64,35 @@ public:
 private:
    ofstream           *_simLog;
 
+   // helper functions
+   bool buildDFSList () ;
+   bool DFS          ( CirGate*, unsigned = 0 ) ;
+   void clearGate    () ;
+
+   // helper data fields
+   set<unsigned>  definedList;
+   // PI, AAG.
+   set<unsigned>  usedList;
+   // PO, fanin of AAG.
+   size_t    globalDFSRef;
+
+   vector< unsigned > DefButNUsedList;
+   vector< unsigned > UnDefinedList;
+
+   map< unsigned, CirGate* > GateList;
+
+   vector< unsigned > PIIDList;
+   vector< unsigned > POIDList;
+   vector< pair< unsigned, CirGate*>> Island;
+   vector< unsigned> MILOA;
+   // TODO, shall have a field remaining symbol msg.
+
+   vector< pair<CirGate*, unsigned> > DFSList;
+   set<unsigned>                      DFSMap;
+   vector< string>                    output_bak;
+
+
 };
 
 #endif // CIR_MGR_H
+
