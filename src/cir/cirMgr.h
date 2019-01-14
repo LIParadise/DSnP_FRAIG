@@ -93,5 +93,9 @@ private:
 
 };
 
+bool myPairUnsignedCharCmp (
+    const pair< unsigned, char>& ,
+    const pair< unsigned, char>& ) ; 
+
 #endif // CIR_MGR_H
 
