@@ -79,7 +79,9 @@ class CirGate
     static set<unsigned>    _haveMetBefore;
 
   protected:
-    CirGate( int i , bool b) : _parent{0}, _active(false), _lineNo(0), _gateID(i), _gateDFSRef(0), _IsDefined( b ), _symbolMsg("") {}
+    CirGate( int i , bool b) :
+      _parent{0}, _active(false), _lineNo(0), _gateID(i), 
+      _gateDFSRef(0), _IsDefined( b ), _symbolMsg("") {}
     // for AAGate only.
     bool             _IsDefined;
     string           _symbolMsg;
@@ -88,8 +90,10 @@ class CirGate
 
 class POGate : public CirGate {
   public:
-    POGate(): CirGate(), refGateVar(0) {}
-    POGate(int gid, int refid): CirGate(gid), refGateVar(refid ) {}
+    POGate(): 
+      CirGate(), refGateVar(0) {}
+    POGate(int gid, int refid): 
+      CirGate(gid), refGateVar(refid ) {}
     virtual string getTypeStr()    const { return "PO"; }
     virtual string getSymbolMsg()  const { return _symbolMsg; }
     virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }

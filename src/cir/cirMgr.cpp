@@ -369,16 +369,15 @@ CirMgr::readCircuit(const string& fileName)
 
   // set symbol;
   while( getline( myfile, tmp_str ) ){
-    tmp_sstr.str( tmp_str );
-    tmp_sstr >> tmp_str1;
+    auto tmp_tmp_str_pos = tmp_str.find_first_of( ' ' );
+    tmp_str1 = tmp_str.substr( 0, tmp_tmp_str_pos );
+    tmp_str2 = tmp_str.substr( tmp_tmp_str_pos + 1, string::npos );
     if( tmp_str1[0] == 'i' ){
-      tmp_str1.erase( 0);
-      getline( tmp_sstr, tmp_str2 );
+      tmp_str1.erase(tmp_str1.begin());
       GateList.find( PIIDList.at(stoi( tmp_str1, nullptr, 10 ) ) )
         -> second -> setSymbolMsg( tmp_str2 ) ;
     } else if( tmp_str1[0] == 'o' ){
-      tmp_str1.erase(0 );
-      getline( tmp_sstr, tmp_str2 );
+      tmp_str1.erase(tmp_str1.begin());
       GateList.find( POIDList.at( stoi( tmp_str1, nullptr, 10 ) ) )
         -> second -> setSymbolMsg( tmp_str2 );
     } else{
