@@ -393,14 +393,13 @@ CirMgr::readCircuit(const string& fileName)
   myfile.seekg( ios_base:: beg );
 
   getline( myfile, tmp_str );
-  stringstream output_ss;
 
   output_bak . push_back ( "" );
-  output_bak[0] = "aag " + to_string( MILOA[0] ) + ' '
-    + to_string( MILOA[1] ) + ' '
-    + to_string( MILOA[2] ) + ' '
-    + to_string( MILOA[3] ) + ' '
-    + to_string( MILOA[4] );
+  output_bak[0] = "aag " + to_string(GateList.size()-1) + ' '
+    +to_string( MILOA[1] ) + ' '
+    +to_string( 0 )        + ' '
+    +to_string( MILOA[3] ) + ' '
+    +to_string( GateList.size()-PIIDList.size()-POIDList.size()-1 );
 
   for( int i = 0; i < MILOA[1]; ++i ){ // I
     getline( myfile, tmp_str );
@@ -415,39 +414,62 @@ CirMgr::readCircuit(const string& fileName)
     output_bak.push_back( tmp_str );
   }
 
-  for_each( DFSList.begin(), DFSList.end(),
-           [this] ( pair< const CirGate*, const unsigned>  p ) {
-             DFSMap.insert( 
-               p.first->getGateID() );
-           } );
-
-
-
   unsigned tmp_AIG_id = 0;
-  for( int i = 0; i < MILOA[4]; ++i ){ // A
-    getline( myfile, tmp_str );
-    output_ss.str( tmp_str );
-    output_ss >> tmp_str1;
-    tmp_AIG_id = stoi( tmp_str1, nullptr, 10 )/2;
-    if( DFSMap.find( tmp_AIG_id ) != DFSMap.end() )
-      output_bak.push_back( tmp_str );
-  }
+  for( auto it : DFSList ) {  // A
 
+    if( it.first -> getTypeStr() == "AIG" ) {
 
-  for( auto it : PIIDList ){
-    tmp_str = 'i';
-    tmp_str1 = GateList.find(it) -> second -> getSymbolMsg();
-    if( tmp_str1 != "" ){
-      tmp_str = tmp_str + to_string( it) + ' ' + tmp_str1;
-      output_bak.push_back(  tmp_str);
+      tmp_str =  "";
+      tmp_str += to_string (it.first -> getGateID() * 2 );
+      tmp_str += ' ';
+
+      size_t parent_0_id = 0;
+      size_t parent_1_id = 0;
+
+      if( getPtr( it.first -> _parent[0] ) != nullptr ) {
+        if ( isInverted( it.first -> _parent[0] ) )
+          parent_0_id = ( getPtr( it.first -> _parent[0] )
+                         -> getGateID() )* 2 + 1;
+        else
+          parent_0_id = ( getPtr( it.first -> _parent[0] )
+                         -> getGateID() )* 2;
+      }
+
+      if( getPtr( it.first -> _parent[1] ) != nullptr ) {
+        if ( isInverted( it.first -> _parent[1] ) )
+          parent_1_id = ( getPtr( it.first -> _parent[1] )
+                         -> getGateID() )* 2 + 1;
+        else
+          parent_1_id = ( getPtr( it.first -> _parent[1] )
+                         -> getGateID() )* 2;
+      }
+
+      tmp_str += to_string( parent_0_id );
+      tmp_str += ' ';
+      tmp_str += to_string( parent_1_id );
+      output_bak.emplace_back( tmp_str );
+
     }
   }
-  for( auto it : POIDList ){
-    tmp_str = 'o';
-    tmp_str1 = GateList.find(it) -> second -> getSymbolMsg();
+
+
+  // symbols
+  for( size_t idx = 0; idx < PIIDList.size(); ++idx){
+    tmp_str1 = GateList.find(PIIDList[idx]) 
+      -> second -> getSymbolMsg();
     if( tmp_str1 != "" ){
-      tmp_str = tmp_str + to_string( it) + ' ' + tmp_str1;
-      output_bak.push_back(  tmp_str);
+      tmp_str = 'i';
+      tmp_str = tmp_str + to_string(idx) + ' ' + tmp_str1;
+      output_bak.push_back(tmp_str);
+    }
+  }
+  for( size_t idx = 0; idx < POIDList.size(); ++idx){
+    tmp_str1 = GateList.find(POIDList[idx]) 
+      -> second -> getSymbolMsg();
+    if( tmp_str1 != "" ){
+      tmp_str = 'o';
+      tmp_str = tmp_str + to_string(idx) + ' ' + tmp_str1;
+      output_bak.push_back(tmp_str);
     }
   }
 
@@ -487,7 +509,7 @@ CirMgr::printSummary() const
   cout.flags( cout_org_flags );
   cout << "  PO        "  << setw(4) << right << POIDList.size() << endl;
   cout.flags( cout_org_flags );
-  cout << "  AAG       "  << setw(4) << right << GateList.size()-PIIDList.size()-POIDList.size()-1 << endl;
+  cout << "  AIG       "  << setw(4) << right << GateList.size()-PIIDList.size()-POIDList.size()-1 << endl;
   // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << "  ==================" << endl;
@@ -604,7 +626,7 @@ CirGate*
 CirMgr::getGate( unsigned gid ) const {
   auto tmp_pair_itor = GateList.find( gid );
   if( tmp_pair_itor  != GateList.end() )
-      return tmp_pair_itor -> second;
+    return tmp_pair_itor -> second;
   else
     return nullptr;
 }
