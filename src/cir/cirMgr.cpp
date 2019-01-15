@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include <algorithm>
 #include <cstdio>
 #include <ctype.h>
 #include <cassert>
@@ -268,18 +267,16 @@ CirMgr::readCircuit(const string& fileName)
 
   DefButNUsedList.clear();
   UnDefinedList.clear();
-  DefButNUsedList.reserve( 10);
-  UnDefinedList.reserve( 10);
   definedList.insert( 0 );
   // CONST0 is always defined.
 
   set_difference( definedList.begin(), definedList.end(),
                  usedList.begin(), usedList.end(),
-                 back_inserter(DefButNUsedList));
+                 inserter(DefButNUsedList, DefButNUsedList.end()));
 
   set_difference( usedList.begin(), usedList.end(),
                  definedList.begin(), definedList.end(),
-                 back_inserter(UnDefinedList) );
+                 inserter(UnDefinedList, UnDefinedList.end()) );
 
   // handle undefined gate
   for_each( GateList.begin(), GateList.end(),

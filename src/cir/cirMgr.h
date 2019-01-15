@@ -17,6 +17,10 @@
 #include <map>
 #include <utility>
 #include <ctime>
+#include <queue>
+#include <iterator>
+// for std::inserter;
+#include <algorithm>
 #include "cirDef.h"
 #include "intel_rand.h"
 
@@ -67,11 +71,12 @@ private:
    ofstream           *_simLog;
 
    // helper functions
-   bool buildDFSList () ;
-   bool DFS          ( CirGate*, unsigned = 0 ) ;
-   void clearGate    () ;
-   void getNewGDFSRef() ;
-   void getNewGBFSRef() ;
+   bool buildDFSList   () ;
+   bool DFS            ( CirGate*, unsigned = 0 ) ;
+   void BFS_4_optimize (queue<unsigned>& ) ;
+   void clearGate      () ;
+   void getNewGDFSRef  () ;
+   void getNewGBFSRef  () ;
 
    // helper data fields
    set<unsigned>  definedList;
@@ -83,8 +88,8 @@ private:
    unsigned  globalBFSRef;
    // one for building DFS list, one for trivial-gate-optimizing.
 
-   vector< unsigned > DefButNUsedList;
-   vector< unsigned > UnDefinedList;
+   set< unsigned > DefButNUsedList;
+   set< unsigned > UnDefinedList;
 
    map< unsigned, CirGate* > GateList;
 

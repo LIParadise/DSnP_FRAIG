@@ -45,25 +45,40 @@ CirMgr::sweep() {
     if( ID_in_DFSList.find( itor -> second -> getGateID() )
         == ID_in_DFSList.end () ){
       if( itor -> second -> getTypeStr() == "UNDEF") {
+
+        auto tmp_itor = usedList.find( itor -> second -> getGateID() );
+        if( tmp_itor != usedList.end() )
+          usedList.erase( tmp_itor );
+
+        itor -> second -> makeForgetMe ();
+        delete( itor -> second );
+        itor -> second = nullptr;
         GateList.erase(itor);
+
       }else if( itor -> second -> getTypeStr() == "AIG" ){
         if( itor -> second -> getGateID() != 0 ){
+
+          auto tmp_itor = definedList.find( itor -> second -> getGateID() );
+          if( tmp_itor != definedList.end() )
+            definedList.erase( tmp_itor );
+          tmp_itor = usedList.find( itor -> second -> getGateID() );
+          if( tmp_itor != usedList.end() )
+            usedList.erase( tmp_itor );
+
+          itor -> second -> makeForgetMe ();
+          delete( itor -> second );
+          itor -> second = nullptr;
           GateList.erase(itor);
         }
       }
     }
   }
 
-  for( auto itor = UnDefinedList.begin(); itor != UnDefinedList.end();
-      ++itor ) {
-    auto GateList_itor = GateList.find( *itor );
-    if( GateList_itor != GateList.end() ){
-      delete ( GateList_itor->second );
-      GateList.erase( GateList_itor );
-    }
-  }
-  UnDefinedList.clear();
-  // done 0119 1610
+  DefButNUsedList.clear();
+  UnDefinedList  .clear();
+  set_difference( usedList.begin(), usedList.end(),
+                 definedList.begin(), definedList.end(),
+                 inserter(UnDefinedList, UnDefinedList.end()) );
 }
 
 // Recursively simplifying from POs;
@@ -74,15 +89,15 @@ CirMgr::optimize()
 {
   // FIXME
   // shall do BFS...
-//  sweep();
-//  queue<unsigned> 
-//  for( auto pi_idx : PIIDList ){
-//    auto tmp_gate_ptr = GateList.find( pi_idx );
-//    // shall always be present, thus no robustness test here.
-//    for( auto child_ptr_size_t : tmp_gate_ptr -> _child ){
-//      
-//    }
-//  }
+  sweep();
+  queue<unsigned> BFS_Q;
+  for( auto it : PIIDList )
+    BFS_Q.push( it );
+  BFS_4_optimize( BFS_Q );
+}
+
+void
+CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
 }
 
 /***************************************************/

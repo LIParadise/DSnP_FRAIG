@@ -110,7 +110,9 @@ void
 CirGate::reportFanout( int total_level, int indent, size_t parent_ptr ) const {
 
   auto   itor = _haveMetBefore . find( getGateID() );
-  size_t parent_with_inv_info = findParent( parent_ptr );
+  size_t parent_tricky_idx    = findParent( parent_ptr );
+  size_t parent_with_inv_info = (parent_tricky_idx == 0 )?
+    0 : _parent[parent_tricky_idx-1] ;
 
   if( !( indent < total_level ) ){
     return;
@@ -118,7 +120,7 @@ CirGate::reportFanout( int total_level, int indent, size_t parent_ptr ) const {
 
   for( int i = 0; i < indent*2; ++i )
     cout << ' ';
-  if( parent_with_inv_info && parent_ptr != 0 )
+  if( parent_with_inv_info && (parent_ptr != 0) )
     if( isInverted( parent_with_inv_info ) )
       cout << '!';
   if( getGateID() != 0 )
@@ -197,10 +199,11 @@ CirGate::findChild( size_t s ) const{
 size_t
 CirGate::findParent( size_t s ) const{
   // _parent contains inv info.
+  // minus 1 to get index.
   if( _parent[0] == s || _parent[0] == getXorInv(s) )
-    return _parent[0];
+    return 1;
   else if( _parent[1] == s || _parent[1] == getXorInv(s) )
-    return _parent[1];
+    return 2;
   else
     return 0;
 }
@@ -251,6 +254,39 @@ AAGate::printGate() const {
   }
 }
 
+void
+CirGate::makeForgetMe() {
+  // make my parents forget about me.
+  // notice:
+  // 1. shall be called with some proper fixups.
+  //    e.g.: buildDFSList, GateList.erase,
+  // 2. shall be called with delete.
+  // 
+  // may make some gates "defined but not used",
+  // -- put it in DefButNUsedList in this case;
+  // may make some gates have dangerous floating fan-in,
+  // well, that's a FIXME, though...
+  for( size_t i = 0; i < 2; ++i ){
+    auto tmp_parent_ptr = getPtr( _parent[i] );
+    if( tmp_parent_ptr != nullptr ){
+      auto me_itor = tmp_parent_ptr -> findChild( getPtrInSize_t( this));
+      if( me_itor != tmp_parent_ptr -> _child.end() )
+        tmp_parent_ptr -> _child . erase( me_itor );
+    }
+  }
+
+  // make my children forget about me.
+  for( auto itor = _child.begin(); itor != _child.end(); ++itor ){
+    auto tmp_child_ptr = getPtr( *itor );
+    auto parent_tricky_idx = tmp_child_ptr -> findParent( 
+        getPtrInSize_t( this ) );
+    if( parent_tricky_idx != 0 ){
+      tmp_child_ptr -> _parent[ parent_tricky_idx-1 ] = 0;
+    }
+  }
+
+}
+
 bool
 AAGate::isAig() const {
   return _IsDefined;
@@ -269,4 +305,9 @@ getNonInv( const void * const ptr ) {
 size_t
 getXorInv( const void * const ptr ) {
   return getXorInv( reinterpret_cast<size_t> (ptr) );
+}
+
+size_t
+getPtrInSize_t( const void* const ptr ) {
+  return reinterpret_cast<size_t>(getPtr((size_t)ptr));
 }

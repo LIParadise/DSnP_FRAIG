@@ -8,6 +8,7 @@ AAGate	cir/cirGate.h	/^    AAGate(): CirGate(0, true) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^    AAGate(bool boolean): CirGate(0, boolean) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^    AAGate(int i, bool boolean) : CirGate(i, boolean) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^class AAGate : public CirGate {$/;"	c
+BFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::BFS_4_optimize( queue<unsigned>& Q ){$/;"	f	class:CirMgr
 CANNOT_INVERTED	cir/cirMgr.cpp	/^   CANNOT_INVERTED,$/;"	e	enum:CirParseError	file:
 CIRCMDTOT	cir/cirCmd.cpp	/^   CIRCMDTOT$/;"	e	enum:CirCmdState	file:
 CIRFRAIG	cir/cirCmd.cpp	/^   CIRFRAIG,$/;"	e	enum:CirCmdState	file:
@@ -53,7 +54,7 @@ DFS	cir/cirMgr.cpp	/^CirMgr::DFS( CirGate* ptr , unsigned depth ){$/;"	f	class:C
 DFSList	cir/cirMgr.h	/^   vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
 DUMMY_END	cir/cirMgr.cpp	/^   DUMMY_END$/;"	e	enum:CirParseError	file:
 Datum	sat/Global.h	/^    typedef T   Datum;$/;"	t	class:vec
-DefButNUsedList	cir/cirMgr.h	/^   vector< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
+DefButNUsedList	cir/cirMgr.h	/^   set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
 EXTRA_SPACE	cir/cirMgr.cpp	/^   EXTRA_SPACE,$/;"	e	enum:CirParseError	file:
 Exception_EOF	sat/File.h	/^class Exception_EOF {};$/;"	c
 File	sat/File.h	/^    File(cchar* name, cchar* mode) : DEFAULTS {$/;"	f	class:File
@@ -147,7 +148,7 @@ TEMPLATE_FAIL	sat/Global.h	62;"	d
 TRA_INT	sat/Proof.h	/^    int             TRA_INT;$/;"	m	class:Proof
 TempFiles	sat/Proof.cpp	/^class TempFiles {$/;"	c	file:
 UTIL_H	util/util.h	9;"	d
-UnDefinedList	cir/cirMgr.h	/^   vector< unsigned > UnDefinedList;$/;"	m	class:CirMgr
+UnDefinedList	cir/cirMgr.h	/^   set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
 Var	sat/SolverTypes.h	/^typedef int Var;$/;"	t
 VarOrder	sat/VarOrder.h	/^    VarOrder(const vec<char>& ass, const vec<double>& act) :$/;"	f	class:VarOrder
 VarOrder	sat/VarOrder.h	/^class VarOrder {$/;"	c
@@ -300,25 +301,26 @@ fraig	cir/cirFraig.cpp	/^CirMgr::fraig()$/;"	f	class:CirMgr
 getChar	sat/File.h	/^    int getChar(void) {$/;"	f	class:File
 getCharQ	sat/File.h	/^    int getCharQ(void) {            \/\/ Quick version with minimal overhead -- don't call this in the wrong mode!$/;"	f	class:File
 getGate	cir/cirMgr.cpp	/^CirMgr::getGate( unsigned gid ) const {$/;"	f	class:CirMgr
-getGateID	cir/cirGate.h	/^    unsigned getGateID() const { return _gateID; }$/;"	f	class:CirGate
-getGateRef	cir/cirGate.h	/^    size_t   getGateRef  ( )          { return _gateDFSRef ; }$/;"	f	class:CirGate
+getGateID	cir/cirGate.h	/^    unsigned        getGateID() const { return _gateID; }$/;"	f	class:CirGate
+getGateRef	cir/cirGate.h	/^    size_t          getGateRef  ( )          {return _gateDFSRef ; }$/;"	f	class:CirGate
 getHashSize	util/util.cpp	/^size_t getHashSize(size_t s) {$/;"	f
 getInt	sat/File.h	/^static inline uint64 getInt  (File& in)             { return decode64(getUInt(in)); }$/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const size_t& s) { $/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const void * const ptr ) {$/;"	f
-getLineNo	cir/cirGate.h	/^    unsigned getLineNo() const { return _lineNo; }$/;"	f	class:CirGate
+getLineNo	cir/cirGate.h	/^    unsigned        getLineNo() const { return _lineNo; }$/;"	f	class:CirGate
 getMode	sat/File.h	/^    FileMode getMode(void) {$/;"	f	class:File
 getNewGBFSRef	cir/cirMgr.cpp	/^CirMgr::getNewGBFSRef () {$/;"	f	class:CirMgr
 getNewGDFSRef	cir/cirMgr.cpp	/^CirMgr::getNewGDFSRef () {$/;"	f	class:CirMgr
 getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
 getPtr	cir/cirGate.cpp	/^getPtr( size_t s ) {$/;"	f
+getPtrInSize_t	cir/cirGate.cpp	/^getPtrInSize_t( const void* const ptr ) {$/;"	f
 getRefGateVar	cir/cirGate.h	/^    int            getRefGateVar() const { return refGateVar; }$/;"	f	class:POGate
 getSymbolMsg	cir/cirGate.h	/^    virtual  string getSymbolMsg() const { return _symbolMsg; }$/;"	f	class:PIGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return ""; }$/;"	f	class:AAGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return _symbolMsg; }$/;"	f	class:POGate
+getTypeStr	cir/cirGate.h	/^    virtual         string getTypeStr() const { return "base"; }$/;"	f	class:CirGate
 getTypeStr	cir/cirGate.h	/^    virtual  string getTypeStr()   const { return "PI"; }$/;"	f	class:PIGate
-getTypeStr	cir/cirGate.h	/^    virtual  string getTypeStr() const { return "base"; }$/;"	f	class:CirGate
 getTypeStr	cir/cirGate.h	/^    virtual string getTypeStr()    const { return "PO"; }$/;"	f	class:POGate
 getTypeStr	cir/cirGate.h	/^    virtual string getTypeStr() const $/;"	f	class:AAGate
 getUInt	sat/File.cpp	/^uint64 getUInt(File& in)$/;"	f
@@ -366,11 +368,11 @@ int64	sat/Global.h	/^typedef long long          int64;$/;"	t
 intp	sat/Global.h	/^typedef INT_PTR            intp;$/;"	t
 intp	sat/Global.h	/^typedef __PTRDIFF_TYPE__   intp;$/;"	t
 irand	sat/Global.h	/^static inline int irand(double& seed, int size) {$/;"	f
-isActive	cir/cirGate.h	/^    bool     isActive    ()           { return _active; }$/;"	f	class:CirGate
+isActive	cir/cirGate.h	/^    bool            isActive    ()           { return _active; }$/;"	f	class:CirGate
 isAig	cir/cirGate.cpp	/^AAGate::isAig() const {$/;"	f	class:AAGate
 isAig	cir/cirGate.h	/^    virtual  bool   isAig()         const { return false ; }$/;"	f	class:PIGate
 isAig	cir/cirGate.h	/^    virtual bool   isAig()         const { return false ; }$/;"	f	class:POGate
-isDefined	cir/cirGate.h	/^    bool     isDefined   () const     { return _IsDefined; }$/;"	f	class:CirGate
+isDefined	cir/cirGate.h	/^    bool            isDefined   () const     { return _IsDefined; }$/;"	f	class:CirGate
 isInverted	cir/cirGate.cpp	/^isInverted( const int s ) {$/;"	f
 isInverted	cir/cirGate.cpp	/^isInverted( const size_t s ) {$/;"	f
 isInverted	cir/cirGate.cpp	/^isInverted( const unsigned s ) {$/;"	f
@@ -401,6 +403,7 @@ lit	sat/SolverTypes.h	/^    Lit         lit      () const { return toLit(((intp)
 locked	sat/Solver.h	/^    bool     locked          (const Clause* c) const { return reason[var((*c)[0])] == c; }$/;"	f	class:Solver
 lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
@@ -545,10 +548,10 @@ seek	sat/File.cpp	/^void File::seek(int64 file_pos, int whence)$/;"	f	class:File
 select	sat/VarOrder.h	/^Var VarOrder::select(double random_var_freq)$/;"	f	class:VarOrder
 selectionSort	sat/Sort.h	/^template <class T> static inline void selectionSort(T* array, int size) {$/;"	f
 selectionSort	sat/Sort.h	/^void selectionSort(T* array, int size, LessThan lt)$/;"	f
-setActive	cir/cirGate.h	/^    void     setActive   ( )          { _active = true; }$/;"	f	class:CirGate
+setActive	cir/cirGate.h	/^    void            setActive   ( )          { _active = true; }$/;"	f	class:CirGate
 setBounds	sat/Heap.h	/^    void setBounds (int size) { assert(size >= 0); indices.growTo(size,0); }$/;"	f	class:Heap
 setDefined	cir/cirGate.h	/^    void setDefined() { _IsDefined = true; }$/;"	f	class:AAGate
-setGateRef	cir/cirGate.h	/^    void     setGateRef  ( unsigned s ) { _gateDFSRef = s ; }$/;"	f	class:CirGate
+setGateRef	cir/cirGate.h	/^    void            setGateRef  ( unsigned s ) { _gateDFSRef = s ; }$/;"	f	class:CirGate
 setLineCnt	cir/cirGate.cpp	/^CirGate::setLineCnt( unsigned u){$/;"	f	class:CirGate
 setMemUsage	util/myUsage.h	/^   void setMemUsage() { _currentMem = checkMem() - _initMem; }$/;"	f	class:MyUsage
 setMode	sat/File.h	/^    void setMode(FileMode m) {$/;"	f	class:File
@@ -612,7 +615,7 @@ uintp	sat/Global.h	/^typedef UINT_PTR           uintp;$/;"	t
 uintp	sat/Global.h	/^typedef unsigned __PTRDIFF_TYPE__ uintp;$/;"	t
 undo	sat/VarOrder.h	/^void VarOrder::undo(Var x)$/;"	f	class:VarOrder
 unit_id	sat/Solver.h	/^    vec<ClauseId>       unit_id;          \/\/ 'unit_id[var]' is the clause ID for the unit literal 'var' or '~var' (if set at toplevel).$/;"	m	class:Solver
-unsetActive	cir/cirGate.h	/^    void     unsetActive ( )          { _active = false; }$/;"	f	class:CirGate
+unsetActive	cir/cirGate.h	/^    void            unsetActive ( )          { _active = false; }$/;"	f	class:CirGate
 unsign	sat/SolverTypes.h	/^inline Lit  unsign(Lit p) { Lit q; q.x = p.x & ~1; return q; }$/;"	f
 update	sat/VarOrder.h	/^void VarOrder::update(Var x)$/;"	f	class:VarOrder
 update	util/myHashMap.h	/^   bool update(const HashKey& k, HashData& d) { return false; }$/;"	f	class:HashMap
