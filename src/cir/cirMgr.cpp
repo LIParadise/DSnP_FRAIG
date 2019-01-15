@@ -588,7 +588,7 @@ myPairUnsignedCharCmp(
 
 bool
 CirMgr::buildDFSList() {
-  globalDFSRef ++;
+  getNewGDFSRef();
   for( auto it : POIDList ){
     CirGate* ptr = GateList.find( it) -> second;
     if( ! DFS(ptr) ){
@@ -660,4 +660,14 @@ CirMgr::writeAag(ostream& outfile) const
 void
 CirMgr::writeGate(ostream& outfile, CirGate *g) const
 {
+}
+
+void
+CirMgr::getNewGDFSRef () {
+  ++globalDFSRef;
+}
+
+void
+CirMgr::getNewGBFSRef () {
+  ++globalBFSRef;
 }

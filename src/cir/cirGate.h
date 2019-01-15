@@ -15,6 +15,7 @@
 #include <iostream>
 #include "cirDef.h"
 #include "sat.h"
+#include "intel_rand.h"
 
 using namespace std;
 
@@ -58,7 +59,7 @@ class CirGate
     size_t                findParent               ( size_t ) const;
     void     setLineCnt  ( unsigned )      ;
     void     setGateId   ( unsigned )      ;
-    void     setGateRef  ( size_t s ) { _gateDFSRef = s ; }
+    void     setGateRef  ( unsigned s ) { _gateDFSRef = s ; }
     size_t   getGateRef  ( )          { return _gateDFSRef ; }
     void     setActive   ( )          { _active = true; }
     void     unsetActive ( )          { _active = false; }
@@ -73,7 +74,8 @@ class CirGate
     bool                    _active;
     unsigned                _lineNo;
     unsigned                _gateID;
-    size_t                  _gateDFSRef;
+    unsigned                _gateDFSRef;
+    unsigned                _parent_BFS_mark[2];
 
     // helper for reportFanin
     static set<unsigned>    _haveMetBefore;

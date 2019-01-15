@@ -16,7 +16,9 @@
 #include <set>
 #include <map>
 #include <utility>
+#include <ctime>
 #include "cirDef.h"
+#include "intel_rand.h"
 
 using namespace std;
 
@@ -27,7 +29,7 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
 public:
-   CirMgr(): globalDFSRef(0)  {}
+   CirMgr(): globalDFSRef(0), globalBFSRef(0)  { mysrand_sse(time(NULL));}
    ~CirMgr() { clearGate();}
 
    // Access functions
@@ -68,13 +70,18 @@ private:
    bool buildDFSList () ;
    bool DFS          ( CirGate*, unsigned = 0 ) ;
    void clearGate    () ;
+   void getNewGDFSRef() ;
+   void getNewGBFSRef() ;
 
    // helper data fields
    set<unsigned>  definedList;
    // PI, AAG.
    set<unsigned>  usedList;
    // PO, fanin of AAG.
-   size_t    globalDFSRef;
+
+   unsigned  globalDFSRef;
+   unsigned  globalBFSRef;
+   // one for building DFS list, one for trivial-gate-optimizing.
 
    vector< unsigned > DefButNUsedList;
    vector< unsigned > UnDefinedList;
