@@ -174,7 +174,7 @@ _lineNo	cir/cirGate.h	/^    unsigned                _lineNo;$/;"	m	class:CirGate
 _numBuckets	util/myHashMap.h	/^   size_t                   _numBuckets;$/;"	m	class:HashMap
 _numBuckets	util/myHashSet.h	/^   size_t            _numBuckets;$/;"	m	class:HashSet
 _parent	cir/cirGate.h	/^    size_t            _parent[2];$/;"	m	class:CirGate
-_parent_BFS_mark	cir/cirGate.h	/^    unsigned                _parent_BFS_mark[2];$/;"	m	class:CirGate
+_parent_BFS_mark	cir/cirGate.h	/^    unsigned          _parent_BFS_mark[2];$/;"	m	class:CirGate
 _periodUsedTime	util/myUsage.h	/^   double     _periodUsedTime;$/;"	m	class:MyUsage
 _simLog	cir/cirMgr.h	/^   ofstream           *_simLog;$/;"	m	class:CirMgr
 _size	util/myHashMap.h	/^   size_t         _size;$/;"	m	class:Cache
