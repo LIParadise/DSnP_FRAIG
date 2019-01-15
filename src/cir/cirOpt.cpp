@@ -87,17 +87,39 @@ CirMgr::sweep() {
 void
 CirMgr::optimize()
 {
-  // FIXME
-  // shall do BFS...
   sweep();
   queue<unsigned> BFS_Q;
   for( auto it : PIIDList )
     BFS_Q.push( it );
+  getNewGBFSRef();
   BFS_4_optimize( BFS_Q );
 }
 
 void
 CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
+
+  while( !Q.empty() ){
+    
+    auto it = Q.front;
+    auto tmp_gatelist_itor = GateList.find( it );
+
+    if( tmp_gatelist_itor != GateList.end() ){
+
+      auto tmp_cirgate_ptr = tmp_gatelist_itor -> second;
+
+      for( auto tmp_child_ptr_sizet : tmp_cirgate_ptr -> _child ){
+        if( !(getPtr( tmp_child_ptr_sizet) -> couldBeSimplified(
+                getPtrInSize_t(this), Q ) ) ){
+          Q.pop();
+          continue;
+        }else{
+          // FIXME
+          // check further children, and check them first.
+          // i.e. do an DFS.
+        }
+      }
+    }
+  }
 }
 
 /***************************************************/

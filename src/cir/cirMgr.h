@@ -71,12 +71,13 @@ private:
    ofstream           *_simLog;
 
    // helper functions
-   bool buildDFSList   () ;
-   bool DFS            ( CirGate*, unsigned = 0 ) ;
-   void BFS_4_optimize (queue<unsigned>& ) ;
-   void clearGate      () ;
-   void getNewGDFSRef  () ;
-   void getNewGBFSRef  () ;
+   bool buildDFSList      () ;
+   bool DFS               (CirGate*, unsigned = 0);
+   void BFS_4_optimize    (queue<unsigned>& ) ;
+   void clearGate         () ;
+   void getNewGDFSRef     () ;
+   void getNewGBFSRef     () ;
+   bool couldBeSimplified (size_t,queue<unsigned>&);
 
    // helper data fields
    set<unsigned>  definedList;
