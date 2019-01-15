@@ -29,11 +29,11 @@ class CirGate
 {
   public:
     CirGate(): 
-      _parent{0}, _active(false), _lineNo(0), _gateID(0), 
-      _gateDFSRef(0), _IsDefined(true), _symbolMsg("") {}
+      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _gateID(0), _gateDFSRef(0), _IsDefined(true), _symbolMsg("") {}
     CirGate(int i) : 
-      _parent{0}, _active(false), _lineNo(0), _gateID(i),
-      _gateDFSRef(0), _IsDefined(true ), _symbolMsg("") {}
+      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _gateID(i), _gateDFSRef(0), _IsDefined(true ), _symbolMsg("") {}
     virtual ~CirGate() {}
 
     // Basic access methods
@@ -68,6 +68,7 @@ class CirGate
 
     size_t            _parent[2];
     set<size_t>       _child;
+    unsigned          _parent_BFS_mark[2];
 
   private:
 
@@ -75,7 +76,6 @@ class CirGate
     unsigned                _lineNo;
     unsigned                _gateID;
     unsigned                _gateDFSRef;
-    unsigned                _parent_BFS_mark[2];
 
     // helper for reportFanin
     static set<unsigned>    _haveMetBefore;

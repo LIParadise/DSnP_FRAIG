@@ -72,6 +72,17 @@ CirMgr::sweep() {
 void
 CirMgr::optimize()
 {
+  // FIXME
+  // shall do BFS...
+  sweep();
+  queue<unsigned> 
+  for( auto pi_idx : PIIDList ){
+    auto tmp_gate_ptr = GateList.find( pi_idx );
+    // shall always be present, thus no robustness test here.
+    for( auto child_ptr_size_t : tmp_gate_ptr -> _child ){
+      
+    }
+  }
 }
 
 /***************************************************/
