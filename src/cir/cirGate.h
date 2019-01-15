@@ -108,10 +108,14 @@ class PIGate : public CirGate {
   public:
     PIGate(): CirGate() {}
     PIGate(int i): CirGate(i) {}
+
     virtual  string getTypeStr() const { return "PI"; }
     virtual  void printGate() const ;
-    virtual string getSymbolMsg()  const { return _symbolMsg; }
-    virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }
+
+    virtual  string getSymbolMsg() const 
+    { return _symbolMsg; }
+    virtual  void   setSymbolMsg(const string& str) 
+    { _symbolMsg = str ; }
   private:
 };
 
@@ -121,9 +125,8 @@ class AAGate : public CirGate {
     AAGate(): CirGate(0, true) {}
     AAGate(bool boolean): CirGate(0, boolean) {}
     AAGate(int i, bool boolean) : CirGate(i, boolean) {}
-    virtual string getTypeStr() const {
-      return (  (_IsDefined)? "AIG" : "UNDEF" );
-    }
+    virtual string getTypeStr() const 
+    { return (  (_IsDefined)? "AIG" : "UNDEF" ); }
     virtual string getSymbolMsg()  const { return ""; }
     virtual void   setSymbolMsg(const string& str) { }
     void setDefined() { _IsDefined = true; }

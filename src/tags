@@ -309,13 +309,13 @@ getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
 getPtr	cir/cirGate.cpp	/^getPtr( size_t s ) {$/;"	f
 getRefGateVar	cir/cirGate.h	/^    int            getRefGateVar() const { return refGateVar; }$/;"	f	class:POGate
+getSymbolMsg	cir/cirGate.h	/^    virtual  string getSymbolMsg() const $/;"	f	class:PIGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return ""; }$/;"	f	class:AAGate
-getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return _symbolMsg; }$/;"	f	class:PIGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return _symbolMsg; }$/;"	f	class:POGate
 getTypeStr	cir/cirGate.h	/^    virtual  string getTypeStr() const { return "PI"; }$/;"	f	class:PIGate
 getTypeStr	cir/cirGate.h	/^    virtual  string getTypeStr() const { return "base"; }$/;"	f	class:CirGate
 getTypeStr	cir/cirGate.h	/^    virtual string getTypeStr()    const { return "PO"; }$/;"	f	class:POGate
-getTypeStr	cir/cirGate.h	/^    virtual string getTypeStr() const {$/;"	f	class:AAGate
+getTypeStr	cir/cirGate.h	/^    virtual string getTypeStr() const $/;"	f	class:AAGate
 getUInt	sat/File.cpp	/^uint64 getUInt(File& in)$/;"	f
 getValue	sat/sat.h	/^      int getValue(Var v) const {$/;"	f	class:SatSolver
 getXorInv	cir/cirGate.cpp	/^getXorInv( const size_t& s ) {$/;"	f
@@ -542,7 +542,7 @@ setLineCnt	cir/cirGate.cpp	/^CirGate::setLineCnt( unsigned u){$/;"	f	class:CirGa
 setMemUsage	util/myUsage.h	/^   void setMemUsage() { _currentMem = checkMem() - _initMem; }$/;"	f	class:MyUsage
 setMode	sat/File.h	/^    void setMode(FileMode m) {$/;"	f	class:File
 setSimLog	cir/cirMgr.h	/^   void setSimLog(ofstream *logFile) { _simLog = logFile; }$/;"	f	class:CirMgr
-setSymbolMsg	cir/cirGate.h	/^    virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }$/;"	f	class:PIGate
+setSymbolMsg	cir/cirGate.h	/^    virtual  void   setSymbolMsg(const string& str) $/;"	f	class:PIGate
 setSymbolMsg	cir/cirGate.h	/^    virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }$/;"	f	class:POGate
 setSymbolMsg	cir/cirGate.h	/^    virtual void   setSymbolMsg(const string& str) { }$/;"	f	class:AAGate
 setTimeUsage	util/myUsage.h	/^   void setTimeUsage() {$/;"	f	class:MyUsage
