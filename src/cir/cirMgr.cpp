@@ -510,11 +510,12 @@ CirMgr::printSummary() const
   cout.flags( cout_org_flags );
   cout << "  PO        "  << setw(4) << right << POIDList.size() << endl;
   cout.flags( cout_org_flags );
-  cout << "  AIG       "  << setw(4) << right << GateList.size()-PIIDList.size()-POIDList.size()-1 << endl;
+  cout << "  AIG       "  << setw(4) << right 
+    << GateList.size()-PIIDList.size()-POIDList.size()-UnDefinedList.size() -1 << endl;
   // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << "  ==================" << endl;
-  cout << "  Total     "  << setw(4) << right << GateList.size()-1;
+  cout << "  Total     "  << setw(4) << right << GateList.size()-UnDefinedList.size()-1;
   // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << endl;

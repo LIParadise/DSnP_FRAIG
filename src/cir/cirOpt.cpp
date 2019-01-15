@@ -7,6 +7,7 @@
 ****************************************************************************/
 
 #include <cassert>
+#include <unordered_set>
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
@@ -32,6 +33,27 @@ using namespace std;
 // UNDEF, float and unused list may be changed
 void 
 CirMgr::sweep() {
+
+  unordered_set<unsigned> ID_in_DFSList;
+  ID_in_DFSList.reserve( DFSList.size() );
+
+  for( auto itor = DFSList.begin(); itor != DFSList.end() ; ++itor ){
+    ID_in_DFSList.insert( itor -> first -> getGateID() );
+  }
+
+  for( auto itor = GateList.begin(); itor != GateList.end(); ++itor ){
+    if( ID_in_DFSList.find( itor -> second -> getGateID() )
+        == ID_in_DFSList.end () ){
+      if( itor -> second -> getTypeStr() == "UNDEF") {
+        GateList.erase(itor);
+      }else if( itor -> second -> getTypeStr() == "AIG" ){
+        if( itor -> second -> getGateID() != 0 ){
+          GateList.erase(itor);
+        }
+      }
+    }
+  }
+
   for( auto itor = UnDefinedList.begin(); itor != UnDefinedList.end();
       ++itor ) {
     auto GateList_itor = GateList.find( *itor );

@@ -87,6 +87,7 @@ private:
    // TODO, shall have a field remaining symbol msg.
 
    vector< pair<CirGate*, unsigned> > DFSList;
+   // second is depth.
    vector< string>                    output_bak;
 
 
