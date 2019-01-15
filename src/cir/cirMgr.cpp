@@ -16,6 +16,10 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
+#include <pthread.h> 
+// TODO
+// shall fill the random pool using multithreading
+// e.g. in readCircuit( const string& );
 #include <iterator>
 #include <fstream>
 #include <sstream>
@@ -276,9 +280,6 @@ CirMgr::readCircuit(const string& fileName)
   set_difference( usedList.begin(), usedList.end(),
                  definedList.begin(), definedList.end(),
                  back_inserter(UnDefinedList) );
-
-  // island is an aag with no input specified,
-  // thus not to be detected here.
 
   // handle undefined gate
   for_each( GateList.begin(), GateList.end(),
@@ -648,6 +649,11 @@ CirMgr::writeAag(ostream& outfile) const
 {
   for( auto it : output_bak )
     outfile << it << '\n';
+  // FIXME 2019 0115 1554
+  // since the DFS list may be changed after optimize/strash/fraig,
+  // we shall record the updated # of lines of "MILO"
+  // and build the "A" part dynamically, 
+  // according to the DFS list.
 }
 
 void
@@ -655,3 +661,16 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 {
 }
 
+void 
+CirMgr::sweep() {
+  for( auto itor = UnDefinedList.begin(); itor != UnDefinedList.end();
+      ++itor ) {
+    auto GateList_itor = GateList.find( *itor );
+    if( GateList_itor != GateList.end() ){
+      delete ( GateList_itor->second );
+      GateList.erase( GateList_itor );
+    }
+  }
+  UnDefinedList.clear();
+  // done 0119 1610
+}

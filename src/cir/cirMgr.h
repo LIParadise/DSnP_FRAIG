@@ -83,7 +83,6 @@ private:
 
    vector< unsigned > PIIDList;
    vector< unsigned > POIDList;
-   vector< pair< unsigned, CirGate*>> Island;
    vector< unsigned> MILOA;
    // TODO, shall have a field remaining symbol msg.
 

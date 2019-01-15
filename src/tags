@@ -84,7 +84,6 @@ ILLEGAL_NUM	cir/cirMgr.cpp	/^   ILLEGAL_NUM,$/;"	e	enum:CirParseError	file:
 ILLEGAL_SYMBOL_NAME	cir/cirMgr.cpp	/^   ILLEGAL_SYMBOL_NAME,$/;"	e	enum:CirParseError	file:
 ILLEGAL_SYMBOL_TYPE	cir/cirMgr.cpp	/^   ILLEGAL_SYMBOL_TYPE,$/;"	e	enum:CirParseError	file:
 ILLEGAL_WSPACE	cir/cirMgr.cpp	/^   ILLEGAL_WSPACE,$/;"	e	enum:CirParseError	file:
-Island	cir/cirMgr.h	/^   vector< pair< unsigned, CirGate*>> Island;$/;"	m	class:CirMgr
 Key	sat/Global.h	/^    typedef int Key;$/;"	t	class:vec
 L_LIT	sat/Solver.h	211;"	d
 L_lit	sat/Solver.h	212;"	d
@@ -577,6 +576,7 @@ starts	sat/Solver.h	/^    int64   starts, decisions, propagations, conflicts;$/;
 stats	sat/Solver.h	/^    SolverStats     stats;$/;"	m	class:Solver
 stored_settings	util/myGetChar.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
 strash	cir/cirFraig.cpp	/^CirMgr::strash()$/;"	f	class:CirMgr
+sweep	cir/cirMgr.cpp	/^CirMgr::sweep() {$/;"	f	class:CirMgr
 sweep	cir/cirOpt.cpp	/^CirMgr::sweep()$/;"	f	class:CirMgr
 sz	sat/Global.h	/^    int sz;$/;"	m	class:vec
 tell	sat/File.cpp	/^int64 File::tell(void)$/;"	f	class:File
