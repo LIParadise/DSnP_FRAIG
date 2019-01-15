@@ -555,7 +555,7 @@ CirMgr::printFloatGates() const
 {
   cout << "Gates with floating fanin(s):";
   // TODO, we only stored gates of UnDefinedList...
-  // "set<unsigned> CirGate::_child" contain no inv info.
+  // "set<size_t> CirGate::_child" contain no inv info.
   map< unsigned, size_t > tmp_map;
   for( auto it : UnDefinedList ){
     CirGate* ptr   = GateList.find( it ) -> second;
@@ -591,6 +591,13 @@ CirMgr::buildDFSList() {
     CirGate* ptr = GateList.find( it) -> second;
     if( ! DFS(ptr) ){
       // optional TODO, feedback, i.e. cyclic.
+      // shall not happen in this final, though,
+      // since it's guaranteed acyclic in this final.
+#ifdef DEBUG
+      assert( 0 && 
+          "we have a cyclic circuit DFS-ing the ckt. Weird." 
+          );
+#endif // DEBUG
     }
   }
   return true;
@@ -601,7 +608,7 @@ CirMgr::DFS( CirGate* ptr , unsigned depth ){
   CirGate* tmp  = nullptr;
   bool     flag = true;
   for( size_t i = 0; i < 2; ++i ){
-    auto it = ptr -> _parent[i];
+    auto it = getNonInv(ptr -> _parent[i]);
     if( it ){
       tmp = getPtr( it );
       if( tmp -> getGateRef() != globalDFSRef ){

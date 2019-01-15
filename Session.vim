@@ -39,13 +39,13 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 src/cir/cirDef.h
-badd +0 ./src/cir/cirFraig.cpp
-badd +19 src/cir/cirGate.cpp
-badd +1 src/cir/cirGate.h
-badd +28 src/cir/cirMgr.h
-badd +0 src/cir/cirMgr.cpp
-badd +0 src/cir/cirSim.cpp
-badd +0 src/cir/cirOpt.cpp
+badd +1 ./src/cir/cirFraig.cpp
+badd +102 src/cir/cirGate.cpp
+badd +53 src/cir/cirGate.h
+badd +69 src/cir/cirMgr.h
+badd +600 src/cir/cirMgr.cpp
+badd +1 src/cir/cirSim.cpp
+badd +1 src/cir/cirOpt.cpp
 badd +53 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirGate.h
 badd +207 ../DSnP_hw6/src/cir/cirGate.cpp
 badd +55 ../DSnP_hw6/src/cir/cirMgr.h
@@ -302,12 +302,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 41 - ((16 * winheight(0) + 19) / 39)
+let s:l = 63 - ((24 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-41
-normal! 061|
+63
+normal! 012|
 wincmd w
 argglobal
 edit src/cir/cirGate.cpp
@@ -422,11 +422,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 5 - ((4 * winheight(0) + 19) / 39)
+let s:l = 121 - ((12 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+121
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
@@ -555,11 +555,20 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 393 - ((0 * winheight(0) + 19) / 39)
+34,54fold
+68,151fold
+158,477fold
+503,520fold
+524,533fold
+537,542fold
+546,551fold
+34
+normal! zo
+let s:l = 623 - ((30 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-393
+623
 normal! 0
 wincmd w
 argglobal
@@ -675,12 +684,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 17 - ((15 * winheight(0) + 19) / 39)
+let s:l = 69 - ((16 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-17
-normal! 0
+69
+normal! 09|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
@@ -932,7 +941,7 @@ exe s:l
 normal! zt
 21
 normal! 0
-tabnext 2
+tabnext 3
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
