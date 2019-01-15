@@ -251,6 +251,11 @@ AAGate::printGate() const {
   }
 }
 
+bool
+AAGate::isAig() const {
+  return _IsDefined;
+}
+
 size_t
 getInvert( const void * const ptr ) {
   return getInvert( reinterpret_cast<size_t> (ptr) );

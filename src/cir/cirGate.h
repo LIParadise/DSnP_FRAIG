@@ -42,7 +42,7 @@ class CirGate
 
     virtual  string getSymbolMsg()                const  = 0;
     virtual  void   setSymbolMsg( const string& )        = 0;
-    virtual  bool   isAig ()                      const     ;
+    virtual  bool   isAig ()                      const  = 0;
 
     // Printing functions
     virtual void printGate() const = 0;
@@ -96,9 +96,10 @@ class POGate : public CirGate {
       CirGate(gid), refGateVar(refid ) {}
     virtual string getTypeStr()    const { return "PO"; }
     virtual string getSymbolMsg()  const { return _symbolMsg; }
+    virtual void   printGate()     const ;
+    virtual bool   isAig()         const { return false ; }
     virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }
     int            getRefGateVar() const { return refGateVar; }
-    virtual void   printGate() const ;
   private:
     int    refGateVar;
 };
@@ -109,13 +110,12 @@ class PIGate : public CirGate {
     PIGate(): CirGate() {}
     PIGate(int i): CirGate(i) {}
 
-    virtual  string getTypeStr() const { return "PI"; }
-    virtual  void printGate() const ;
+    virtual  string getTypeStr()   const { return "PI"; }
+    virtual  string getSymbolMsg() const { return _symbolMsg; }
+    virtual  void   printGate() const ;
+    virtual  bool   isAig()         const { return false ; }
+    virtual  void   setSymbolMsg(const string& str) { _symbolMsg = str ; }
 
-    virtual  string getSymbolMsg() const 
-    { return _symbolMsg; }
-    virtual  void   setSymbolMsg(const string& str) 
-    { _symbolMsg = str ; }
   private:
 };
 
@@ -131,6 +131,7 @@ class AAGate : public CirGate {
     virtual void   setSymbolMsg(const string& str) { }
     void setDefined() { _IsDefined = true; }
     void setUNDEF() { _IsDefined = false; }
+    virtual bool isAig() const ;
     virtual void printGate() const ;
   private:
 };

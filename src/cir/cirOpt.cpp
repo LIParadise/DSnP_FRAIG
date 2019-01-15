@@ -30,9 +30,18 @@ using namespace std;
 // Remove unused gates
 // DFS list should NOT be changed
 // UNDEF, float and unused list may be changed
-void
-CirMgr::sweep()
-{
+void 
+CirMgr::sweep() {
+  for( auto itor = UnDefinedList.begin(); itor != UnDefinedList.end();
+      ++itor ) {
+    auto GateList_itor = GateList.find( *itor );
+    if( GateList_itor != GateList.end() ){
+      delete ( GateList_itor->second );
+      GateList.erase( GateList_itor );
+    }
+  }
+  UnDefinedList.clear();
+  // done 0119 1610
 }
 
 // Recursively simplifying from POs;
