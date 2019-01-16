@@ -667,19 +667,17 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
   CirGate* c_g_ptr     = getPtr( child_gate );
   CirGate* w_g_ptr     = getPtr( working_gate );
   CirGate* CONST0_ptr  = GateList.find( 0 ) -> second;
-  bool     dontTouchMe = false;
-  if( ( (c_g_ptr -> getTypeStr() ) == "PO" ) ||
-      ( (c_g_ptr -> getTypeStr() ) == "PI" ) ){
-    dontTouchMe = true;
-  }
 #ifdef DEBUG
   if( ( (getPtr( c_g_ptr -> _parent[0] )) == 0 ) ||
       ( (getPtr( c_g_ptr -> _parent[1] )) == 0 ) ){
-    string ret_str = "Weird _parent while optimizing ckt, ";
-    ret_str += to_string( c_g_ptr -> getGateID() );
-    ret_str += ' ';
-    ret_str += to_string(child_gate);
-    assert( 0 && ret_str.c_str() );
+    if( c_g_ptr -> getTypeStr() != "PO" ){
+      string ret_str = "Weird _parent while optimizing ckt, ";
+      ret_str += to_string( c_g_ptr -> getGateID() );
+      ret_str += ' ';
+      ret_str += to_string(child_gate);
+      cerr << ret_str << endl;
+      assert(0);
+    }
   }
 #endif // DEBUG
 
@@ -751,7 +749,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
     }
 
   }else if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
-    Q.insert( c_g_ptr -> getGateID() );
+    Q.push( c_g_ptr -> getGateID() );
     c_g_ptr -> _parent_BFS_mark [0] = globalBFSRef;
   }else if( c_g_ptr -> _parent_BFS_mark[1] != globalBFSRef ){
     c_g_ptr -> _parent_BFS_mark [1] = globalBFSRef;

@@ -553,12 +553,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 310 - ((25 * winheight(0) + 20) / 40)
+let s:l = 262 - ((19 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-310
-normal! 044|
+262
+normal! 020|
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
 exe 'vert 1resize ' . ((&columns * 73 + 79) / 159)
@@ -938,12 +938,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 302 - ((13 * winheight(0) + 20) / 40)
+let s:l = 317 - ((30 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-302
-normal! 03|
+317
+normal! 040|
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
@@ -1321,29 +1321,31 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-675,684fold
-675,684fold
-675,684fold
-675,684fold
-691,694fold
-691,694fold
-691,694fold
-675
+670,682fold
+670,682fold
+670,682fold
+670,682fold
+689,692fold
+689,692fold
+689,692fold
+670
 normal! zo
-675
+670
 normal! zo
-675
+670
 normal! zo
-691
+670
 normal! zo
-691
+689
 normal! zo
-let s:l = 658 - ((0 * winheight(0) + 15) / 30)
+689
+normal! zo
+let s:l = 680 - ((13 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-658
-normal! 03|
+680
+normal! 05|
 wincmd w
 3wincmd w
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)

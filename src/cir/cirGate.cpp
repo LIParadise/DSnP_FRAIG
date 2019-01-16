@@ -289,39 +289,45 @@ CirGate::makeForgetMe() {
 
 bool
 CirGate::makeSkipMe( size_t parent_with_inv_info){
+  // return true if this gate is not needed.
+  // return false if this gate is not to be destroyed, e.g. PI, PO, UNDEF
+  //
   // data fixing, like update list and deleting the gate,
   // is left for other functions to take care of.
 
-  bool do_sth_on_children = true;
+  bool I_am_PO = false;
 
   if( getTypeStr() == "UNDEF" )
     return false;
   if( getTypeStr() == "PO" )
-    do_sth_on_children = false;
+    I_am_PO = true;
 
   auto parent_ptr = getPtr( parent_with_inv_info );
 
-  // fix children_list of parent
-  for ( auto it : _child ){
-    parent_ptr -> _child.insert( it );
+  if( !I_am_PO ){
+    // fix children_list of parent
+    for ( auto it : _child ){
+      parent_ptr -> _child.insert( it );
+    }
+    auto tmp_itor1 = parent_ptr -> _child.find( getNonInv( this ) );
+    if( tmp_itor1 != parent_ptr -> _child.end() )
+      parent_ptr -> _child.erase( tmp_itor1 );
+  }else{
+    _parent[0] = parent_with_inv_info;
+    _parent[1] = getPtrInSize_t(nullptr);
+    return false;
   }
-  auto tmp_itor1 = parent_ptr -> _child.find( getNonInv( this ) );
-  if( tmp_itor1 != parent_ptr -> _child.end() )
-    parent_ptr -> _child.erase( tmp_itor1 );
-
 
   // fix parents_list of child
-  if( do_sth_on_children ){
-    for ( auto it : _child ){
-      auto tmp_child_ptr = getPtr( it );
-      if( tmp_child_ptr -> _parent[0] == getNonInv( this )||
-          tmp_child_ptr -> _parent[0] == getInvert( this ) ){
-        tmp_child_ptr -> _parent[0] = parent_with_inv_info;
-      }
-      if( tmp_child_ptr -> _parent[1] == getNonInv( this )||
-          tmp_child_ptr -> _parent[1] == getInvert( this ) ){
-        tmp_child_ptr -> _parent[1] = parent_with_inv_info;
-      }
+  for ( auto it : _child ){
+    auto tmp_child_ptr = getPtr( it );
+    if( tmp_child_ptr -> _parent[0] == getNonInv( this )||
+        tmp_child_ptr -> _parent[0] == getInvert( this ) ){
+      tmp_child_ptr -> _parent[0] = parent_with_inv_info;
+    }
+    if( tmp_child_ptr -> _parent[1] == getNonInv( this )||
+        tmp_child_ptr -> _parent[1] == getInvert( this ) ){
+      tmp_child_ptr -> _parent[1] = parent_with_inv_info;
     }
   }
   return true;
