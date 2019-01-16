@@ -771,6 +771,16 @@ void
 CirMgr::maintainDefinedListAndUsedList( 
     size_t working_gate, size_t parent_with_inv_info ){
 
+  auto parent_ptr = getPtr( parent_with_inv_info );
+  decltype( usedList.find( 0 ) ) tmp_itor;
+  if( parent_ptr -> _child.empty() ){
+    tmp_itor = usedList.find( parent_ptr -> getGateID() );
+    if( tmp_itor != usedList.end() )
+      usedList.erase( tmp_itor );
+  }
+  tmp_itor = definedList.find( getPtr(working_gate) -> getGateID() );
+  if( tmp_itor != definedList.end() )
+    definedList.erase( tmp_itor );
 }
 
 void

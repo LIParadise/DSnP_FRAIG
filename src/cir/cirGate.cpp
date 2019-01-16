@@ -288,23 +288,31 @@ CirGate::makeForgetMe() {
 }
 
 bool
-CirMgr::makeSkipMe( size_t parent_with_inv_info){
+CirGate::makeSkipMe( size_t parent_with_inv_info){
   // data fixing, like update list and deleting the gate,
   // is left for other functions to take care of.
 
   if( getTypeStr() != "AIG" )
     return false;
 
+  auto parent_ptr = getPtr( parent_with_inv_info );
+
+
   for ( auto it : _child ){
-    getPtr( parent_with_inv_info ) -> _child.insert( it );
+    parent_ptr -> _child.insert( it );
   }
+  auto tmp_itor1 = parent_ptr -> _child.find( getNonInv( this ) );
+  if( tmp_itor1 != parent_ptr -> _child.end() )
+    parent_ptr -> _child.erase( tmp_itor1 );
+
+
   for ( auto it : _child ){
     auto tmp_child_ptr = getPtr( it );
-    if( tmp_child_ptr -> _parent[0] == this ||
+    if( tmp_child_ptr -> _parent[0] == getNonInv( this )||
         tmp_child_ptr -> _parent[0] == getInvert( this ) ){
       tmp_child_ptr -> _parent[0] = parent_with_inv_info;
     }
-    if( tmp_child_ptr -> _parent[1] == this ||
+    if( tmp_child_ptr -> _parent[1] == getNonInv( this )||
         tmp_child_ptr -> _parent[1] == getInvert( this ) ){
       tmp_child_ptr -> _parent[1] = parent_with_inv_info;
     }
