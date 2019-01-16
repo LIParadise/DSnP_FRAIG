@@ -43,7 +43,7 @@ badd +1 src/cir/cirFraig.cpp
 badd +1 src/cir/cirGate.cpp
 badd +150 src/cir/cirGate.h
 badd +80 src/cir/cirMgr.h
-badd +16 src/cir/cirMgr.cpp
+badd +707 src/cir/cirMgr.cpp
 badd +1 src/cir/cirSim.cpp
 badd +1 src/cir/cirOpt.cpp
 badd +53 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirGate.h
@@ -313,12 +313,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 241 - ((9 * winheight(0) + 10) / 20)
+let s:l = 41 - ((10 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-241
-normal! 033|
+41
+normal! 0
 wincmd w
 argglobal
 edit src/cir/cirGate.h
@@ -433,12 +433,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 142 - ((5 * winheight(0) + 9) / 19)
+let s:l = 93 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-142
-normal! 020|
+93
+normal! 018|
 wincmd w
 argglobal
 edit src/cir/cirGate.cpp
@@ -553,11 +553,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 306 - ((21 * winheight(0) + 20) / 40)
+let s:l = 310 - ((25 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-306
+310
 normal! 044|
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
@@ -696,11 +696,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 161 - ((17 * winheight(0) + 10) / 20)
+let s:l = 163 - ((19 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-161
+163
 normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
@@ -817,16 +817,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 117 - ((13 * winheight(0) + 9) / 19)
+let s:l = 26 - ((18 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-117
-normal! 039|
+26
+normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 argglobal
-edit /mnt/data/Document/DSnP/fraig/src/cir/cirMgr.cpp
+edit /mnt/data/Document/DSnP/fraig/src/cir/cirGate.cpp
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -938,28 +938,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-37,57fold
-37,57fold
-71,154fold
-161,475fold
-501,518fold
-522,531fold
-535,540fold
-544,549fold
-37
-normal! zo
-161
-normal! zo
-501
-normal! zo
-522
-normal! zo
-let s:l = 774 - ((13 * winheight(0) + 20) / 40)
+let s:l = 302 - ((13 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-774
-normal! 024|
+302
+normal! 03|
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
@@ -981,9 +965,9 @@ set nosplitright
 wincmd t
 set winheight=1 winwidth=1
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
-exe '2resize ' . ((&lines * 14 + 21) / 43)
+exe '2resize ' . ((&lines * 9 + 21) / 43)
 exe 'vert 2resize ' . ((&columns * 79 + 79) / 159)
-exe '3resize ' . ((&lines * 25 + 21) / 43)
+exe '3resize ' . ((&lines * 30 + 21) / 43)
 exe 'vert 3resize ' . ((&columns * 79 + 79) / 159)
 argglobal
 setlocal keymap=
@@ -1097,12 +1081,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 135 - ((29 * winheight(0) + 20) / 40)
+let s:l = 120 - ((9 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-135
-normal! 018|
+120
+normal! 026|
 wincmd w
 argglobal
 edit /mnt/data/Document/DSnP/fraig/src/cir/cirGate.h
@@ -1217,11 +1201,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 21 - ((12 * winheight(0) + 7) / 14)
+let s:l = 18 - ((8 * winheight(0) + 4) / 9)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
+18
 normal! 0
 wincmd w
 argglobal
@@ -1337,23 +1321,35 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-676,685fold
-676,685fold
-698,701fold
-676
+675,684fold
+675,684fold
+675,684fold
+675,684fold
+691,694fold
+691,694fold
+691,694fold
+675
 normal! zo
-let s:l = 676 - ((7 * winheight(0) + 12) / 25)
+675
+normal! zo
+675
+normal! zo
+691
+normal! zo
+691
+normal! zo
+let s:l = 658 - ((0 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-676
-normal! 0
+658
+normal! 03|
 wincmd w
 3wincmd w
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
-exe '2resize ' . ((&lines * 14 + 21) / 43)
+exe '2resize ' . ((&lines * 9 + 21) / 43)
 exe 'vert 2resize ' . ((&columns * 79 + 79) / 159)
-exe '3resize ' . ((&lines * 25 + 21) / 43)
+exe '3resize ' . ((&lines * 30 + 21) / 43)
 exe 'vert 3resize ' . ((&columns * 79 + 79) / 159)
 tabedit /mnt/data/Document/DSnP/fraig/src/cir/cirSim.cpp
 set splitbelow splitright

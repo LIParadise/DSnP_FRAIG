@@ -97,6 +97,7 @@ CirMgr::optimize()
 
   DefButNUsedList.clear();
   UnDefinedList  .clear();
+  DFSList        .clear();
   buildDFSList();
   set_difference( definedList.begin(), definedList.end(),
                  usedList.begin(), usedList.end(),
@@ -115,6 +116,7 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
   while( !Q.empty() ){
     
     auto it = Q.front();
+    Q.pop();
     auto tmp_gatelist_itor = GateList.find( it );
 
     if( tmp_gatelist_itor != GateList.end() ){
@@ -127,7 +129,6 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
             );
       }
     }
-    Q.pop();
   }
 
   for( auto to_B_deleted_GID : ShallBeEliminatedList ){

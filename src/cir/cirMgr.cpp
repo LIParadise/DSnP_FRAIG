@@ -4,7 +4,7 @@
   Synopsis     [ Define cir manager functions ]
   Author       [ Chung-Yang (Ric) Huang ]
   Copyright    [ Copyleft(c) 2008-present LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+ ****************************************************************************/
 
 #include <iostream>
 #include <iomanip>
@@ -34,26 +34,26 @@ using namespace std;
 CirMgr* cirMgr = 0;
 
 enum CirParseError {
-   EXTRA_SPACE,
-   MISSING_SPACE,
-   ILLEGAL_WSPACE,
-   ILLEGAL_NUM,
-   ILLEGAL_IDENTIFIER,
-   ILLEGAL_SYMBOL_TYPE,
-   ILLEGAL_SYMBOL_NAME,
-   MISSING_NUM,
-   MISSING_IDENTIFIER,
-   MISSING_NEWLINE,
-   MISSING_DEF,
-   CANNOT_INVERTED,
-   MAX_LIT_ID,
-   REDEF_GATE,
-   REDEF_SYMBOLIC_NAME,
-   REDEF_CONST,
-   NUM_TOO_SMALL,
-   NUM_TOO_BIG,
+  EXTRA_SPACE,
+  MISSING_SPACE,
+  ILLEGAL_WSPACE,
+  ILLEGAL_NUM,
+  ILLEGAL_IDENTIFIER,
+  ILLEGAL_SYMBOL_TYPE,
+  ILLEGAL_SYMBOL_NAME,
+  MISSING_NUM,
+  MISSING_IDENTIFIER,
+  MISSING_NEWLINE,
+  MISSING_DEF,
+  CANNOT_INVERTED,
+  MAX_LIT_ID,
+  REDEF_GATE,
+  REDEF_SYMBOLIC_NAME,
+  REDEF_CONST,
+  NUM_TOO_SMALL,
+  NUM_TOO_BIG,
 
-   DUMMY_END
+  DUMMY_END
 };
 
 /**************************************/
@@ -66,97 +66,97 @@ static string errMsg;
 static int errInt;
 static CirGate *errGate;
 
-static bool
+  static bool
 parseError(CirParseError err)
 {
-   switch (err) {
-      case EXTRA_SPACE:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Extra space character is detected!!" << endl;
-         break;
-      case MISSING_SPACE:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Missing space character!!" << endl;
-         break;
-      case ILLEGAL_WSPACE: // for non-space white space character
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Illegal white space char(" << errInt
-              << ") is detected!!" << endl;
-         break;
-      case ILLEGAL_NUM:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Illegal "
-              << errMsg << "!!" << endl;
-         break;
-      case ILLEGAL_IDENTIFIER:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Illegal identifier \""
-              << errMsg << "\"!!" << endl;
-         break;
-      case ILLEGAL_SYMBOL_TYPE:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Illegal symbol type (" << errMsg << ")!!" << endl;
-         break;
-      case ILLEGAL_SYMBOL_NAME:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Symbolic name contains un-printable char(" << errInt
-              << ")!!" << endl;
-         break;
-      case MISSING_NUM:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Missing " << errMsg << "!!" << endl;
-         break;
-      case MISSING_IDENTIFIER:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Missing \""
-              << errMsg << "\"!!" << endl;
-         break;
-      case MISSING_NEWLINE:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": A new line is expected here!!" << endl;
-         break;
-      case MISSING_DEF:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Missing " << errMsg
-              << " definition!!" << endl;
-         break;
-      case CANNOT_INVERTED:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": " << errMsg << " " << errInt << "(" << errInt/2
-              << ") cannot be inverted!!" << endl;
-         break;
-      case MAX_LIT_ID:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Literal \"" << errInt << "\" exceeds maximum valid ID!!"
-              << endl;
-         break;
-      case REDEF_GATE:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Literal \"" << errInt
-              << "\" is redefined, previously defined as "
-              << errGate->getTypeStr() << " in line " << errGate->getLineNo()
-              << "!!" << endl;
-         break;
-      case REDEF_SYMBOLIC_NAME:
-         cerr << "[ERROR] Line " << lineNo+1 << ": Symbolic name for \""
-              << errMsg << errInt << "\" is redefined!!" << endl;
-         break;
-      case REDEF_CONST:
-         cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
-              << ": Cannot redefine const (" << errInt << ")!!" << endl;
-         break;
-      case NUM_TOO_SMALL:
-         cerr << "[ERROR] Line " << lineNo+1 << ": " << errMsg
-              << " is too small (" << errInt << ")!!" << endl;
-         break;
-      case NUM_TOO_BIG:
-         cerr << "[ERROR] Line " << lineNo+1 << ": " << errMsg
-              << " is too big (" << errInt << ")!!" << endl;
-         break;
-      default: break;
-   }
-   return false;
+  switch (err) {
+    case EXTRA_SPACE:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Extra space character is detected!!" << endl;
+      break;
+    case MISSING_SPACE:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Missing space character!!" << endl;
+      break;
+    case ILLEGAL_WSPACE: // for non-space white space character
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Illegal white space char(" << errInt
+        << ") is detected!!" << endl;
+      break;
+    case ILLEGAL_NUM:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Illegal "
+        << errMsg << "!!" << endl;
+      break;
+    case ILLEGAL_IDENTIFIER:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Illegal identifier \""
+        << errMsg << "\"!!" << endl;
+      break;
+    case ILLEGAL_SYMBOL_TYPE:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Illegal symbol type (" << errMsg << ")!!" << endl;
+      break;
+    case ILLEGAL_SYMBOL_NAME:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Symbolic name contains un-printable char(" << errInt
+        << ")!!" << endl;
+      break;
+    case MISSING_NUM:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Missing " << errMsg << "!!" << endl;
+      break;
+    case MISSING_IDENTIFIER:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Missing \""
+        << errMsg << "\"!!" << endl;
+      break;
+    case MISSING_NEWLINE:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": A new line is expected here!!" << endl;
+      break;
+    case MISSING_DEF:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Missing " << errMsg
+        << " definition!!" << endl;
+      break;
+    case CANNOT_INVERTED:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": " << errMsg << " " << errInt << "(" << errInt/2
+        << ") cannot be inverted!!" << endl;
+      break;
+    case MAX_LIT_ID:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Literal \"" << errInt << "\" exceeds maximum valid ID!!"
+        << endl;
+      break;
+    case REDEF_GATE:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Literal \"" << errInt
+        << "\" is redefined, previously defined as "
+        << errGate->getTypeStr() << " in line " << errGate->getLineNo()
+        << "!!" << endl;
+      break;
+    case REDEF_SYMBOLIC_NAME:
+      cerr << "[ERROR] Line " << lineNo+1 << ": Symbolic name for \""
+        << errMsg << errInt << "\" is redefined!!" << endl;
+      break;
+    case REDEF_CONST:
+      cerr << "[ERROR] Line " << lineNo+1 << ", Col " << colNo+1
+        << ": Cannot redefine const (" << errInt << ")!!" << endl;
+      break;
+    case NUM_TOO_SMALL:
+      cerr << "[ERROR] Line " << lineNo+1 << ": " << errMsg
+        << " is too small (" << errInt << ")!!" << endl;
+      break;
+    case NUM_TOO_BIG:
+      cerr << "[ERROR] Line " << lineNo+1 << ": " << errMsg
+        << " is too big (" << errInt << ")!!" << endl;
+      break;
+    default: break;
+  }
+  return false;
 }
 
 /**************************************************************/
 /*   class CirMgr member functions for circuit construction   */
 /**************************************************************/
-bool
+  bool
 CirMgr::readCircuit(const string& fileName)
 {
   fstream myfile;
@@ -188,7 +188,7 @@ CirMgr::readCircuit(const string& fileName)
     // set GateList
     auto ptr = new PIGate( id);
     if( GateList.insert( make_pair( id, ptr ) )
-       .second == false ){
+        .second == false ){
       // insertion failure.
       delete ptr;
       ptr = nullptr;
@@ -213,7 +213,7 @@ CirMgr::readCircuit(const string& fileName)
     // set GateList
     auto ptr = new POGate( PO_start_id, id );
     if( GateList.insert( make_pair( PO_start_id, ptr ) )
-       .second == false ){
+        .second == false ){
       // insertion failure.
       // shall not happen though.
 #ifdef DEBUG
@@ -271,29 +271,29 @@ CirMgr::readCircuit(const string& fileName)
   // CONST0 is always defined.
 
   set_difference( definedList.begin(), definedList.end(),
-                 usedList.begin(), usedList.end(),
-                 inserter(DefButNUsedList, DefButNUsedList.end()));
+      usedList.begin(), usedList.end(),
+      inserter(DefButNUsedList, DefButNUsedList.end()));
 
   set_difference( usedList.begin(), usedList.end(),
-                 definedList.begin(), definedList.end(),
-                 inserter(UnDefinedList, UnDefinedList.end()) );
+      definedList.begin(), definedList.end(),
+      inserter(UnDefinedList, UnDefinedList.end()) );
 
   // handle undefined gate
   for_each( GateList.begin(), GateList.end(),
-           [this] ( pair< const unsigned, CirGate* >& p)  {
-             if( p.second == nullptr ){
-               auto it = find( UnDefinedList.begin(),
-                              UnDefinedList.end(), p.first );
+      [this] ( pair< const unsigned, CirGate* >& p)  {
+      if( p.second == nullptr ){
+      auto it = find( UnDefinedList.begin(),
+          UnDefinedList.end(), p.first );
 #ifdef DEBUG
-               if( p.first != 0 ){
-                 assert( it != UnDefinedList.end() &&
-                        "weird UnDefinedList while reading file" );
-               }
+      if( p.first != 0 ){
+      assert( it != UnDefinedList.end() &&
+          "weird UnDefinedList while reading file" );
+      }
 #endif
-               auto ptr = new AAGate( p.first, false);
-               p.second = ptr;
-             } 
-           });
+      auto ptr = new AAGate( p.first, false);
+      p.second = ptr;
+      } 
+      });
 
   // gate CONST0 is always present.
   auto tmp_pair = GateList.insert( make_pair( 0, new AAGate( 0, true ) ) );
@@ -341,11 +341,11 @@ CirMgr::readCircuit(const string& fileName)
     }
 
     itor1 -> second -> insertChild ( 
-      reinterpret_cast<size_t> ( itorg -> second ) );
+        reinterpret_cast<size_t> ( itorg -> second ) );
     itor2 -> second -> insertChild ( 
-      reinterpret_cast<size_t> ( itorg -> second ) );
+        reinterpret_cast<size_t> ( itorg -> second ) );
   }
-  
+
   // routing PO
   for( auto it : POIDList ){
 #ifdef DEBUG
@@ -362,7 +362,7 @@ CirMgr::readCircuit(const string& fileName)
     tmp_PO_ptr -> _parent[1] = 0;
 
     tmp_refG_ptr -> insertChild( 
-      reinterpret_cast<size_t>(tmp_PO_ptr ));
+        reinterpret_cast<size_t>(tmp_PO_ptr ));
   }
 
   // set symbol;
@@ -427,19 +427,19 @@ CirMgr::readCircuit(const string& fileName)
       if( getPtr( it.first -> _parent[0] ) != nullptr ) {
         if ( isInverted( it.first -> _parent[0] ) )
           parent_0_id = ( getPtr( it.first -> _parent[0] )
-                         -> getGateID() )* 2 + 1;
+              -> getGateID() )* 2 + 1;
         else
           parent_0_id = ( getPtr( it.first -> _parent[0] )
-                         -> getGateID() )* 2;
+              -> getGateID() )* 2;
       }
 
       if( getPtr( it.first -> _parent[1] ) != nullptr ) {
         if ( isInverted( it.first -> _parent[1] ) )
           parent_1_id = ( getPtr( it.first -> _parent[1] )
-                         -> getGateID() )* 2 + 1;
+              -> getGateID() )* 2 + 1;
         else
           parent_1_id = ( getPtr( it.first -> _parent[1] )
-                         -> getGateID() )* 2;
+              -> getGateID() )* 2;
       }
 
       tmp_str += to_string( parent_0_id );
@@ -477,10 +477,10 @@ CirMgr::readCircuit(const string& fileName)
 void
 CirMgr::clearGate() {
   for_each( GateList.begin(), GateList.end(), [] 
-           ( pair< const unsigned, CirGate*>& p ) {
-             delete p.second;
-             p.second = nullptr;
-           });
+      ( pair< const unsigned, CirGate*>& p ) {
+      delete p.second;
+      p.second = nullptr;
+      });
   GateList.clear();
 }
 
@@ -488,14 +488,14 @@ CirMgr::clearGate() {
 /*   class CirMgr member functions for circuit printing   */
 /**********************************************************/
 /*********************
-Circuit Statistics
-==================
+  Circuit Statistics
+  ==================
   PI          20
   PO          12
   AIG        130
-------------------
+  ------------------
   Total      162
-*********************/
+ *********************/
 void
 CirMgr::printSummary() const
 {
@@ -560,7 +560,7 @@ CirMgr::printFloatGates() const
     CirGate* ptr   = GateList.find( it ) -> second;
     for( auto it1 : ptr -> _child ){
       tmp_map.insert( make_pair( 
-          getPtr( it1 ) -> getGateID(), it1 ) );
+            getPtr( it1 ) -> getGateID(), it1 ) );
     }
   }
   for( auto it : tmp_map ){
@@ -578,8 +578,8 @@ CirMgr::printFloatGates() const
 
 bool
 myPairUnsignedCharCmp(
-  const pair< unsigned, char >& pair1,
-  const pair< unsigned, char >& pair2 ) {
+    const pair< unsigned, char >& pair1,
+    const pair< unsigned, char >& pair2 ) {
   return pair1.first < pair2.first ;
 }
 
@@ -664,104 +664,98 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
     queue<unsigned>& Q ) {
   // mark child_gate and perform merging if necessary.
 
-  CirGate* c_g_ptr    = getPtr( child_gate );
-  CirGate* w_g_ptr    = getPtr( working_gate );
-  CirGate* CONST0_ptr = GateList.find( 0 ) -> second;
-  if( ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "PO" ) ||
-      ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "PI" ) ||
-      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "PO" ) ||
-      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "PI" ) ){
-    // could not be simplificated.
-    c_g_ptr -> _parent_BFS_mark[0] = globalBFSRef;
-    c_g_ptr -> _parent_BFS_mark[1] = globalBFSRef;
-    return;
+  CirGate* c_g_ptr     = getPtr( child_gate );
+  CirGate* w_g_ptr     = getPtr( working_gate );
+  CirGate* CONST0_ptr  = GateList.find( 0 ) -> second;
+  bool     dontTouchMe = false;
+  if( ( (c_g_ptr -> getTypeStr() ) == "PO" ) ||
+      ( (c_g_ptr -> getTypeStr() ) == "PI" ) ){
+    dontTouchMe = true;
   }
 #ifdef DEBUG
   if( ( (getPtr( c_g_ptr -> _parent[0] )) == 0 ) ||
       ( (getPtr( c_g_ptr -> _parent[1] )) == 0 ) ){
     string ret_str = "Weird _parent while optimizing ckt, ";
-    ret_str += to_string(getPtr( c_g_ptr -> getGateID() ));
+    ret_str += to_string( c_g_ptr -> getGateID() );
     ret_str += ' ';
     ret_str += to_string(child_gate);
     assert( 0 && ret_str.c_str() );
   }
 #endif // DEBUG
 
-  if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
-    c_g_ptr -> _parent_BFS_mark[0] = globalBFSRef;
-    Q.push( child_gate );
-    return;
-  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalBFSRef ){
-    // if two parents could be merged --> try merge, DFS
-    // -- i.e. recursive call.
-    // if cannot be merged -> return;
-    c_g_ptr -> _parent_BFS_mark[1] = globalBFSRef;
+  // if two parents could be merged --> try merge, DFS
+  // -- i.e. recursive call.
+  // if cannot be merged -> return;
+  auto tmp_gatelist_itor = GateList.find( c_g_ptr->getGateID() );
 
-    auto tmp_gatelist_itor = GateList.find( c_g_ptr->getGateID() );
 #ifdef DEBUG
-    assert( tmp_gatelist_itor != GateList.end() &&
-        "WTF in BFS trySimplify..." );
+  assert( tmp_gatelist_itor != GateList.end() &&
+      "WTF in BFS trySimplify..." );
 #endif // DEBUG
 
-    if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
+  if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
 
-      for( auto tmp_further_child : c_g_ptr -> _child ){
-        trySimplify( child_gate, tmp_further_child, Q );
-      }
-      if(c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) )){
-        maintainDefinedListAndUsedList(
-            child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-      }
+    for( auto tmp_further_child : c_g_ptr -> _child ){
+      trySimplify( child_gate, tmp_further_child, Q );
+    }
+    if(c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) )){
+      maintainDefinedListAndUsedList(
+          child_gate, c_g_ptr -> _parent[0] );
+      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
+    }
 
-    }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
+  }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
 
-      for( auto tmp_further_child : c_g_ptr -> _child ){
-        trySimplify( child_gate, tmp_further_child, Q );
-      }
-      if(c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ))){
-        maintainDefinedListAndUsedList(
-            child_gate, getPtrInSize_t( CONST0_ptr ) );
-        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-      }
+    for( auto tmp_further_child : c_g_ptr -> _child ){
+      trySimplify( child_gate, tmp_further_child, Q );
+    }
+    if(c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ))){
+      maintainDefinedListAndUsedList(
+          child_gate, getPtrInSize_t( CONST0_ptr ) );
+      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
+    }
 
-    }else if( 
-        (c_g_ptr -> _parent[0] == getPtrInSize_t( CONST0_ptr ) ) ||
-        (c_g_ptr -> _parent[1] == getPtrInSize_t( CONST0_ptr ) ) ){
+  }else if( 
+      (c_g_ptr -> _parent[0] == getPtrInSize_t( CONST0_ptr ) ) ||
+      (c_g_ptr -> _parent[1] == getPtrInSize_t( CONST0_ptr ) ) ){
 
-      for( auto tmp_further_child : c_g_ptr -> _child ){
-        trySimplify( child_gate, tmp_further_child, Q );
-      }
-      if(c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) )){
-        maintainDefinedListAndUsedList(
-            child_gate, getPtrInSize_t(CONST0_ptr) );
-        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-      }
+    for( auto tmp_further_child : c_g_ptr -> _child ){
+      trySimplify( child_gate, tmp_further_child, Q );
+    }
+    if(c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) )){
+      maintainDefinedListAndUsedList(
+          child_gate, getPtrInSize_t(CONST0_ptr) );
+      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
+    }
 
-    }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
+  }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
 
-      for( auto tmp_further_child : c_g_ptr -> _child ){
-        trySimplify( child_gate, tmp_further_child, Q );
-      }
-      if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] )){
-        maintainDefinedListAndUsedList(
-            child_gate, getNonInv( c_g_ptr -> _parent[1] ) );
-        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-      }
+    for( auto tmp_further_child : c_g_ptr -> _child ){
+      trySimplify( child_gate, tmp_further_child, Q );
+    }
+    if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] )){
+      maintainDefinedListAndUsedList(
+          child_gate, getNonInv( c_g_ptr -> _parent[1] ) );
+      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
+    }
 
-    }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
+  }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
 
-      for( auto tmp_further_child : c_g_ptr -> _child ){
-        trySimplify( child_gate, tmp_further_child, Q );
-      }
-      if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] )){
-        maintainDefinedListAndUsedList(
-            child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-      }
+    for( auto tmp_further_child : c_g_ptr -> _child ){
+      trySimplify( child_gate, tmp_further_child, Q );
+    }
+    if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] )){
+      maintainDefinedListAndUsedList(
+          child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
+      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
+    }
 
-    }else{ return ; }
-  }
+  }else if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
+    Q.insert( c_g_ptr -> getGateID() );
+    c_g_ptr -> _parent_BFS_mark [0] = globalBFSRef;
+  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalBFSRef ){
+    c_g_ptr -> _parent_BFS_mark [1] = globalBFSRef;
+  }else {}
 }
 
 void

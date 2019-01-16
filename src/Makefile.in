@@ -13,8 +13,8 @@ CCC       = gcc
 AR        = ar cr
 ECHO      = /bin/echo
 
-CFLAGS = -march=native -O3 -Wall -std=c++11 -DTA_KB_SETTING $(PKGFLAG)
-CFLAGS = -march=native -g  -Wall -std=c++11 -DTA_KB_SETTING $(PKGFLAG)
+# CFLAGS = -march=native -O3 -Wall -std=c++11 -DTA_KB_SETTING $(PKGFLAG)
+CFLAGS = -march=native -g  -Wall -std=c++11 -DDEBUG -DTA_KB_SETTING $(PKGFLAG)
 
 .PHONY: depend extheader
 

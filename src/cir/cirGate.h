@@ -91,8 +91,8 @@ class CirGate
 
   protected:
     CirGate( int i , bool b) :
-      _parent{0}, _active(false), _lineNo(0), _gateID(i), 
-      _gateDFSRef(0), _IsDefined( b ), _symbolMsg("") {}
+      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _gateID(i), _gateDFSRef(0), _IsDefined( b ), _symbolMsg("") {}
     // for AAGate only.
     bool             _IsDefined;
     string           _symbolMsg;

@@ -9,7 +9,7 @@ AAGate	cir/cirGate.h	/^    AAGate(bool boolean): CirGate(0, boolean) {}$/;"	f	cl
 AAGate	cir/cirGate.h	/^    AAGate(int i, bool boolean) : CirGate(i, boolean) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^class AAGate : public CirGate {$/;"	c
 BFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::BFS_4_optimize( queue<unsigned>& Q ){$/;"	f	class:CirMgr
-CANNOT_INVERTED	cir/cirMgr.cpp	/^   CANNOT_INVERTED,$/;"	e	enum:CirParseError	file:
+CANNOT_INVERTED	cir/cirMgr.cpp	/^  CANNOT_INVERTED,$/;"	e	enum:CirParseError	file:
 CIRCMDTOT	cir/cirCmd.cpp	/^   CIRCMDTOT$/;"	e	enum:CirCmdState	file:
 CIRFRAIG	cir/cirCmd.cpp	/^   CIRFRAIG,$/;"	e	enum:CirCmdState	file:
 CIRINIT	cir/cirCmd.cpp	/^   CIRINIT,$/;"	e	enum:CirCmdState	file:
@@ -52,10 +52,10 @@ DEFAULTS	sat/File.h	40;"	d
 DEFAULTS	sat/File.h	48;"	d
 DFS	cir/cirMgr.cpp	/^CirMgr::DFS( CirGate* ptr , unsigned depth ){$/;"	f	class:CirMgr
 DFSList	cir/cirMgr.h	/^   vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
-DUMMY_END	cir/cirMgr.cpp	/^   DUMMY_END$/;"	e	enum:CirParseError	file:
+DUMMY_END	cir/cirMgr.cpp	/^  DUMMY_END$/;"	e	enum:CirParseError	file:
 Datum	sat/Global.h	/^    typedef T   Datum;$/;"	t	class:vec
 DefButNUsedList	cir/cirMgr.h	/^   set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
-EXTRA_SPACE	cir/cirMgr.cpp	/^   EXTRA_SPACE,$/;"	e	enum:CirParseError	file:
+EXTRA_SPACE	cir/cirMgr.cpp	/^  EXTRA_SPACE,$/;"	e	enum:CirParseError	file:
 Exception_EOF	sat/File.h	/^class Exception_EOF {};$/;"	c
 File	sat/File.h	/^    File(cchar* name, cchar* mode) : DEFAULTS {$/;"	f	class:File
 File	sat/File.h	/^    File(int fd, FileMode mode, bool own_fd = true) : DEFAULTS  {$/;"	f	class:File
@@ -81,11 +81,11 @@ Heap	sat/Heap.h	/^class Heap {$/;"	c
 Heap_h	sat/Heap.h	21;"	d
 I64_fmt	sat/Global.h	41;"	d
 I64_fmt	sat/Global.h	47;"	d
-ILLEGAL_IDENTIFIER	cir/cirMgr.cpp	/^   ILLEGAL_IDENTIFIER,$/;"	e	enum:CirParseError	file:
-ILLEGAL_NUM	cir/cirMgr.cpp	/^   ILLEGAL_NUM,$/;"	e	enum:CirParseError	file:
-ILLEGAL_SYMBOL_NAME	cir/cirMgr.cpp	/^   ILLEGAL_SYMBOL_NAME,$/;"	e	enum:CirParseError	file:
-ILLEGAL_SYMBOL_TYPE	cir/cirMgr.cpp	/^   ILLEGAL_SYMBOL_TYPE,$/;"	e	enum:CirParseError	file:
-ILLEGAL_WSPACE	cir/cirMgr.cpp	/^   ILLEGAL_WSPACE,$/;"	e	enum:CirParseError	file:
+ILLEGAL_IDENTIFIER	cir/cirMgr.cpp	/^  ILLEGAL_IDENTIFIER,$/;"	e	enum:CirParseError	file:
+ILLEGAL_NUM	cir/cirMgr.cpp	/^  ILLEGAL_NUM,$/;"	e	enum:CirParseError	file:
+ILLEGAL_SYMBOL_NAME	cir/cirMgr.cpp	/^  ILLEGAL_SYMBOL_NAME,$/;"	e	enum:CirParseError	file:
+ILLEGAL_SYMBOL_TYPE	cir/cirMgr.cpp	/^  ILLEGAL_SYMBOL_TYPE,$/;"	e	enum:CirParseError	file:
+ILLEGAL_WSPACE	cir/cirMgr.cpp	/^  ILLEGAL_WSPACE,$/;"	e	enum:CirParseError	file:
 Key	sat/Global.h	/^    typedef int Key;$/;"	t	class:vec
 L_LIT	sat/Solver.h	211;"	d
 L_lit	sat/Solver.h	212;"	d
@@ -93,13 +93,13 @@ LessThan_default	sat/Sort.h	/^struct LessThan_default {$/;"	s
 Lit	sat/SolverTypes.h	/^    Lit() : x(2*var_Undef) {}   \/\/ (lit_Undef)$/;"	f	class:Lit
 Lit	sat/SolverTypes.h	/^    explicit Lit(Var var, bool sgn = false) : x((var+var) + (int)sgn) {}$/;"	f	class:Lit
 Lit	sat/SolverTypes.h	/^class Lit {$/;"	c
-MAX_LIT_ID	cir/cirMgr.cpp	/^   MAX_LIT_ID,$/;"	e	enum:CirParseError	file:
+MAX_LIT_ID	cir/cirMgr.cpp	/^  MAX_LIT_ID,$/;"	e	enum:CirParseError	file:
 MILOA	cir/cirMgr.h	/^   vector< unsigned> MILOA;$/;"	m	class:CirMgr
-MISSING_DEF	cir/cirMgr.cpp	/^   MISSING_DEF,$/;"	e	enum:CirParseError	file:
-MISSING_IDENTIFIER	cir/cirMgr.cpp	/^   MISSING_IDENTIFIER,$/;"	e	enum:CirParseError	file:
-MISSING_NEWLINE	cir/cirMgr.cpp	/^   MISSING_NEWLINE,$/;"	e	enum:CirParseError	file:
-MISSING_NUM	cir/cirMgr.cpp	/^   MISSING_NUM,$/;"	e	enum:CirParseError	file:
-MISSING_SPACE	cir/cirMgr.cpp	/^   MISSING_SPACE,$/;"	e	enum:CirParseError	file:
+MISSING_DEF	cir/cirMgr.cpp	/^  MISSING_DEF,$/;"	e	enum:CirParseError	file:
+MISSING_IDENTIFIER	cir/cirMgr.cpp	/^  MISSING_IDENTIFIER,$/;"	e	enum:CirParseError	file:
+MISSING_NEWLINE	cir/cirMgr.cpp	/^  MISSING_NEWLINE,$/;"	e	enum:CirParseError	file:
+MISSING_NUM	cir/cirMgr.cpp	/^  MISSING_NUM,$/;"	e	enum:CirParseError	file:
+MISSING_SPACE	cir/cirMgr.cpp	/^  MISSING_SPACE,$/;"	e	enum:CirParseError	file:
 MYCLK_TCK	util/myUsage.h	21;"	d
 MYCLK_TCK	util/myUsage.h	22;"	d
 MY_HASH_MAP_H	util/myHashMap.h	10;"	d
@@ -107,8 +107,8 @@ MY_HASH_SET_H	util/myHashSet.h	10;"	d
 MY_USAGE_H	util/myUsage.h	10;"	d
 MyUsage	util/myUsage.h	/^   MyUsage() { reset(); }$/;"	f	class:MyUsage
 MyUsage	util/myUsage.h	/^class MyUsage$/;"	c
-NUM_TOO_BIG	cir/cirMgr.cpp	/^   NUM_TOO_BIG,$/;"	e	enum:CirParseError	file:
-NUM_TOO_SMALL	cir/cirMgr.cpp	/^   NUM_TOO_SMALL,$/;"	e	enum:CirParseError	file:
+NUM_TOO_BIG	cir/cirMgr.cpp	/^  NUM_TOO_BIG,$/;"	e	enum:CirParseError	file:
+NUM_TOO_SMALL	cir/cirMgr.cpp	/^  NUM_TOO_SMALL,$/;"	e	enum:CirParseError	file:
 PIGate	cir/cirGate.h	/^    PIGate(): CirGate() {}$/;"	f	class:PIGate
 PIGate	cir/cirGate.h	/^    PIGate(int i): CirGate(i) {}$/;"	f	class:PIGate
 PIGate	cir/cirGate.h	/^class PIGate : public CirGate {$/;"	c
@@ -124,9 +124,9 @@ ProofTraverser	sat/Proof.h	/^struct ProofTraverser {$/;"	s
 Proof_h	sat/Proof.h	21;"	d
 RAND_SSE_H	util/test_random_generator_intel.h	46;"	d
 READ	sat/File.h	/^enum FileMode { READ, WRITE };$/;"	e	enum:FileMode
-REDEF_CONST	cir/cirMgr.cpp	/^   REDEF_CONST,$/;"	e	enum:CirParseError	file:
-REDEF_GATE	cir/cirMgr.cpp	/^   REDEF_GATE,$/;"	e	enum:CirParseError	file:
-REDEF_SYMBOLIC_NAME	cir/cirMgr.cpp	/^   REDEF_SYMBOLIC_NAME,$/;"	e	enum:CirParseError	file:
+REDEF_CONST	cir/cirMgr.cpp	/^  REDEF_CONST,$/;"	e	enum:CirParseError	file:
+REDEF_GATE	cir/cirMgr.cpp	/^  REDEF_GATE,$/;"	e	enum:CirParseError	file:
+REDEF_SYMBOLIC_NAME	cir/cirMgr.cpp	/^  REDEF_SYMBOLIC_NAME,$/;"	e	enum:CirParseError	file:
 RN_GEN_H	util/rnGen.h	9;"	d
 RandomNumGen	util/rnGen.h	/^      RandomNumGen() { my_srandom(getpid()); }$/;"	f	class:RandomNumGen
 RandomNumGen	util/rnGen.h	/^      RandomNumGen(unsigned seed) { my_srandom(seed); }$/;"	f	class:RandomNumGen

@@ -4,7 +4,7 @@
   Synopsis     [ Define class CirAigGate member functions ]
   Author       [ Chung-Yang (Ric) Huang ]
   Copyright    [ Copyleft(c) 2008-present LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+ ****************************************************************************/
 
 #include <iostream>
 #include <iomanip>
@@ -44,9 +44,9 @@ CirGate::reportGate() const
 void
 CirGate::reportFanin(int level) const
 {
-   assert (level >= 0);
-   _haveMetBefore.clear();
-   reportFanin( level+1, 0, false );
+  assert (level >= 0);
+  _haveMetBefore.clear();
+  reportFanin( level+1, 0, false );
 }
 
 void
@@ -101,9 +101,9 @@ CirGate::reportFanin( int total_level, int indent, bool print_exclam ) const {
 void
 CirGate::reportFanout(int level) const
 {
-   assert (level >= 0);
-   _haveMetBefore.clear();
-   reportFanout( level+1, 0, 0 );
+  assert (level >= 0);
+  _haveMetBefore.clear();
+  reportFanout( level+1, 0, 0 );
 }
 
 void
@@ -292,12 +292,16 @@ CirGate::makeSkipMe( size_t parent_with_inv_info){
   // data fixing, like update list and deleting the gate,
   // is left for other functions to take care of.
 
-  if( getTypeStr() != "AIG" )
+  bool do_sth_on_children = true;
+
+  if( getTypeStr() == "UNDEF" )
     return false;
+  if( getTypeStr() == "PO" )
+    do_sth_on_children = false;
 
   auto parent_ptr = getPtr( parent_with_inv_info );
 
-
+  // fix children_list of parent
   for ( auto it : _child ){
     parent_ptr -> _child.insert( it );
   }
@@ -306,15 +310,18 @@ CirGate::makeSkipMe( size_t parent_with_inv_info){
     parent_ptr -> _child.erase( tmp_itor1 );
 
 
-  for ( auto it : _child ){
-    auto tmp_child_ptr = getPtr( it );
-    if( tmp_child_ptr -> _parent[0] == getNonInv( this )||
-        tmp_child_ptr -> _parent[0] == getInvert( this ) ){
-      tmp_child_ptr -> _parent[0] = parent_with_inv_info;
-    }
-    if( tmp_child_ptr -> _parent[1] == getNonInv( this )||
-        tmp_child_ptr -> _parent[1] == getInvert( this ) ){
-      tmp_child_ptr -> _parent[1] = parent_with_inv_info;
+  // fix parents_list of child
+  if( do_sth_on_children ){
+    for ( auto it : _child ){
+      auto tmp_child_ptr = getPtr( it );
+      if( tmp_child_ptr -> _parent[0] == getNonInv( this )||
+          tmp_child_ptr -> _parent[0] == getInvert( this ) ){
+        tmp_child_ptr -> _parent[0] = parent_with_inv_info;
+      }
+      if( tmp_child_ptr -> _parent[1] == getNonInv( this )||
+          tmp_child_ptr -> _parent[1] == getInvert( this ) ){
+        tmp_child_ptr -> _parent[1] = parent_with_inv_info;
+      }
     }
   }
   return true;
