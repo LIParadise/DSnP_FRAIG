@@ -137,6 +137,7 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
       workingGatePtr -> getTypeStr() == "UNDEF" ||
       workingGatePtr -> getGateID () == 0 )
     return getNonInv(current_gate_NO_inv_info);
+  // ending conditions;
 
   size_t _parent0 = DFS_4_optimize(
       getNonInv(workingGatePtr->_parent[0]));
