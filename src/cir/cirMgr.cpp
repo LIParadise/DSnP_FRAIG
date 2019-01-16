@@ -809,16 +809,12 @@ CirMgr::rebuildOutputBak() {
   string tmp_str1;
 
   for( auto it : DFSList ) {  // A
-
     if( it.first -> getTypeStr() == "AIG" ) {
-
       tmp_str =  "";
       tmp_str += to_string (it.first -> getGateID() * 2 );
       tmp_str += ' ';
-
       size_t parent_0_id = 0;
       size_t parent_1_id = 0;
-
       if( getPtr( it.first -> _parent[0] ) != nullptr ) {
         if ( isInverted( it.first -> _parent[0] ) )
           parent_0_id = ( getPtr( it.first -> _parent[0] )
@@ -836,15 +832,12 @@ CirMgr::rebuildOutputBak() {
           parent_1_id = ( getPtr( it.first -> _parent[1] )
               -> getGateID() )* 2;
       }
-
       tmp_str += to_string( parent_0_id );
       tmp_str += ' ';
       tmp_str += to_string( parent_1_id );
       output_bak.emplace_back( tmp_str );
-
     }
   }
-
 
   // symbols
   for( size_t idx = 0; idx < PIIDList.size(); ++idx){
