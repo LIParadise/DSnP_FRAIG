@@ -85,6 +85,9 @@ private:
    // "trySimplify" does the following:
    // 1. updates Q if necessary.
    // 2. mark (getPtr(tmp_child_ptr_sizet)) if necessary.
+   void maintainDefinedListAndUsedList
+     (size_t,size_t);
+   // the_gate_we're_working, the_parent_we_want_check
 
    // helper data fields
    set<unsigned>  definedList;

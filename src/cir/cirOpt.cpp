@@ -93,6 +93,11 @@ CirMgr::optimize()
     BFS_Q.push( it );
   getNewGBFSRef();
   BFS_4_optimize( BFS_Q );
+
+  DefButNUsedList.clear();
+  UnDefinedList  .clear();
+  // FIXME
+  // usedList and definedList shall be modified...
 }
 
 void

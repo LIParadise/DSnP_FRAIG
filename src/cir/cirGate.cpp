@@ -288,6 +288,31 @@ CirGate::makeForgetMe() {
 }
 
 bool
+CirMgr::makeSkipMe( size_t parent_with_inv_info){
+  // data fixing, like update list and deleting the gate,
+  // is left for other functions to take care of.
+
+  if( getTypeStr() != "AIG" )
+    return false;
+
+  for ( auto it : _child ){
+    getPtr( parent_with_inv_info ) -> _child.insert( it );
+  }
+  for ( auto it : _child ){
+    auto tmp_child_ptr = getPtr( it );
+    if( tmp_child_ptr -> _parent[0] == this ||
+        tmp_child_ptr -> _parent[0] == getInvert( this ) ){
+      tmp_child_ptr -> _parent[0] = parent_with_inv_info;
+    }
+    if( tmp_child_ptr -> _parent[1] == this ||
+        tmp_child_ptr -> _parent[1] == getInvert( this ) ){
+      tmp_child_ptr -> _parent[1] = parent_with_inv_info;
+    }
+  }
+  return true;
+}
+
+bool
 AAGate::isAig() const {
   return _IsDefined;
 }

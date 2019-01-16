@@ -403,7 +403,9 @@ lit	sat/SolverTypes.h	/^    Lit         lit      () const { return toLit(((intp)
 locked	sat/Solver.h	/^    bool     locked          (const Clause* c) const { return reason[var((*c)[0])] == c; }$/;"	f	class:Solver
 lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+maintainDefinedListAndUsedList	cir/cirMgr.cpp	/^CirMgr::maintainDefinedListAndUsedList( $/;"	f	class:CirMgr
 makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
+makeSkipMe	cir/cirGate.cpp	/^CirMgr::makeSkipMe( size_t parent_with_inv_info){$/;"	f	class:CirMgr
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
