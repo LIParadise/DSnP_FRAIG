@@ -64,9 +64,6 @@ class CirGate
     bool            isDefined   () const     { return _IsDefined; }
     void            makeForgetMe() ;
     bool            makeSkipMe  ( size_t );
-    // passes the parent we want to preserve in, have inv-info.
-    // return true if could be skipped,
-    // for CirMgr::maintainDefinedListAndUsedList(size_t, size_t );
     pair< set<size_t>::iterator, bool> insertChild ( size_t );
     set<size_t>::iterator findChild                ( size_t ) const;
     size_t                findParent               ( size_t ) const;

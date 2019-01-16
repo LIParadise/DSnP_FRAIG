@@ -8,7 +8,6 @@ AAGate	cir/cirGate.h	/^    AAGate(): CirGate(0, true) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^    AAGate(bool boolean): CirGate(0, boolean) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^    AAGate(int i, bool boolean) : CirGate(i, boolean) {}$/;"	f	class:AAGate
 AAGate	cir/cirGate.h	/^class AAGate : public CirGate {$/;"	c
-BFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::BFS_4_optimize( queue<unsigned>& Q ){$/;"	f	class:CirMgr
 CANNOT_INVERTED	cir/cirMgr.cpp	/^  CANNOT_INVERTED,$/;"	e	enum:CirParseError	file:
 CIRCMDTOT	cir/cirCmd.cpp	/^   CIRCMDTOT$/;"	e	enum:CirCmdState	file:
 CIRFRAIG	cir/cirCmd.cpp	/^   CIRFRAIG,$/;"	e	enum:CirCmdState	file:
@@ -33,7 +32,7 @@ CirGate	cir/cirGate.h	/^    CirGate(): $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^    CirGate(int i) : $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^class CirGate$/;"	c
 CirGateCmd	cir/cirCmd.h	/^CmdClass(CirGateCmd);$/;"	v
-CirMgr	cir/cirMgr.h	/^   CirMgr(): globalDFSRef(0), globalBFSRef(0)  { mysrand_sse(time(NULL));}$/;"	f	class:CirMgr
+CirMgr	cir/cirMgr.h	/^    CirMgr():globalDFSRef(0),globalDFSOptRef(0){mysrand_sse(time(NULL));}$/;"	f	class:CirMgr
 CirMgr	cir/cirMgr.h	/^class CirMgr$/;"	c
 CirOptCmd	cir/cirCmd.h	/^CmdClass(CirOptCmd);$/;"	v
 CirParseError	cir/cirMgr.cpp	/^enum CirParseError {$/;"	g	file:
@@ -51,10 +50,10 @@ Clause_new	sat/SolverTypes.h	/^inline Clause* Clause_new(bool learnt, const vec<
 DEFAULTS	sat/File.h	40;"	d
 DEFAULTS	sat/File.h	48;"	d
 DFS	cir/cirMgr.cpp	/^CirMgr::DFS( CirGate* ptr , unsigned depth ){$/;"	f	class:CirMgr
-DFSList	cir/cirMgr.h	/^   vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
+DFSList	cir/cirMgr.h	/^    vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
 DUMMY_END	cir/cirMgr.cpp	/^  DUMMY_END$/;"	e	enum:CirParseError	file:
 Datum	sat/Global.h	/^    typedef T   Datum;$/;"	t	class:vec
-DefButNUsedList	cir/cirMgr.h	/^   set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
+DefButNUsedList	cir/cirMgr.h	/^    set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
 EXTRA_SPACE	cir/cirMgr.cpp	/^  EXTRA_SPACE,$/;"	e	enum:CirParseError	file:
 Exception_EOF	sat/File.h	/^class Exception_EOF {};$/;"	c
 File	sat/File.h	/^    File(cchar* name, cchar* mode) : DEFAULTS {$/;"	f	class:File
@@ -69,7 +68,7 @@ GClause	sat/SolverTypes.h	/^class GClause {$/;"	c
 GClause_NULL	sat/SolverTypes.h	137;"	d
 GClause_new	sat/SolverTypes.h	/^inline GClause GClause_new(Clause* c) { assert(((uintp)c & 1) == 0); return GClause((void*)c); }$/;"	f
 GClause_new	sat/SolverTypes.h	/^inline GClause GClause_new(Lit p)     { return GClause((void*)(((intp)index(p) << 1) + 1)); }$/;"	f
-GateList	cir/cirMgr.h	/^   map< unsigned, CirGate* > GateList;$/;"	m	class:CirMgr
+GateList	cir/cirMgr.h	/^    map< unsigned, CirGate* > GateList;$/;"	m	class:CirMgr
 Global_h	sat/Global.h	21;"	d
 HashMap	util/myHashMap.h	/^   HashMap(size_t b=0) : _numBuckets(0), _buckets(0) { if (b != 0) init(b); }$/;"	f	class:HashMap
 HashMap	util/myHashMap.h	/^class HashMap$/;"	c
@@ -94,7 +93,7 @@ Lit	sat/SolverTypes.h	/^    Lit() : x(2*var_Undef) {}   \/\/ (lit_Undef)$/;"	f	c
 Lit	sat/SolverTypes.h	/^    explicit Lit(Var var, bool sgn = false) : x((var+var) + (int)sgn) {}$/;"	f	class:Lit
 Lit	sat/SolverTypes.h	/^class Lit {$/;"	c
 MAX_LIT_ID	cir/cirMgr.cpp	/^  MAX_LIT_ID,$/;"	e	enum:CirParseError	file:
-MILOA	cir/cirMgr.h	/^   vector< unsigned> MILOA;$/;"	m	class:CirMgr
+MILOA	cir/cirMgr.h	/^    vector< unsigned>  MILOA;$/;"	m	class:CirMgr
 MISSING_DEF	cir/cirMgr.cpp	/^  MISSING_DEF,$/;"	e	enum:CirParseError	file:
 MISSING_IDENTIFIER	cir/cirMgr.cpp	/^  MISSING_IDENTIFIER,$/;"	e	enum:CirParseError	file:
 MISSING_NEWLINE	cir/cirMgr.cpp	/^  MISSING_NEWLINE,$/;"	e	enum:CirParseError	file:
@@ -112,11 +111,11 @@ NUM_TOO_SMALL	cir/cirMgr.cpp	/^  NUM_TOO_SMALL,$/;"	e	enum:CirParseError	file:
 PIGate	cir/cirGate.h	/^    PIGate(): CirGate() {}$/;"	f	class:PIGate
 PIGate	cir/cirGate.h	/^    PIGate(int i): CirGate(i) {}$/;"	f	class:PIGate
 PIGate	cir/cirGate.h	/^class PIGate : public CirGate {$/;"	c
-PIIDList	cir/cirMgr.h	/^   vector< unsigned > PIIDList;$/;"	m	class:CirMgr
+PIIDList	cir/cirMgr.h	/^    vector< unsigned > PIIDList;$/;"	m	class:CirMgr
 POGate	cir/cirGate.h	/^    POGate(): $/;"	f	class:POGate
 POGate	cir/cirGate.h	/^    POGate(int gid, int refid): $/;"	f	class:POGate
 POGate	cir/cirGate.h	/^class POGate : public CirGate {$/;"	c
-POIDList	cir/cirMgr.h	/^   vector< unsigned > POIDList;$/;"	m	class:CirMgr
+POIDList	cir/cirMgr.h	/^    vector< unsigned > POIDList;$/;"	m	class:CirMgr
 Proof	sat/Proof.cpp	/^Proof::Proof()$/;"	f	class:Proof
 Proof	sat/Proof.cpp	/^Proof::Proof(ProofTraverser& t)$/;"	f	class:Proof
 Proof	sat/Proof.h	/^class Proof {$/;"	c
@@ -137,7 +136,7 @@ SatSolver	sat/sat.h	/^      SatSolver():_solver(0) { }$/;"	f	class:SatSolver
 SatSolver	sat/sat.h	/^class SatSolver$/;"	c
 SearchParams	sat/Solver.h	/^    SearchParams(double v = 1, double c = 1, double r = 0) : var_decay(v), clause_decay(c), random_var_freq(r) { }$/;"	f	struct:SearchParams
 SearchParams	sat/Solver.h	/^struct SearchParams {$/;"	s
-ShallBeEliminatedList	cir/cirMgr.h	/^   set< unsigned > ShallBeEliminatedList;$/;"	m	class:CirMgr
+ShallBeEliminatedList	cir/cirMgr.h	/^    set< unsigned > ShallBeEliminatedList;$/;"	m	class:CirMgr
 Solver	sat/Solver.h	/^    Solver() : ok               (true)$/;"	f	class:Solver
 Solver	sat/Solver.h	/^class Solver {$/;"	c
 SolverStats	sat/Solver.h	/^    SolverStats() : starts(0), decisions(0), propagations(0), conflicts(0)$/;"	f	struct:SolverStats
@@ -149,7 +148,7 @@ TEMPLATE_FAIL	sat/Global.h	62;"	d
 TRA_INT	sat/Proof.h	/^    int             TRA_INT;$/;"	m	class:Proof
 TempFiles	sat/Proof.cpp	/^class TempFiles {$/;"	c	file:
 UTIL_H	util/util.h	9;"	d
-UnDefinedList	cir/cirMgr.h	/^   set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
+UnDefinedList	cir/cirMgr.h	/^    set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
 Var	sat/SolverTypes.h	/^typedef int Var;$/;"	t
 VarOrder	sat/VarOrder.h	/^    VarOrder(const vec<char>& ass, const vec<double>& act) :$/;"	f	class:VarOrder
 VarOrder	sat/VarOrder.h	/^class VarOrder {$/;"	c
@@ -178,7 +177,7 @@ _numBuckets	util/myHashSet.h	/^   size_t            _numBuckets;$/;"	m	class:Has
 _parent	cir/cirGate.h	/^    size_t            _parent[2];$/;"	m	class:CirGate
 _parent_BFS_mark	cir/cirGate.h	/^    unsigned          _parent_BFS_mark[2];$/;"	m	class:CirGate
 _periodUsedTime	util/myUsage.h	/^   double     _periodUsedTime;$/;"	m	class:MyUsage
-_simLog	cir/cirMgr.h	/^   ofstream           *_simLog;$/;"	m	class:CirMgr
+_simLog	cir/cirMgr.h	/^    ofstream           *_simLog;$/;"	m	class:CirMgr
 _size	util/myHashMap.h	/^   size_t         _size;$/;"	m	class:Cache
 _solver	sat/sat.h	/^      Solver           *_solver;    \/\/ Pointer to a Minisat solver$/;"	m	class:SatSolver
 _symbolMsg	cir/cirGate.h	/^    string           _symbolMsg;$/;"	m	class:CirGate
@@ -262,7 +261,7 @@ decisionLevel	sat/Solver.h	/^    int      decisionLevel() const { return trail_l
 decisions	sat/Solver.h	/^    int64   starts, decisions, propagations, conflicts;$/;"	m	struct:SolverStats
 decode64	sat/File.h	/^static inline int64  decode64(uint64 val)           { return ((val & 1) == 0) ? (int64)(val >> 1) : ~(int64)(val >> 1); }$/;"	f
 default_params	sat/Solver.h	/^    SearchParams    default_params;     \/\/ Restart frequency etc.$/;"	m	class:Solver
-definedList	cir/cirMgr.h	/^   set<unsigned>  definedList;$/;"	m	class:CirMgr
+definedList	cir/cirMgr.h	/^    set<unsigned>  definedList;$/;"	m	class:CirMgr
 deleted	sat/Proof.cpp	/^void Proof::deleted(ClauseId gone)$/;"	f	class:Proof
 deleted	sat/Proof.h	/^    virtual void deleted(ClauseId c){}$/;"	f	struct:ProofTraverser
 drand	sat/Global.h	/^static inline double drand(double& seed) {$/;"	f
@@ -310,7 +309,7 @@ getInvert	cir/cirGate.cpp	/^getInvert( const size_t& s) { $/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const void * const ptr ) {$/;"	f
 getLineNo	cir/cirGate.h	/^    unsigned        getLineNo() const { return _lineNo; }$/;"	f	class:CirGate
 getMode	sat/File.h	/^    FileMode getMode(void) {$/;"	f	class:File
-getNewGBFSRef	cir/cirMgr.cpp	/^CirMgr::getNewGBFSRef () {$/;"	f	class:CirMgr
+getNewGDFSOptRef	cir/cirMgr.cpp	/^CirMgr::getNewGDFSOptRef () {$/;"	f	class:CirMgr
 getNewGDFSRef	cir/cirMgr.cpp	/^CirMgr::getNewGDFSRef () {$/;"	f	class:CirMgr
 getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
@@ -329,8 +328,8 @@ getValue	sat/sat.h	/^      int getValue(Var v) const {$/;"	f	class:SatSolver
 getXorInv	cir/cirGate.cpp	/^getXorInv( const size_t& s ) {$/;"	f
 getXorInv	cir/cirGate.cpp	/^getXorInv( const void * const ptr ) {$/;"	f
 getmin	sat/Heap.h	/^    int  getmin() {$/;"	f	class:Heap
-globalBFSRef	cir/cirMgr.h	/^   unsigned  globalBFSRef;$/;"	m	class:CirMgr
-globalDFSRef	cir/cirMgr.h	/^   unsigned  globalDFSRef;$/;"	m	class:CirMgr
+globalDFSOptRef	cir/cirMgr.h	/^    unsigned  globalDFSOptRef;$/;"	m	class:CirMgr
+globalDFSRef	cir/cirMgr.h	/^    unsigned  globalDFSRef;$/;"	m	class:CirMgr
 grow	sat/Global.h	/^void vec<T>::grow(int min_cap) {$/;"	f	class:vec
 growTo	sat/Global.h	/^void vec<T>::growTo(int size) {$/;"	f	class:vec
 growTo	sat/Global.h	/^void vec<T>::growTo(int size, const T& pad) {$/;"	f	class:vec
@@ -406,7 +405,6 @@ lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
 maintainDefinedListAndUsedList	cir/cirMgr.cpp	/^CirMgr::maintainDefinedListAndUsedList( $/;"	f	class:CirMgr
 makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
-makeSkipMe	cir/cirGate.cpp	/^CirGate::makeSkipMe( size_t parent_with_inv_info){$/;"	f	class:CirGate
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
@@ -479,13 +477,13 @@ operator ~	sat/Global.h	/^    lbool operator ~  (void)               const { ret
 operator ~	sat/SolverTypes.h	/^inline Lit operator ~ (Lit p) { Lit q; q.x = p.x ^ 1; return q; }$/;"	f
 optimize	cir/cirOpt.cpp	/^CirMgr::optimize()$/;"	f	class:CirMgr
 order	sat/Solver.h	/^    VarOrder            order;            \/\/ Keeps track of the decision variable order.$/;"	m	class:Solver
-output_bak	cir/cirMgr.h	/^   vector< string>                    output_bak;$/;"	m	class:CirMgr
+output_bak	cir/cirMgr.h	/^    vector< string>                    output_bak;$/;"	m	class:CirMgr
 own_fd	sat/File.h	/^    bool        own_fd;     \/\/ Do we own the file descriptor? If so, will close file in destructor.$/;"	m	class:File
 parent	sat/Heap.h	/^static inline int parent(int i) { return i >> 1; }$/;"	f
 parseError	cir/cirMgr.cpp	/^parseError(CirParseError err)$/;"	f	file:
 percolateDown	sat/Heap.h	/^    inline void percolateDown(int i)$/;"	f	class:Heap
 percolateUp	sat/Heap.h	/^    inline void percolateUp(int i)$/;"	f	class:Heap
-permanent_line_count	cir/cirMgr.h	/^   unsigned  permanent_line_count;$/;"	m	class:CirMgr
+permanent_line_count	cir/cirMgr.h	/^    unsigned  permanent_line_count;$/;"	m	class:CirMgr
 pop	sat/Global.h	/^    void     pop    (void)             { sz--, data[sz].~T(); }$/;"	f	class:vec
 pos	sat/File.h	/^    int         pos;        \/\/ Current position in buffer$/;"	m	class:File
 printFECPairs	cir/cirMgr.cpp	/^CirMgr::printFECPairs() const$/;"	f	class:CirMgr
@@ -560,7 +558,7 @@ setGateRef	cir/cirGate.h	/^    void            setGateRef  ( unsigned s ) { _gat
 setLineCnt	cir/cirGate.cpp	/^CirGate::setLineCnt( unsigned u){$/;"	f	class:CirGate
 setMemUsage	util/myUsage.h	/^   void setMemUsage() { _currentMem = checkMem() - _initMem; }$/;"	f	class:MyUsage
 setMode	sat/File.h	/^    void setMode(FileMode m) {$/;"	f	class:File
-setSimLog	cir/cirMgr.h	/^   void setSimLog(ofstream *logFile) { _simLog = logFile; }$/;"	f	class:CirMgr
+setSimLog	cir/cirMgr.h	/^    void setSimLog(ofstream *logFile) { _simLog = logFile; }$/;"	f	class:CirMgr
 setSymbolMsg	cir/cirGate.h	/^    virtual  void   setSymbolMsg(const string& str) { _symbolMsg = str ; }$/;"	f	class:PIGate
 setSymbolMsg	cir/cirGate.h	/^    virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }$/;"	f	class:POGate
 setSymbolMsg	cir/cirGate.h	/^    virtual void   setSymbolMsg(const string& str) { }$/;"	f	class:AAGate
@@ -612,7 +610,6 @@ trail_pos	sat/Solver.cpp	/^    const vec<int>& trail_pos;$/;"	m	class:lastToFirs
 trail_pos	sat/Solver.h	/^    vec<int>            trail_pos;        \/\/ 'trail_pos[var]' is the variable's position in 'trail[]'. This supersedes 'level[]' in some sense, and 'level[]' will probably be removed in future releases.$/;"	m	class:Solver
 trav	sat/Proof.h	/^    ProofTraverser* trav;$/;"	m	class:Proof
 traverse	sat/Proof.cpp	/^void Proof::traverse(ProofTraverser& trav, ClauseId goal)$/;"	f	class:Proof
-trySimplify	cir/cirMgr.cpp	/^CirMgr::trySimplify( size_t working_gate, size_t child_gate,$/;"	f	class:CirMgr
 uchar	sat/Global.h	/^typedef unsigned char uchar;$/;"	t
 uint	sat/Global.h	/^typedef unsigned int uint;$/;"	t
 uint64	sat/Global.h	/^typedef UINT64             uint64;$/;"	t
@@ -636,7 +633,7 @@ usage	cir/cirCmd.cpp	/^CirStrashCmd::usage(ostream& os) const$/;"	f	class:CirStr
 usage	cir/cirCmd.cpp	/^CirSweepCmd::usage(ostream& os) const$/;"	f	class:CirSweepCmd
 usage	cir/cirCmd.cpp	/^CirWriteCmd::usage(ostream& os) const$/;"	f	class:CirWriteCmd
 usage	main/main.cpp	/^usage()$/;"	f	file:
-usedList	cir/cirMgr.h	/^   set<unsigned>  usedList;$/;"	m	class:CirMgr
+usedList	cir/cirMgr.h	/^    set<unsigned>  usedList;$/;"	m	class:CirMgr
 value	sat/Global.h	/^    int     value;$/;"	m	class:lbool
 value	sat/Solver.h	/^    lbool   value(Lit p) const { return sign(p) ? ~toLbool(assigns[var(p)]) : toLbool(assigns[var(p)]); }$/;"	f	class:Solver
 value	sat/Solver.h	/^    lbool   value(Var x) const { return toLbool(assigns[x]); }$/;"	f	class:Solver
@@ -665,7 +662,7 @@ xmalloc	sat/Global.h	/^template<class T> static inline T* xmalloc(size_t size) {
 xrealloc	sat/Global.h	/^template<class T> static inline T* xrealloc(T* ptr, size_t size) {$/;"	f
 ~Cache	util/myHashMap.h	/^   ~Cache() { reset(); }$/;"	f	class:Cache
 ~CirGate	cir/cirGate.h	/^    virtual ~CirGate() {}$/;"	f	class:CirGate
-~CirMgr	cir/cirMgr.h	/^   ~CirMgr() { clearGate();}$/;"	f	class:CirMgr
+~CirMgr	cir/cirMgr.h	/^    ~CirMgr() { clearGate();}$/;"	f	class:CirMgr
 ~File	sat/File.h	/^   ~File(void) {$/;"	f	class:File
 ~HashMap	util/myHashMap.h	/^   ~HashMap() { reset(); }$/;"	f	class:HashMap
 ~HashSet	util/myHashSet.h	/^   ~HashSet() { reset(); }$/;"	f	class:HashSet

@@ -661,105 +661,6 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 }
 
 void
-CirMgr::trySimplify( size_t working_gate, size_t child_gate,
-    queue<unsigned>& Q ) {
-  // mark child_gate and perform merging if necessary.
-
-  CirGate* c_g_ptr     = getPtr( child_gate );
-  CirGate* w_g_ptr     = getPtr( working_gate );
-  CirGate* CONST0_ptr  = GateList.find( 0 ) -> second;
-#ifdef DEBUG
-  if( ( (getPtr( c_g_ptr -> _parent[0] )) == 0 ) ||
-      ( (getPtr( c_g_ptr -> _parent[1] )) == 0 ) ){
-    if( c_g_ptr -> getTypeStr() != "PO" ){
-      string ret_str = "Weird _parent while optimizing ckt, ";
-      ret_str += to_string( c_g_ptr -> getGateID() );
-      ret_str += ' ';
-      ret_str += to_string(child_gate);
-      cerr << ret_str << endl;
-      assert(0);
-    }
-  }
-#endif // DEBUG
-
-  // if two parents could be merged --> try merge, DFS
-  // -- i.e. recursive call.
-  // if cannot be merged -> return;
-  auto tmp_gatelist_itor = GateList.find( c_g_ptr->getGateID() );
-
-#ifdef DEBUG
-  assert( tmp_gatelist_itor != GateList.end() &&
-      "WTF in BFS trySimplify..." );
-#endif // DEBUG
-
-  if( (c_g_ptr -> getTypeStr() == "PO" ) ){
-    c_g_ptr -> makeSkipMe( (c_g_ptr -> _parent[0] ) );
-  }else if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
-
-    for( auto tmp_further_child : c_g_ptr -> _child ){
-      trySimplify( child_gate, tmp_further_child, Q );
-    }
-    if(c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) )){
-      maintainDefinedListAndUsedList(
-          child_gate, c_g_ptr -> _parent[0] );
-      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-    }
-
-  }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
-
-    for( auto tmp_further_child : c_g_ptr -> _child ){
-      trySimplify( child_gate, tmp_further_child, Q );
-    }
-    if(c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ))){
-      maintainDefinedListAndUsedList(
-          child_gate, getPtrInSize_t( CONST0_ptr ) );
-      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-    }
-
-  }else if( 
-      (c_g_ptr -> _parent[0] == getPtrInSize_t( CONST0_ptr ) ) ||
-      (c_g_ptr -> _parent[1] == getPtrInSize_t( CONST0_ptr ) ) ){
-
-    for( auto tmp_further_child : c_g_ptr -> _child ){
-      trySimplify( child_gate, tmp_further_child, Q );
-    }
-    if(c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) )){
-      maintainDefinedListAndUsedList(
-          child_gate, getPtrInSize_t(CONST0_ptr) );
-      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-    }
-
-  }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
-
-    for( auto tmp_further_child : c_g_ptr -> _child ){
-      trySimplify( child_gate, tmp_further_child, Q );
-    }
-    if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] )){
-      maintainDefinedListAndUsedList(
-          child_gate, getNonInv( c_g_ptr -> _parent[1] ) );
-      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-    }
-
-  }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
-
-    for( auto tmp_further_child : c_g_ptr -> _child ){
-      trySimplify( child_gate, tmp_further_child, Q );
-    }
-    if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] )){
-      maintainDefinedListAndUsedList(
-          child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-      ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
-    }
-
-  }else if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
-    Q.push( c_g_ptr -> getGateID() );
-    c_g_ptr -> _parent_BFS_mark [0] = globalBFSRef;
-  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalBFSRef ){
-    c_g_ptr -> _parent_BFS_mark [1] = globalBFSRef;
-  }else {}
-}
-
-void
 CirMgr::maintainDefinedListAndUsedList( 
     size_t working_gate, size_t parent_with_inv_info ){
 
@@ -866,6 +767,6 @@ CirMgr::getNewGDFSRef () {
 }
 
 void
-CirMgr::getNewGBFSRef () {
-  ++globalBFSRef;
+CirMgr::getNewGDFSOptRef () {
+  ++globalDFSOptRef;
 }

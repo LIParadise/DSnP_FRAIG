@@ -88,12 +88,8 @@ void
 CirMgr::optimize()
 {
   sweep();
-  ShallBeEliminatedList.clear();
-  queue<unsigned> BFS_Q;
-  for( auto it : PIIDList )
-    BFS_Q.push( it );
-  getNewGBFSRef();
-  BFS_4_optimize( BFS_Q );
+  // FIXME
+  // usedList and definedList shall be modified...
 
   DefButNUsedList.clear();
   UnDefinedList  .clear();
@@ -106,39 +102,6 @@ CirMgr::optimize()
   set_difference( usedList.begin(), usedList.end(),
                  definedList.begin(), definedList.end(),
                  inserter(UnDefinedList, UnDefinedList.end()) );
-  // FIXME
-  // usedList and definedList shall be modified...
-}
-
-void
-CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
-
-  while( !Q.empty() ){
-    
-    auto it = Q.front();
-    Q.pop();
-    auto tmp_gatelist_itor = GateList.find( it );
-
-    if( tmp_gatelist_itor != GateList.end() ){
-
-      auto tmp_cirgate_ptr = tmp_gatelist_itor -> second;
-
-      for( auto tmp_child_ptr_sizet : tmp_cirgate_ptr -> _child ){
-        trySimplify( 
-            getPtrInSize_t( tmp_cirgate_ptr ), tmp_child_ptr_sizet, Q 
-            );
-      }
-    }
-  }
-
-  for( auto to_B_deleted_GID : ShallBeEliminatedList ){
-    auto tmp_gatelist_itor = GateList.find( to_B_deleted_GID );
-    if( tmp_gatelist_itor != GateList.end() ){
-      delete ( tmp_gatelist_itor -> second );
-      tmp_gatelist_itor -> second = nullptr ;
-      GateList.erase( tmp_gatelist_itor );
-    }
-  }
 }
 
 /***************************************************/
