@@ -662,12 +662,18 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 void
 CirMgr::trySimplify( size_t working_gate, size_t child_gate,
     queue<unsigned>& Q ) {
+  // mark child_gate and perform merging if necessary.
 
-  CirGate* c_g_ptr = getPtr( child_gate );
-  CirGate* w_g_ptr = getPtr( working_gate );
-  if( ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "UNDEF" ) ||
-      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "UNDEF" ) ){
+  CirGate* c_g_ptr    = getPtr( child_gate );
+  CirGate* w_g_ptr    = getPtr( working_gate );
+  CirGate* CONST0_ptr = GateList.find( 0 ) -> second;
+  if( ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "PO" ) ||
+      ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "PI" ) ||
+      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "PO" ) ||
+      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "PI" ) ){
     // could not be simplificated.
+    c_g_ptr -> _parent_BFS_mark[0] = globalBFSRef;
+    c_g_ptr -> _parent_BFS_mark[1] = globalBFSRef;
     return;
   }
 #ifdef DEBUG
@@ -680,17 +686,17 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
     assert( 0 && ret_str.c_str() );
   }
 #endif // DEBUG
-  CirGate* CONST0_ptr = GateList.find( 0 ) -> second;
 
   if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
     c_g_ptr -> _parent_BFS_mark[0] = globalBFSRef;
     Q.push( child_gate );
     return;
-  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalDFSRef ){
+  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalBFSRef ){
     // if two parents could be merged --> try merge, DFS
     // -- i.e. recursive call.
     // if cannot be merged -> return;
     c_g_ptr -> _parent_BFS_mark[1] = globalBFSRef;
+
     auto tmp_gatelist_itor = GateList.find( c_g_ptr->getGateID() );
 #ifdef DEBUG
     assert( tmp_gatelist_itor != GateList.end() &&
@@ -705,8 +711,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        ShallBeEliminatedList.insert(
-            tmp_gatelist_itor -> second -> getGateID() );
+        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
       }
 
     }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
@@ -717,8 +722,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ))){
         maintainDefinedListAndUsedList(
             child_gate, getPtrInSize_t( CONST0_ptr ) );
-        ShallBeEliminatedList.insert(
-            tmp_gatelist_itor -> second -> getGateID() );
+        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
       }
 
     }else if( 
@@ -731,8 +735,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) )){
         maintainDefinedListAndUsedList(
             child_gate, getPtrInSize_t(CONST0_ptr) );
-        ShallBeEliminatedList.insert(
-            tmp_gatelist_itor -> second -> getGateID() );
+        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
       }
 
     }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
@@ -743,8 +746,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[1] ) );
-        ShallBeEliminatedList.insert(
-            tmp_gatelist_itor -> second -> getGateID() );
+        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
       }
 
     }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
@@ -755,8 +757,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        ShallBeEliminatedList.insert(
-            tmp_gatelist_itor -> second -> getGateID() );
+        ShallBeEliminatedList.insert( c_g_ptr -> getGateID() );
       }
 
     }else{ return ; }

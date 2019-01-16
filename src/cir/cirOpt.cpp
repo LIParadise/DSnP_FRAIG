@@ -129,6 +129,7 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
     }
     Q.pop();
   }
+
   for( auto to_B_deleted_GID : ShallBeEliminatedList ){
     auto tmp_gatelist_itor = GateList.find( to_B_deleted_GID );
     if( tmp_gatelist_itor != GateList.end() ){
