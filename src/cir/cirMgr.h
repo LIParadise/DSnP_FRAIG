@@ -33,7 +33,7 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
   public:
-    CirMgr():globalDFSRef(0),globalDFSOptRef(0){mysrand_sse(time(NULL));}
+    CirMgr():globalDFSRef(0){mysrand_sse(time(NULL));}
     ~CirMgr() { clearGate();}
 
     // Access functions
@@ -76,11 +76,9 @@ class CirMgr
     bool   DFS               (CirGate*, unsigned = 0);
     void   clearGate         () ;
     void   getNewGDFSRef     () ;
-    void   getNewGDFSOptRef  () ;
-    void   maintainDefinedListAndUsedList
-      (size_t,size_t);
-    // the_gate_we're_working, the_parent_we_want_check
-    void   tryEliminateMeWith
+    void   merge             
+      (size_t, size_t);
+    void   mergePO
       (size_t, size_t);
     void   rebuildOutputBak  () ;
 
@@ -91,8 +89,6 @@ class CirMgr
     // PO, fanin of AAG.
 
     unsigned  globalDFSRef;
-    unsigned  globalDFSOptRef;
-    // one for building DFS list, one for trivial-gate-optimizing.
     size_t    const0PtrInSizet;
 
     set< unsigned > DefButNUsedList;

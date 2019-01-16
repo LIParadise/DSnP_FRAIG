@@ -32,7 +32,7 @@ CirGate	cir/cirGate.h	/^    CirGate(): $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^    CirGate(int i) : $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^class CirGate$/;"	c
 CirGateCmd	cir/cirCmd.h	/^CmdClass(CirGateCmd);$/;"	v
-CirMgr	cir/cirMgr.h	/^    CirMgr():globalDFSRef(0),globalDFSOptRef(0){mysrand_sse(time(NULL));}$/;"	f	class:CirMgr
+CirMgr	cir/cirMgr.h	/^    CirMgr():globalDFSRef(0){mysrand_sse(time(NULL));}$/;"	f	class:CirMgr
 CirMgr	cir/cirMgr.h	/^class CirMgr$/;"	c
 CirOptCmd	cir/cirCmd.h	/^CmdClass(CirOptCmd);$/;"	v
 CirParseError	cir/cirMgr.cpp	/^enum CirParseError {$/;"	g	file:
@@ -310,7 +310,6 @@ getInvert	cir/cirGate.cpp	/^getInvert( const size_t& s) { $/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const void * const ptr ) {$/;"	f
 getLineNo	cir/cirGate.h	/^    unsigned        getLineNo() const { return _lineNo; }$/;"	f	class:CirGate
 getMode	sat/File.h	/^    FileMode getMode(void) {$/;"	f	class:File
-getNewGDFSOptRef	cir/cirMgr.cpp	/^CirMgr::getNewGDFSOptRef () {$/;"	f	class:CirMgr
 getNewGDFSRef	cir/cirMgr.cpp	/^CirMgr::getNewGDFSRef () {$/;"	f	class:CirMgr
 getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
@@ -329,7 +328,6 @@ getValue	sat/sat.h	/^      int getValue(Var v) const {$/;"	f	class:SatSolver
 getXorInv	cir/cirGate.cpp	/^getXorInv( const size_t& s ) {$/;"	f
 getXorInv	cir/cirGate.cpp	/^getXorInv( const void * const ptr ) {$/;"	f
 getmin	sat/Heap.h	/^    int  getmin() {$/;"	f	class:Heap
-globalDFSOptRef	cir/cirMgr.h	/^    unsigned  globalDFSOptRef;$/;"	m	class:CirMgr
 globalDFSRef	cir/cirMgr.h	/^    unsigned  globalDFSRef;$/;"	m	class:CirMgr
 grow	sat/Global.h	/^void vec<T>::grow(int min_cap) {$/;"	f	class:vec
 growTo	sat/Global.h	/^void vec<T>::growTo(int size) {$/;"	f	class:vec
@@ -404,13 +402,14 @@ lit	sat/SolverTypes.h	/^    Lit         lit      () const { return toLit(((intp)
 locked	sat/Solver.h	/^    bool     locked          (const Clause* c) const { return reason[var((*c)[0])] == c; }$/;"	f	class:Solver
 lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
-maintainDefinedListAndUsedList	cir/cirMgr.cpp	/^CirMgr::maintainDefinedListAndUsedList( $/;"	f	class:CirMgr
 makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
 memUsed	sat/Global.h	/^static inline int64 memUsed() { return (int64)memReadStat(0) * (int64)getpagesize(); }$/;"	f
 memUsed	sat/Global.h	/^static inline int64 memUsed() {$/;"	f
+merge	cir/cirOpt.cpp	/^CirMgr::merge( size_t current_gate_NO_inv_info,$/;"	f	class:CirMgr
+mergePO	cir/cirOpt.cpp	/^CirMgr::mergePO( size_t current_gate_NO_inv_info,$/;"	f	class:CirMgr
 min	sat/Global.h	/^template<class T> static inline T min(T x, T y) { return (x < y) ? x : y; }$/;"	f
 mode	sat/File.h	/^    FileMode    mode;       \/\/ Reading or writing.$/;"	m	class:File
 model	sat/Solver.h	/^    vec<lbool>  model;              \/\/ If problem is satisfiable, this vector contains the model (if any).$/;"	m	class:Solver
@@ -610,7 +609,6 @@ trail_pos	sat/Solver.cpp	/^    const vec<int>& trail_pos;$/;"	m	class:lastToFirs
 trail_pos	sat/Solver.h	/^    vec<int>            trail_pos;        \/\/ 'trail_pos[var]' is the variable's position in 'trail[]'. This supersedes 'level[]' in some sense, and 'level[]' will probably be removed in future releases.$/;"	m	class:Solver
 trav	sat/Proof.h	/^    ProofTraverser* trav;$/;"	m	class:Proof
 traverse	sat/Proof.cpp	/^void Proof::traverse(ProofTraverser& trav, ClauseId goal)$/;"	f	class:Proof
-tryEliminateMeWith	cir/cirMgr.cpp	/^CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,$/;"	f	class:CirMgr
 uchar	sat/Global.h	/^typedef unsigned char uchar;$/;"	t
 uint	sat/Global.h	/^typedef unsigned int uint;$/;"	t
 uint64	sat/Global.h	/^typedef UINT64             uint64;$/;"	t

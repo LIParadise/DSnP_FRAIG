@@ -656,33 +656,6 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 }
 
 void
-CirMgr::maintainDefinedListAndUsedList( 
-    size_t working_gate, size_t parent_with_inv_info ){
-
-  CirGate* parent_ptr ;
-  auto     working_ptr           = getPtr( working_gate );
-  decltype( usedList.find( 0 ) )   tmp_itor;
-
-  // handle parent.
-  for( size_t i = 0; i < 2; ++i ){
-    parent_ptr = getPtr( working_ptr -> _parent[i] );
-    if( parent_ptr != nullptr )
-      if( parent_ptr -> _child.empty() ){
-        tmp_itor = usedList.find( parent_ptr -> getGateID() );
-        if( tmp_itor != usedList.end() )
-          usedList.erase( tmp_itor );
-      }
-  }
-
-  tmp_itor = definedList.find( working_ptr -> getGateID() );
-  if( tmp_itor != definedList.end() )
-    definedList.erase( tmp_itor );
-  tmp_itor = usedList.find( working_ptr -> getGateID() );
-  if( tmp_itor != usedList.end() )
-    usedList.erase( tmp_itor );
-}
-
-void
 CirMgr::rebuildOutputBak() {
 
   output_bak.resize( 1 + PIIDList.size() + POIDList.size());
@@ -704,7 +677,8 @@ CirMgr::rebuildOutputBak() {
   tmp_str = "";
 
   for( auto it : DFSList ) {  // A
-    if( it.first -> getTypeStr() == "AIG" ) {
+    if( it.first -> getTypeStr() == "AIG"
+        && it.first -> getGateID() != 0 ) {
       tmp_str =  "";
       tmp_str += to_string (it.first -> getGateID() * 2 );
       tmp_str += ' ';
@@ -755,83 +729,7 @@ CirMgr::rebuildOutputBak() {
   }
 }
 
-void 
-CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,
-    size_t parent_with_inv_info ){
-
-  auto workingGatePtr = getPtr( current_gate_NO_inv_info );
-  auto parentGatePtr  = getPtr( parent_with_inv_info     );
-
-  if( workingGatePtr -> getGateID() == 0 ||
-      workingGatePtr -> getTypeStr() == "PI" ||
-      workingGatePtr -> getTypeStr() == "UNDEF" ){
-    return ;
-  }
-
-#ifdef DEBUG
-  cerr << "tryEliminateMeWith " << workingGatePtr -> getGateID()
-    << endl;
-  if( getNonInv( workingGatePtr -> _parent[0] ) != 0 ){
-    cerr << ((isInverted( workingGatePtr -> _parent[0] ) )?
-        '!' : ' ' ) << '0'
-      << getPtr(workingGatePtr -> _parent[0]) -> getGateID()<<endl;
-  }
-  if( getNonInv( workingGatePtr -> _parent[1] ) != 0 ){
-    cerr << ((isInverted( workingGatePtr -> _parent[1] ) )?
-        '!' : ' ' ) << '1'
-      << getPtr(workingGatePtr->_parent[1] ) -> getGateID()<<endl;
-  }
-#endif // DEBUG
-
-  for( size_t i = 0; i < 2; ++i ){
-    if( getPtr( workingGatePtr -> _parent[i]) != nullptr ){
-
-      auto tmp_itor = getPtr(workingGatePtr->_parent[i]) -> _child.
-        find( current_gate_NO_inv_info );
-
-      while( tmp_itor != 
-          getPtr(workingGatePtr->_parent[i]) -> _child.end() ){
-
-        getPtr(workingGatePtr->_parent[i])->_child.erase(tmp_itor);
-        tmp_itor = getPtr(workingGatePtr->_parent[i])->_child.
-          find( current_gate_NO_inv_info );
-
-      }
-    }
-  }
-  getPtr(parent_with_inv_info)
-    ->insertChild( current_gate_NO_inv_info );
-
-  for( auto it : workingGatePtr -> _child ){
-    auto tmp_child_ptr = getPtr( it );
-    if( tmp_child_ptr != nullptr ){
-      for( size_t i = 0; i < 2; ++i ){
-        if( tmp_child_ptr->_parent[i] == current_gate_NO_inv_info ){
-          tmp_child_ptr -> _parent[i] = parent_with_inv_info;
-        }else if( getXorInv(tmp_child_ptr -> _parent[i] ) ==
-            current_gate_NO_inv_info ) {
-          tmp_child_ptr -> _parent[i] =
-            getXorInv( parent_with_inv_info );
-        }
-      }
-    }
-  }
-
-  if( workingGatePtr -> getTypeStr() != "PO" && 
-      workingGatePtr -> getGateID()  != 0 ){
-    ShallBeEliminatedList.insert( workingGatePtr -> getGateID() );
-  }
-  maintainDefinedListAndUsedList( 
-      current_gate_NO_inv_info,
-      parent_with_inv_info );
-}
-
 void
 CirMgr::getNewGDFSRef () {
   ++globalDFSRef;
-}
-
-void
-CirMgr::getNewGDFSOptRef () {
-  ++globalDFSOptRef;
 }
