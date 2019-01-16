@@ -100,7 +100,7 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
 
   while( !Q.empty() ){
     
-    auto it = Q.front;
+    auto it = Q.front();
     auto tmp_gatelist_itor = GateList.find( it );
 
     if( tmp_gatelist_itor != GateList.end() ){

@@ -696,7 +696,7 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       for( auto tmp_further_child : c_g_ptr -> _child ){
         trySimplify( child_gate, tmp_further_child, Q );
       }
-      c_g_ptr -> makeSkipMe( getPtrInSize_t(c_g_ptr-> _parent[0]) );
+      c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) );
 
     }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
 
@@ -706,8 +706,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ));
 
     }else if( 
-        (c_g_ptr -> _parent[0] == getPtr( CONST0_ptr ) ) ||
-        (c_g_ptr -> _parent[1] == getPtr( CONST0_ptr ) ) ){
+        (c_g_ptr -> _parent[0] == getPtrInSize_t( CONST0_ptr ) ) ||
+        (c_g_ptr -> _parent[1] == getPtrInSize_t( CONST0_ptr ) ) ){
 
       for( auto tmp_further_child : c_g_ptr -> _child ){
         trySimplify( child_gate, tmp_further_child, Q );
@@ -719,14 +719,14 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       for( auto tmp_further_child : c_g_ptr -> _child ){
         trySimplify( child_gate, tmp_further_child, Q );
       }
-      c_g_ptr -> makeSkipMe( _parent[1] );
+      c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] );
 
     }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
 
       for( auto tmp_further_child : c_g_ptr -> _child ){
         trySimplify( child_gate, tmp_further_child, Q );
       }
-      c_g_ptr -> makeSkipMe( _parent[0] );
+      c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] );
 
     }else{ return ; }
   }

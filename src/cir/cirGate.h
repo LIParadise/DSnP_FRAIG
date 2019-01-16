@@ -62,7 +62,8 @@ class CirGate
     void            unsetActive ( )          { _active = false; }
     bool            isActive    ()           { return _active; }
     bool            isDefined   () const     { return _IsDefined; }
-    void            makeForgetMe   () ;
+    void            makeForgetMe() ;
+    void            makeSkipMe  ( size_t );
     pair< set<size_t>::iterator, bool> insertChild ( size_t );
     set<size_t>::iterator findChild                ( size_t ) const;
     size_t                findParent               ( size_t ) const;

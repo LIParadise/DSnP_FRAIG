@@ -607,6 +607,7 @@ trail_pos	sat/Solver.cpp	/^    const vec<int>& trail_pos;$/;"	m	class:lastToFirs
 trail_pos	sat/Solver.h	/^    vec<int>            trail_pos;        \/\/ 'trail_pos[var]' is the variable's position in 'trail[]'. This supersedes 'level[]' in some sense, and 'level[]' will probably be removed in future releases.$/;"	m	class:Solver
 trav	sat/Proof.h	/^    ProofTraverser* trav;$/;"	m	class:Proof
 traverse	sat/Proof.cpp	/^void Proof::traverse(ProofTraverser& trav, ClauseId goal)$/;"	f	class:Proof
+trySimplify	cir/cirMgr.cpp	/^CirMgr::trySimplify( size_t working_gate, size_t child_gate,$/;"	f	class:CirMgr
 uchar	sat/Global.h	/^typedef unsigned char uchar;$/;"	t
 uint	sat/Global.h	/^typedef unsigned int uint;$/;"	t
 uint64	sat/Global.h	/^typedef UINT64             uint64;$/;"	t
