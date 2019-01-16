@@ -101,6 +101,9 @@ private:
 
    set< unsigned > DefButNUsedList;
    set< unsigned > UnDefinedList;
+   set< unsigned > ShallBeEliminatedList;
+   // stores gate id that have been merged but have not been deleted.
+   // i.e. not returned back to system.
 
    map< unsigned, CirGate* > GateList;
 

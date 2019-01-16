@@ -662,6 +662,7 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 void
 CirMgr::trySimplify( size_t working_gate, size_t child_gate,
     queue<unsigned>& Q ) {
+
   CirGate* c_g_ptr = getPtr( child_gate );
   CirGate* w_g_ptr = getPtr( working_gate );
   if( ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "UNDEF" ) ||
@@ -704,9 +705,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( (c_g_ptr-> _parent[0]) )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        delete tmp_gatelist_itor -> second;
-        tmp_gatelist_itor -> second = nullptr;
-        GateList.erase( tmp_gatelist_itor );
+        ShallBeEliminatedList.insert(
+            tmp_gatelist_itor -> second -> getGateID() );
       }
 
     }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
@@ -717,9 +717,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ))){
         maintainDefinedListAndUsedList(
             child_gate, getPtrInSize_t( CONST0_ptr ) );
-        delete tmp_gatelist_itor -> second;
-        tmp_gatelist_itor -> second = nullptr;
-        GateList.erase( tmp_gatelist_itor );
+        ShallBeEliminatedList.insert(
+            tmp_gatelist_itor -> second -> getGateID() );
       }
 
     }else if( 
@@ -732,9 +731,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) )){
         maintainDefinedListAndUsedList(
             child_gate, getPtrInSize_t(CONST0_ptr) );
-        delete tmp_gatelist_itor -> second;
-        tmp_gatelist_itor -> second = nullptr;
-        GateList.erase( tmp_gatelist_itor );
+        ShallBeEliminatedList.insert(
+            tmp_gatelist_itor -> second -> getGateID() );
       }
 
     }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
@@ -745,9 +743,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[1] )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[1] ) );
-        delete tmp_gatelist_itor -> second;
-        tmp_gatelist_itor -> second = nullptr;
-        GateList.erase( tmp_gatelist_itor );
+        ShallBeEliminatedList.insert(
+            tmp_gatelist_itor -> second -> getGateID() );
       }
 
     }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
@@ -758,9 +755,8 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       if(c_g_ptr -> makeSkipMe( c_g_ptr -> _parent[0] )){
         maintainDefinedListAndUsedList(
             child_gate, getNonInv( c_g_ptr -> _parent[0] ) );
-        delete tmp_gatelist_itor -> second;
-        tmp_gatelist_itor -> second = nullptr;
-        GateList.erase( tmp_gatelist_itor );
+        ShallBeEliminatedList.insert(
+            tmp_gatelist_itor -> second -> getGateID() );
       }
 
     }else{ return ; }
@@ -771,16 +767,42 @@ void
 CirMgr::maintainDefinedListAndUsedList( 
     size_t working_gate, size_t parent_with_inv_info ){
 
-  auto parent_ptr = getPtr( parent_with_inv_info );
-  decltype( usedList.find( 0 ) ) tmp_itor;
+  auto parent_ptr                = getPtr( parent_with_inv_info );
+  auto working_ptr               = getPtr( working_gate );
+  decltype( usedList.find( 0 ) )   tmp_itor;
+
+  // handle parent.
+  for( auto tmp_child_ptr_sizet : working_ptr -> _child ){
+    parent_ptr -> insertChild( tmp_child_ptr_sizet );
+  }
   if( parent_ptr -> _child.empty() ){
+    // this shall be useless, though...
+    // FIXME
     tmp_itor = usedList.find( parent_ptr -> getGateID() );
     if( tmp_itor != usedList.end() )
       usedList.erase( tmp_itor );
   }
-  tmp_itor = definedList.find( getPtr(working_gate) -> getGateID() );
+
+  // handle child.
+  for( auto tmp_child_ptr_sizet : working_ptr -> _child ){
+    auto tmp_child_ptr = getPtr( tmp_child_ptr_sizet );
+    for( size_t i = 0 ; i < 2; ++i ){
+      if( tmp_child_ptr -> _parent[i] == working_gate &&
+          isInverted( tmp_child_ptr -> _parent[i] ) ){
+        tmp_child_ptr -> _parent[i] = getXorInv( parent_with_inv_info );
+      }else if( tmp_child_ptr -> _parent[i] == working_gate &&
+          !(isInverted( tmp_child_ptr -> _parent[i] ) ) ) {
+        tmp_child_ptr -> _parent[i] = ( parent_with_inv_info );
+      }
+    }
+  }
+
+  tmp_itor = definedList.find( working_ptr -> getGateID() );
   if( tmp_itor != definedList.end() )
     definedList.erase( tmp_itor );
+  tmp_itor = usedList.find( working_ptr -> getGateID() );
+  if( tmp_itor != usedList.end() )
+    usedList.erase( tmp_itor );
 }
 
 void

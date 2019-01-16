@@ -88,6 +88,7 @@ void
 CirMgr::optimize()
 {
   sweep();
+  ShallBeEliminatedList.clear();
   queue<unsigned> BFS_Q;
   for( auto it : PIIDList )
     BFS_Q.push( it );
@@ -96,6 +97,14 @@ CirMgr::optimize()
 
   DefButNUsedList.clear();
   UnDefinedList  .clear();
+  buildDFSList();
+  set_difference( definedList.begin(), definedList.end(),
+                 usedList.begin(), usedList.end(),
+                 inserter(DefButNUsedList, DefButNUsedList.end()));
+
+  set_difference( usedList.begin(), usedList.end(),
+                 definedList.begin(), definedList.end(),
+                 inserter(UnDefinedList, UnDefinedList.end()) );
   // FIXME
   // usedList and definedList shall be modified...
 }
@@ -113,9 +122,19 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
       auto tmp_cirgate_ptr = tmp_gatelist_itor -> second;
 
       for( auto tmp_child_ptr_sizet : tmp_cirgate_ptr -> _child ){
-        trySimplify( getPtrInSize_t( tmp_cirgate_ptr ), tmp_child_ptr_sizet, Q );
-        Q.pop();
+        trySimplify( 
+            getPtrInSize_t( tmp_cirgate_ptr ), tmp_child_ptr_sizet, Q 
+            );
       }
+    }
+    Q.pop();
+  }
+  for( auto to_B_deleted_GID : ShallBeEliminatedList ){
+    auto tmp_gatelist_itor = GateList.find( to_B_deleted_GID );
+    if( tmp_gatelist_itor != GateList.end() ){
+      delete ( tmp_gatelist_itor -> second );
+      tmp_gatelist_itor -> second = nullptr ;
+      GateList.erase( tmp_gatelist_itor );
     }
   }
 }

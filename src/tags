@@ -137,6 +137,7 @@ SatSolver	sat/sat.h	/^      SatSolver():_solver(0) { }$/;"	f	class:SatSolver
 SatSolver	sat/sat.h	/^class SatSolver$/;"	c
 SearchParams	sat/Solver.h	/^    SearchParams(double v = 1, double c = 1, double r = 0) : var_decay(v), clause_decay(c), random_var_freq(r) { }$/;"	f	struct:SearchParams
 SearchParams	sat/Solver.h	/^struct SearchParams {$/;"	s
+ShallBeEliminatedList	cir/cirMgr.h	/^   set< unsigned > ShallBeEliminatedList;$/;"	m	class:CirMgr
 Solver	sat/Solver.h	/^    Solver() : ok               (true)$/;"	f	class:Solver
 Solver	sat/Solver.h	/^class Solver {$/;"	c
 SolverStats	sat/Solver.h	/^    SolverStats() : starts(0), decisions(0), propagations(0), conflicts(0)$/;"	f	struct:SolverStats
