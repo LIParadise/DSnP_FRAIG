@@ -605,6 +605,7 @@ bool
 CirMgr::DFS( CirGate* ptr , unsigned depth ){
   CirGate* tmp  = nullptr;
   bool     flag = true;
+  ptr           = getPtr( getNonInv( ptr ) );
   for( size_t i = 0; i < 2; ++i ){
     auto it = getNonInv(ptr -> _parent[i]);
     if( it ){
@@ -662,29 +663,10 @@ CirMgr::maintainDefinedListAndUsedList(
   decltype( usedList.find( 0 ) )   tmp_itor;
 
   // handle parent.
-  for( auto tmp_child_ptr_sizet : working_ptr -> _child ){
-    parent_ptr -> insertChild( tmp_child_ptr_sizet );
-  }
   if( parent_ptr -> _child.empty() ){
-    // this shall be useless, though...
-    // FIXME
     tmp_itor = usedList.find( parent_ptr -> getGateID() );
     if( tmp_itor != usedList.end() )
       usedList.erase( tmp_itor );
-  }
-
-  // handle child.
-  for( auto tmp_child_ptr_sizet : working_ptr -> _child ){
-    auto tmp_child_ptr = getPtr( tmp_child_ptr_sizet );
-    for( size_t i = 0 ; i < 2; ++i ){
-      if( tmp_child_ptr -> _parent[i] == working_gate &&
-          isInverted( tmp_child_ptr -> _parent[i] ) ){
-        tmp_child_ptr -> _parent[i] = getXorInv( parent_with_inv_info );
-      }else if( tmp_child_ptr -> _parent[i] == working_gate &&
-          !(isInverted( tmp_child_ptr -> _parent[i] ) ) ) {
-        tmp_child_ptr -> _parent[i] = ( parent_with_inv_info );
-      }
-    }
   }
 
   tmp_itor = definedList.find( working_ptr -> getGateID() );
@@ -771,12 +753,15 @@ CirMgr::rebuildOutputBak() {
 void 
 CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,
     size_t parent_with_inv_info ){
+
   auto workingGatePtr = getPtr( current_gate_NO_inv_info );
   auto parentGatePtr  = getPtr( parent_with_inv_info       );
 
-  if( workingGatePtr -> getTypeStr() != "AIG" ){
-    // cannot be eliminated.
-    return;
+  if( (workingGatePtr -> getTypeStr()) != "PO" ){
+    if( (workingGatePtr -> getTypeStr() != "AIG")  ){
+      // cannot be eliminated.
+      return;
+    }
   }
 
   for( size_t i = 0; i < 2; ++i ){
@@ -801,18 +786,21 @@ CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,
     auto tmp_child_ptr = getPtr( it );
     if( tmp_child_ptr != nullptr ){
       for( size_t i = 0; i < 2; ++i ){
-        if( tmp_child_ptr -> _parent[i] == current_gate_NO_inv_info ){
+        if( tmp_child_ptr->_parent[i] == current_gate_NO_inv_info ){
           tmp_child_ptr -> _parent[i] = parent_with_inv_info;
-        }else if( getNonInv(tmp_child_ptr -> _parent[i] ) ==
+        }else if( getXorInv(tmp_child_ptr -> _parent[i] ) ==
             current_gate_NO_inv_info ) {
           tmp_child_ptr -> _parent[i] =
-            getInvert( parent_with_inv_info );
+            getXorInv( parent_with_inv_info );
         }
       }
     }
   }
 
-  ShallBeEliminatedList.insert( workingGatePtr -> getGateID() );
+  if( workingGatePtr -> getTypeStr() != "PO" && 
+      workingGatePtr -> getGateID()  != 0 ){
+    ShallBeEliminatedList.insert( workingGatePtr -> getGateID() );
+  }
   maintainDefinedListAndUsedList( 
       getPtrInSize_t(workingGatePtr),
       parent_with_inv_info );
