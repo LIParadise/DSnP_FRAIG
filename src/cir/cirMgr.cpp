@@ -660,6 +660,79 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 }
 
 void
+CirMgr::trySimplify( size_t working_gate, size_t child_gate,
+    queue<unsigned>& Q ) {
+  CirGate* c_g_ptr = getPtr( child_gate );
+  CirGate* w_g_ptr = getPtr( working_gate );
+  if( ( (getPtr( c_g_ptr -> _parent[0] ) -> getTypeStr() ) == "UNDEF" ) ||
+      ( (getPtr( c_g_ptr -> _parent[1] ) -> getTypeStr() ) == "UNDEF" ) ){
+    // could not be simplificated.
+    return;
+  }
+#ifdef DEBUG
+  if( ( (getPtr( c_g_ptr -> _parent[0] )) == 0 ) ||
+      ( (getPtr( c_g_ptr -> _parent[1] )) == 0 ) ){
+    string ret_str = "Weird _parent while optimizing ckt, ";
+    ret_str += to_string(getPtr( c_g_ptr -> getGateID() ));
+    ret_str += ' ';
+    ret_str += to_string(child_gate);
+    assert( 0 && ret_str.c_str() );
+  }
+#endif // DEBUG
+  CirGate* CONST0_ptr = GateList.find( 0 ) -> second;
+
+  if( c_g_ptr -> _parent_BFS_mark[0] != globalBFSRef ){
+    c_g_ptr -> _parent_BFS_mark[0] = globalBFSRef;
+    Q.push( child_gate );
+    return;
+  }else if( c_g_ptr -> _parent_BFS_mark[1] != globalDFSRef ){
+    // if two parents could be merged --> try merge, DFS
+    // -- i.e. recursive call.
+    // if cannot be merged -> return;
+    c_g_ptr -> _parent_BFS_mark[1] = globalBFSRef;
+
+    if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
+
+      for( auto tmp_further_child : c_g_ptr -> _child ){
+        trySimplify( child_gate, tmp_further_child, Q );
+      }
+      c_g_ptr -> makeSkipMe( getPtrInSize_t(c_g_ptr-> _parent[0]) );
+
+    }else if( c_g_ptr->_parent[0] == getXorInv( c_g_ptr->_parent[1] )) {
+
+      for( auto tmp_further_child : c_g_ptr -> _child ){
+        trySimplify( child_gate, tmp_further_child, Q );
+      }
+      c_g_ptr -> makeSkipMe( getInvert( CONST0_ptr ));
+
+    }else if( 
+        (c_g_ptr -> _parent[0] == getPtr( CONST0_ptr ) ) ||
+        (c_g_ptr -> _parent[1] == getPtr( CONST0_ptr ) ) ){
+
+      for( auto tmp_further_child : c_g_ptr -> _child ){
+        trySimplify( child_gate, tmp_further_child, Q );
+      }
+      c_g_ptr -> makeSkipMe( getPtrInSize_t( CONST0_ptr ) );
+
+    }else if( c_g_ptr -> _parent[0] == getInvert( CONST0_ptr ) ){
+
+      for( auto tmp_further_child : c_g_ptr -> _child ){
+        trySimplify( child_gate, tmp_further_child, Q );
+      }
+      c_g_ptr -> makeSkipMe( _parent[1] );
+
+    }else if( c_g_ptr -> _parent[1] == getInvert( CONST0_ptr ) ){
+
+      for( auto tmp_further_child : c_g_ptr -> _child ){
+        trySimplify( child_gate, tmp_further_child, Q );
+      }
+      c_g_ptr -> makeSkipMe( _parent[0] );
+
+    }else{ return ; }
+  }
+}
+
+void
 CirMgr::getNewGDFSRef () {
   ++globalDFSRef;
 }

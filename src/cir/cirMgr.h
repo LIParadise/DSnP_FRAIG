@@ -77,7 +77,14 @@ private:
    void clearGate         () ;
    void getNewGDFSRef     () ;
    void getNewGBFSRef     () ;
-   bool couldBeSimplified (size_t,queue<unsigned>&);
+   void trySimplify
+     (size_t,size_t,queue<unsigned>&);
+   // the_gate_we're_working, the_child_we're_checking,
+   // the_queue;
+   // 
+   // "trySimplify" does the following:
+   // 1. updates Q if necessary.
+   // 2. mark (getPtr(tmp_child_ptr_sizet)) if necessary.
 
    // helper data fields
    set<unsigned>  definedList;

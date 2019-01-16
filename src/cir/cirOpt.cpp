@@ -108,15 +108,8 @@ CirMgr::BFS_4_optimize( queue<unsigned>& Q ){
       auto tmp_cirgate_ptr = tmp_gatelist_itor -> second;
 
       for( auto tmp_child_ptr_sizet : tmp_cirgate_ptr -> _child ){
-        if( !(getPtr( tmp_child_ptr_sizet) -> couldBeSimplified(
-                getPtrInSize_t(this), Q ) ) ){
-          Q.pop();
-          continue;
-        }else{
-          // FIXME
-          // check further children, and check them first.
-          // i.e. do an DFS.
-        }
+        trySimplify( getPtrInSize_t( tmp_cirgate_ptr ), tmp_child_ptr_sizet, Q );
+        Q.pop();
       }
     }
   }
