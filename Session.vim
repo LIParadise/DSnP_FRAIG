@@ -40,10 +40,10 @@ endif
 set shortmess=aoO
 badd +1 src/cir/cirDef.h
 badd +1 src/cir/cirFraig.cpp
-badd +1 src/cir/cirGate.cpp
+badd +291 src/cir/cirGate.cpp
 badd +150 src/cir/cirGate.h
 badd +80 src/cir/cirMgr.h
-badd +707 src/cir/cirMgr.cpp
+badd +710 src/cir/cirMgr.cpp
 badd +1 src/cir/cirSim.cpp
 badd +1 src/cir/cirOpt.cpp
 badd +53 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirGate.h
@@ -52,8 +52,9 @@ badd +55 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirMgr.h
 badd +9 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirMgr.cpp
 badd +1 src/cir/cirCmd.h
 badd +1 src/cir/cirCmd.cpp
-badd +1 src/util/test_random_generator_intel.h
+badd +57 src/util/test_random_generator_intel.h
 badd +1 src/util/test_random_generator_intel.cpp
+badd +0 /mnt/data/Document/DSnP/DSnP_hw6/aiger_format.txt
 argglobal
 silent! argdel *
 argadd src/cir/cirDef.h
@@ -313,11 +314,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 41 - ((10 * winheight(0) + 10) / 20)
+let s:l = 64 - ((3 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-41
+64
 normal! 0
 wincmd w
 argglobal
@@ -433,11 +434,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 93 - ((11 * winheight(0) + 9) / 19)
+let s:l = 39 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-93
+39
 normal! 018|
 wincmd w
 argglobal
@@ -553,11 +554,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 262 - ((19 * winheight(0) + 20) / 40)
+let s:l = 265 - ((22 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-262
+265
 normal! 020|
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
@@ -696,11 +697,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 163 - ((19 * winheight(0) + 10) / 20)
+let s:l = 147 - ((18 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-163
+147
 normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
@@ -817,12 +818,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 26 - ((18 * winheight(0) + 9) / 19)
+let s:l = 119 - ((9 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
-normal! 0
+119
+normal! 039|
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 argglobal
@@ -938,12 +939,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 317 - ((30 * winheight(0) + 20) / 40)
+let s:l = 1 - ((0 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-317
-normal! 040|
+1
+normal! 0
 wincmd w
 exe '1resize ' . ((&lines * 20 + 21) / 43)
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
@@ -1081,11 +1082,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 120 - ((9 * winheight(0) + 20) / 40)
+let s:l = 100 - ((12 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-120
+100
 normal! 026|
 wincmd w
 argglobal
@@ -1321,31 +1322,19 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-670,682fold
-670,682fold
-670,682fold
-670,682fold
-689,692fold
-689,692fold
-689,692fold
-670
+671,683fold
+690,690fold
+690,693fold
+690
 normal! zo
-670
-normal! zo
-670
-normal! zo
-670
-normal! zo
-689
-normal! zo
-689
-normal! zo
-let s:l = 680 - ((13 * winheight(0) + 15) / 30)
+690
+normal! zc
+let s:l = 862 - ((17 * winheight(0) + 15) / 30)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-680
-normal! 05|
+862
+normal! 014|
 wincmd w
 3wincmd w
 exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
@@ -1857,16 +1846,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 9 - ((8 * winheight(0) + 20) / 40)
+let s:l = 11 - ((10 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-9
+11
 normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 argglobal
-edit /mnt/data/Document/DSnP/fraig/src/util/test_random_generator_intel.h
+edit /mnt/data/Document/DSnP/DSnP_hw6/aiger_format.txt
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -1877,7 +1866,7 @@ setlocal breakindentopt=
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal cindent
+setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
@@ -1900,8 +1889,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
+if &filetype != 'text'
+setlocal filetype=text
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -1963,8 +1952,8 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
+if &syntax != 'text'
+setlocal syntax=text
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -1978,13 +1967,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-1,43fold
-let s:l = 57 - ((56 * winheight(0) + 20) / 40)
+let s:l = 99 - ((16 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-57
-normal! 0
+99
+normal! 033|
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 exe 'vert 1resize ' . ((&columns * 72 + 79) / 159)

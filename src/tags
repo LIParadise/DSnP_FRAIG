@@ -485,6 +485,7 @@ parent	sat/Heap.h	/^static inline int parent(int i) { return i >> 1; }$/;"	f
 parseError	cir/cirMgr.cpp	/^parseError(CirParseError err)$/;"	f	file:
 percolateDown	sat/Heap.h	/^    inline void percolateDown(int i)$/;"	f	class:Heap
 percolateUp	sat/Heap.h	/^    inline void percolateUp(int i)$/;"	f	class:Heap
+permanent_line_count	cir/cirMgr.h	/^   unsigned  permanent_line_count;$/;"	m	class:CirMgr
 pop	sat/Global.h	/^    void     pop    (void)             { sz--, data[sz].~T(); }$/;"	f	class:vec
 pos	sat/File.h	/^    int         pos;        \/\/ Current position in buffer$/;"	m	class:File
 printFECPairs	cir/cirMgr.cpp	/^CirMgr::printFECPairs() const$/;"	f	class:CirMgr
@@ -519,6 +520,7 @@ random_var_freq	sat/Solver.h	/^    double  var_decay, clause_decay, random_var_f
 read	util/myHashMap.h	/^   bool read(const CacheKey& k, CacheData& d) const {$/;"	f	class:Cache
 readCircuit	cir/cirMgr.cpp	/^CirMgr::readCircuit(const string& fileName)$/;"	f	class:CirMgr
 reason	sat/Solver.h	/^    vec<Clause*>        reason;           \/\/ 'reason[var]' is the clause that implied the variables current value, or 'NULL' if none.$/;"	m	class:Solver
+rebuildOutputBak	cir/cirMgr.cpp	/^CirMgr::rebuildOutputBak() {$/;"	f	class:CirMgr
 reduceDB	sat/Solver.cpp	/^void Solver::reduceDB()$/;"	f	class:Solver
 reduceDB_lt	sat/Solver.cpp	/^struct reduceDB_lt { bool operator () (Clause* x, Clause* y) { return x->size() > 2 && (y->size() == 2 || x->activity() < y->activity()); } };$/;"	s	file:
 refGateVar	cir/cirGate.h	/^    int    refGateVar;$/;"	m	class:POGate

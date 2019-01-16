@@ -228,6 +228,7 @@ CirMgr::readCircuit(const string& fileName)
     ++line_count;
     ++PO_start_id;
   }
+  permanent_line_count = line_count - 1;
 
   // back up start position of A of MILOA
   ss_pos = myfile.tellg();
@@ -691,7 +692,9 @@ CirMgr::trySimplify( size_t working_gate, size_t child_gate,
       "WTF in BFS trySimplify..." );
 #endif // DEBUG
 
-  if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
+  if( (c_g_ptr -> getTypeStr() == "PO" ) ){
+    c_g_ptr -> makeSkipMe( (c_g_ptr -> _parent[0] ) );
+  }else if( (c_g_ptr -> _parent[0] == c_g_ptr -> _parent[1]) ){
 
     for( auto tmp_further_child : c_g_ptr -> _child ){
       trySimplify( child_gate, tmp_further_child, Q );
@@ -796,6 +799,72 @@ CirMgr::maintainDefinedListAndUsedList(
   tmp_itor = usedList.find( working_ptr -> getGateID() );
   if( tmp_itor != usedList.end() )
     usedList.erase( tmp_itor );
+}
+
+void
+CirMgr::rebuildOutputBak() {
+
+  output_bak.resize( permanent_line_count );
+  string tmp_str;
+  string tmp_str1;
+
+  for( auto it : DFSList ) {  // A
+
+    if( it.first -> getTypeStr() == "AIG" ) {
+
+      tmp_str =  "";
+      tmp_str += to_string (it.first -> getGateID() * 2 );
+      tmp_str += ' ';
+
+      size_t parent_0_id = 0;
+      size_t parent_1_id = 0;
+
+      if( getPtr( it.first -> _parent[0] ) != nullptr ) {
+        if ( isInverted( it.first -> _parent[0] ) )
+          parent_0_id = ( getPtr( it.first -> _parent[0] )
+              -> getGateID() )* 2 + 1;
+        else
+          parent_0_id = ( getPtr( it.first -> _parent[0] )
+              -> getGateID() )* 2;
+      }
+
+      if( getPtr( it.first -> _parent[1] ) != nullptr ) {
+        if ( isInverted( it.first -> _parent[1] ) )
+          parent_1_id = ( getPtr( it.first -> _parent[1] )
+              -> getGateID() )* 2 + 1;
+        else
+          parent_1_id = ( getPtr( it.first -> _parent[1] )
+              -> getGateID() )* 2;
+      }
+
+      tmp_str += to_string( parent_0_id );
+      tmp_str += ' ';
+      tmp_str += to_string( parent_1_id );
+      output_bak.emplace_back( tmp_str );
+
+    }
+  }
+
+
+  // symbols
+  for( size_t idx = 0; idx < PIIDList.size(); ++idx){
+    tmp_str1 = GateList.find(PIIDList[idx]) 
+      -> second -> getSymbolMsg();
+    if( tmp_str1 != "" ){
+      tmp_str = 'i';
+      tmp_str = tmp_str + to_string(idx) + ' ' + tmp_str1;
+      output_bak.push_back(tmp_str);
+    }
+  }
+  for( size_t idx = 0; idx < POIDList.size(); ++idx){
+    tmp_str1 = GateList.find(POIDList[idx]) 
+      -> second -> getSymbolMsg();
+    if( tmp_str1 != "" ){
+      tmp_str = 'o';
+      tmp_str = tmp_str + to_string(idx) + ' ' + tmp_str1;
+      output_bak.push_back(tmp_str);
+    }
+  }
 }
 
 void

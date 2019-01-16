@@ -77,6 +77,7 @@ private:
    void clearGate         () ;
    void getNewGDFSRef     () ;
    void getNewGBFSRef     () ;
+   void rebuildOutputBak  () ;
    void trySimplify
      (size_t,size_t,queue<unsigned>&);
    // the_gate_we're_working, the_child_we're_checking,
@@ -98,6 +99,7 @@ private:
    unsigned  globalDFSRef;
    unsigned  globalBFSRef;
    // one for building DFS list, one for trivial-gate-optimizing.
+   unsigned  permanent_line_count;
 
    set< unsigned > DefButNUsedList;
    set< unsigned > UnDefinedList;
