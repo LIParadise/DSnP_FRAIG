@@ -29,10 +29,10 @@ class CirGate
 {
   public:
     CirGate(): 
-      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _parent{0}, _active(false), _lineNo(0), 
       _gateID(0), _gateDFSRef(0), _IsDefined(true), _symbolMsg("") {}
     CirGate(int i) : 
-      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _parent{0}, _active(false), _lineNo(0), 
       _gateID(i), _gateDFSRef(0), _IsDefined(true ), _symbolMsg("") {}
     virtual ~CirGate() {}
 
@@ -74,7 +74,6 @@ class CirGate
     // public data fields.
     size_t            _parent[2];
     set<size_t>       _child;
-    unsigned          _parent_BFS_mark[2];
 
   private:
 
@@ -88,7 +87,7 @@ class CirGate
 
   protected:
     CirGate( int i , bool b) :
-      _parent{0}, _parent_BFS_mark{0}, _active(false), _lineNo(0), 
+      _parent{0}, _active(false), _lineNo(0), 
       _gateID(i), _gateDFSRef(0), _IsDefined( b ), _symbolMsg("") {}
     // for AAGate only.
     bool             _IsDefined;

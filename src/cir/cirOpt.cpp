@@ -4,7 +4,7 @@
   Synopsis     [ Define cir optimization functions ]
   Author       [ Chung-Yang (Ric) Huang ]
   Copyright    [ Copyleft(c) 2008-present LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+ ****************************************************************************/
 
 #include <cassert>
 #include <unordered_set>
@@ -77,19 +77,20 @@ CirMgr::sweep() {
   DefButNUsedList.clear();
   UnDefinedList  .clear();
   set_difference( usedList.begin(), usedList.end(),
-                 definedList.begin(), definedList.end(),
-                 inserter(UnDefinedList, UnDefinedList.end()) );
+      definedList.begin(), definedList.end(),
+      inserter(UnDefinedList, UnDefinedList.end()) );
 }
 
 // Recursively simplifying from POs;
 // _dfsList needs to be reconstructed afterwards
 // UNDEF gates may be delete if its fanout becomes empty...
-void
+  void
 CirMgr::optimize()
 {
   sweep();
   getNewGDFSOptRef();
   ShallBeEliminatedList.clear();
+  const0PtrInSizet = getPtrInSize_t(GateList.find(0)->second);
   // FIXME
   // usedList and definedList shall be modified...
   for( auto it : POIDList ){
@@ -99,21 +100,25 @@ CirMgr::optimize()
 
   for( auto it : ShallBeEliminatedList ){
     auto itor = GateList.find( it );
-    if ( itor != GateList.end() )
+    if ( itor != GateList.end() ){
+      delete itor -> second;
+      itor -> second = nullptr;
       GateList.erase(itor);
+    }
   }
 
   DefButNUsedList.clear();
   UnDefinedList  .clear();
   DFSList        .clear();
-  buildDFSList();
+  buildDFSList         ();
+  rebuildOutputBak     ();
   set_difference( definedList.begin(), definedList.end(),
-                 usedList.begin(), usedList.end(),
-                 inserter(DefButNUsedList, DefButNUsedList.end()));
+      usedList.begin(), usedList.end(),
+      inserter(DefButNUsedList, DefButNUsedList.end()));
 
   set_difference( usedList.begin(), usedList.end(),
-                 definedList.begin(), definedList.end(),
-                 inserter(UnDefinedList, UnDefinedList.end()) );
+      definedList.begin(), definedList.end(),
+      inserter(UnDefinedList, UnDefinedList.end()) );
 }
 
 /***************************************************/
@@ -121,53 +126,55 @@ CirMgr::optimize()
 /***************************************************/
 
 size_t
-CirMgr::DFS_4_optimize( size_t current_gate_with_inv_info ){
+CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
 
-  auto workingGatePtr = getPtr( current_gate_with_inv_info );
+  auto workingGatePtr = getPtr( current_gate_NO_inv_info );
+  if( workingGatePtr == nullptr )
+    return getPtrInSize_t(nullptr);
 
-  if( workingGatePtr -> getTypeStr() == "PI" ||
-      workingGatePtr -> getTypeStr() == "UNDEF" )
-    return getPtrInSize_t(workingGatePtr);
+  if( workingGatePtr -> getTypeStr() == "PI"    ||
+      workingGatePtr -> getTypeStr() == "UNDEF" ||
+      workingGatePtr -> getGateID () == 0 )
+    return getNonInv(current_gate_NO_inv_info);
 
-  size_t _parent0           = DFS_4_optimize( _parent[0] );
-  size_t _parent1           = DFS_4_optimize( _parent[1] );
-  size_t const0PtrInSizet   = getPtrInSize_t(GateList.find( 0 ).second);
-  if( isInverted( _parent[0] ) )
-    _parent0 = getXorInv( _parent0 );
-  if( isInverted( _parent[1] ) )
-    _parent1 = getXorInv( _parent1 );
-  if( workingGatePtr -> getTypeStr() == "PO" )
-    if( getPtr( _parent0 ) != nullptr )
-      workingGatePtr -> _parent[0] = _parent0;
-    else if( getPtr( _parent1 ) != nullptr )
-      workingGatePtr -> _parent[0] = _parent1;
-    else{
+  size_t _parent0 =DFS_4_optimize( workingGatePtr->_parent[0] );
+  size_t _parent1 =DFS_4_optimize( workingGatePtr->_parent[1] );
+
+  if( isInverted( workingGatePtr->_parent[0] ) )
+    _parent0 = getInvert( _parent0 );
+  if( isInverted( workingGatePtr->_parent[1] ) )
+    _parent1 = getInvert( _parent1 );
+
+  if( workingGatePtr -> getTypeStr() == "PO" ){
+    if( getNonInv(_parent0) == 0 && getNonInv(_parent1) == 0 ){
 #ifdef DEBUG
       assert( 0 && "weird PO in optimizing" );
 #endif // DEBUG
     }
-  workingGatePtr -> _parent[1] = nullptr;
-  return nullptr;
-
+    workingGatePtr -> _parent[0] = _parent0;
+    workingGatePtr -> _parent[1] = getPtrInSize_t(nullptr);
+    _parent1 = 0;
+    return getPtrInSize_t(workingGatePtr);
+  }
 
   if( _parent0 == _parent1 ){
-    tryEliminateMeWith( current_gate_with_inv_info, _parent0);
-    return _parent0;
+    tryEliminateMeWith( current_gate_NO_inv_info, _parent0);
+    return getNonInv(_parent0);
   }else if( getXorInv( _parent0 ) == _parent1 ){
-    tryEliminateMeWith( current_gate_with_inv_info, const0PtrInSizet ) ;
+    tryEliminateMeWith( current_gate_NO_inv_info, const0PtrInSizet ) ;
     return const0PtrInSizet;
   }else if( _parent0 == const0PtrInSizet ||
       _parent1 == const0PtrInSizet ){
-    tryEliminateMeWith( current_gate_with_inv_info, const0PtrInSizet  );
+    tryEliminateMeWith( current_gate_NO_inv_info, const0PtrInSizet  );
     return const0PtrInSizet;
   }else if( _parent1 == getInvert(const0PtrInSizet) ){
-    tryEliminateMeWith( current_gate_with_inv_info, _parent0  );
-    return _parent0;
+    tryEliminateMeWith( current_gate_NO_inv_info, _parent0  );
+    return getNonInv(_parent0);
   }else if( _parent0 == getInvert(const0PtrInSizet) ){
-    tryEliminateMeWith( current_gate_with_inv_info, _parent1 );
-    return _parent1
+    tryEliminateMeWith( current_gate_NO_inv_info, _parent1 );
+    return getNonInv(_parent1);
   }else {
-    return current_gate_with_inv_info;
+    return getNonInv(current_gate_NO_inv_info);
   }
 
 }

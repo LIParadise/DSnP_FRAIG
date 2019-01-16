@@ -51,7 +51,7 @@ DEFAULTS	sat/File.h	40;"	d
 DEFAULTS	sat/File.h	48;"	d
 DFS	cir/cirMgr.cpp	/^CirMgr::DFS( CirGate* ptr , unsigned depth ){$/;"	f	class:CirMgr
 DFSList	cir/cirMgr.h	/^    vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
-DFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::DFS_4_optimize( size_t current_gate_with_inv_info ){$/;"	f	class:CirMgr
+DFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){$/;"	f	class:CirMgr
 DUMMY_END	cir/cirMgr.cpp	/^  DUMMY_END$/;"	e	enum:CirParseError	file:
 Datum	sat/Global.h	/^    typedef T   Datum;$/;"	t	class:vec
 DefButNUsedList	cir/cirMgr.h	/^    set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
@@ -176,7 +176,6 @@ _lineNo	cir/cirGate.h	/^    unsigned                _lineNo;$/;"	m	class:CirGate
 _numBuckets	util/myHashMap.h	/^   size_t                   _numBuckets;$/;"	m	class:HashMap
 _numBuckets	util/myHashSet.h	/^   size_t            _numBuckets;$/;"	m	class:HashSet
 _parent	cir/cirGate.h	/^    size_t            _parent[2];$/;"	m	class:CirGate
-_parent_BFS_mark	cir/cirGate.h	/^    unsigned          _parent_BFS_mark[2];$/;"	m	class:CirGate
 _periodUsedTime	util/myUsage.h	/^   double     _periodUsedTime;$/;"	m	class:MyUsage
 _simLog	cir/cirMgr.h	/^    ofstream           *_simLog;$/;"	m	class:CirMgr
 _size	util/myHashMap.h	/^   size_t         _size;$/;"	m	class:Cache
@@ -251,6 +250,7 @@ compress	sat/Proof.cpp	/^void Proof::compress(Proof& dst, ClauseId goal)$/;"	f	c
 conflict	sat/Solver.h	/^    vec<Lit>    conflict;           \/\/ If problem is unsatisfiable under assumptions, this vector represent the conflict clause expressed in the assumptions.$/;"	m	class:Solver
 conflict_id	sat/Solver.h	/^    ClauseId    conflict_id;        \/\/ (In proof logging mode only.) ID for the clause 'conflict' (for proof traverseral). NOTE! The empty clause is always the last clause derived, but for conflicts under assumption, this is not necessarly true.$/;"	m	class:Solver
 conflicts	sat/Solver.h	/^    int64   starts, decisions, propagations, conflicts;$/;"	m	struct:SolverStats
+const0PtrInSizet	cir/cirMgr.h	/^    size_t    const0PtrInSizet;$/;"	m	class:CirMgr
 copyTo	sat/Global.h	/^    void copyTo(vec<T>& copy) const { copy.clear(); copy.growTo(sz); for (int i = 0; i < sz; i++) new (&copy[i]) T(data[i]); }$/;"	f	class:vec
 cpuTime	sat/Global.h	/^static inline double cpuTime(void) {$/;"	f
 curCmd	cir/cirCmd.cpp	/^static CirCmdState curCmd = CIRINIT;$/;"	v	file:
@@ -484,7 +484,6 @@ parent	sat/Heap.h	/^static inline int parent(int i) { return i >> 1; }$/;"	f
 parseError	cir/cirMgr.cpp	/^parseError(CirParseError err)$/;"	f	file:
 percolateDown	sat/Heap.h	/^    inline void percolateDown(int i)$/;"	f	class:Heap
 percolateUp	sat/Heap.h	/^    inline void percolateUp(int i)$/;"	f	class:Heap
-permanent_line_count	cir/cirMgr.h	/^    unsigned  permanent_line_count;$/;"	m	class:CirMgr
 pop	sat/Global.h	/^    void     pop    (void)             { sz--, data[sz].~T(); }$/;"	f	class:vec
 pos	sat/File.h	/^    int         pos;        \/\/ Current position in buffer$/;"	m	class:File
 printFECPairs	cir/cirMgr.cpp	/^CirMgr::printFECPairs() const$/;"	f	class:CirMgr
@@ -611,7 +610,7 @@ trail_pos	sat/Solver.cpp	/^    const vec<int>& trail_pos;$/;"	m	class:lastToFirs
 trail_pos	sat/Solver.h	/^    vec<int>            trail_pos;        \/\/ 'trail_pos[var]' is the variable's position in 'trail[]'. This supersedes 'level[]' in some sense, and 'level[]' will probably be removed in future releases.$/;"	m	class:Solver
 trav	sat/Proof.h	/^    ProofTraverser* trav;$/;"	m	class:Proof
 traverse	sat/Proof.cpp	/^void Proof::traverse(ProofTraverser& trav, ClauseId goal)$/;"	f	class:Proof
-tryEliminateMeWith	cir/cirMgr.cpp	/^CirMgr::tryEliminateMeWith( unsigned workingGateId,size_t parent_with_inv_info ){$/;"	f	class:CirMgr
+tryEliminateMeWith	cir/cirMgr.cpp	/^CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,$/;"	f	class:CirMgr
 uchar	sat/Global.h	/^typedef unsigned char uchar;$/;"	t
 uint	sat/Global.h	/^typedef unsigned int uint;$/;"	t
 uint64	sat/Global.h	/^typedef UINT64             uint64;$/;"	t

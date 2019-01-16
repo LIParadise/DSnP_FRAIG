@@ -228,7 +228,6 @@ CirMgr::readCircuit(const string& fileName)
     ++line_count;
     ++PO_start_id;
   }
-  permanent_line_count = line_count - 1;
 
   // back up start position of A of MILOA
   ss_pos = myfile.tellg();
@@ -413,7 +412,6 @@ CirMgr::readCircuit(const string& fileName)
     output_bak.push_back( tmp_str );
   }
 
-  unsigned tmp_AIG_id = 0;
   for( auto it : DFSList ) {  // A
 
     if( it.first -> getTypeStr() == "AIG" ) {
@@ -700,9 +698,23 @@ CirMgr::maintainDefinedListAndUsedList(
 void
 CirMgr::rebuildOutputBak() {
 
-  output_bak.resize( permanent_line_count );
+  output_bak.resize( 1 + PIIDList.size() + POIDList.size());
   string tmp_str;
   string tmp_str1;
+  tmp_str = "aag ";
+  tmp_str += to_string(GateList.size()); // M
+  tmp_str += ' ';
+  tmp_str += to_string(PIIDList.size()); // I
+  tmp_str += ' ';
+  tmp_str += '0';                        // L
+  tmp_str += ' ';
+  tmp_str += to_string(POIDList.size()); // O
+  tmp_str += ' ';
+  tmp_str += to_string(
+      GateList.size() - PIIDList.size() -
+      POIDList.size() - 1 );             // A
+  output_bak[0] = tmp_str;
+  tmp_str = "";
 
   for( auto it : DFSList ) {  // A
     if( it.first -> getTypeStr() == "AIG" ) {
@@ -757,15 +769,49 @@ CirMgr::rebuildOutputBak() {
 }
 
 void 
-CirMgr::tryEliminateMeWith( unsigned workingGateId,size_t parent_with_inv_info ){
-  auto workingGatePtr = GateList.find( workingGateId )->second;
+CirMgr::tryEliminateMeWith( size_t current_gate_NO_inv_info ,
+    size_t parent_with_inv_info ){
+  auto workingGatePtr = getPtr( current_gate_NO_inv_info );
+  auto parentGatePtr  = getPtr( parent_with_inv_info       );
 
-  if( workingGatePtr -> getTypeStr() == "PO" || 
-      workingGatePtr -> getTypeStr() == "PI" || 
-      workingGatePtr -> getTypeStr() == "UNDEF" ){
+  if( workingGatePtr -> getTypeStr() != "AIG" ){
     // cannot be eliminated.
     return;
   }
+
+  for( size_t i = 0; i < 2; ++i ){
+    if( getPtr( workingGatePtr -> _parent[i]) != nullptr ){
+
+      auto tmp_itor = getPtr(workingGatePtr->_parent[i]) -> _child.
+        find( current_gate_NO_inv_info );
+
+      while( tmp_itor != 
+          getPtr(workingGatePtr->_parent[i]) -> _child.end() ){
+
+        getPtr(workingGatePtr->_parent[i])->_child.erase( tmp_itor );
+        tmp_itor = getPtr(workingGatePtr->_parent[i])->_child.
+          find( current_gate_NO_inv_info );
+
+      }
+    }
+  }
+  getPtr(parent_with_inv_info)->insertChild( current_gate_NO_inv_info );
+
+  for( auto it : workingGatePtr -> _child ){
+    auto tmp_child_ptr = getPtr( it );
+    if( tmp_child_ptr != nullptr ){
+      for( size_t i = 0; i < 2; ++i ){
+        if( tmp_child_ptr -> _parent[i] == current_gate_NO_inv_info ){
+          tmp_child_ptr -> _parent[i] = parent_with_inv_info;
+        }else if( getNonInv(tmp_child_ptr -> _parent[i] ) ==
+            current_gate_NO_inv_info ) {
+          tmp_child_ptr -> _parent[i] =
+            getInvert( parent_with_inv_info );
+        }
+      }
+    }
+  }
+
   ShallBeEliminatedList.insert( workingGatePtr -> getGateID() );
   maintainDefinedListAndUsedList( 
       getPtrInSize_t(workingGatePtr),

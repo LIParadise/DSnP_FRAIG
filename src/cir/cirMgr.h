@@ -81,7 +81,7 @@ class CirMgr
       (size_t,size_t);
     // the_gate_we're_working, the_parent_we_want_check
     void   tryEliminateMeWith
-      (unsigned, size_t);
+      (size_t, size_t);
     void   rebuildOutputBak  () ;
 
     // helper data fields
@@ -93,7 +93,7 @@ class CirMgr
     unsigned  globalDFSRef;
     unsigned  globalDFSOptRef;
     // one for building DFS list, one for trivial-gate-optimizing.
-    unsigned  permanent_line_count;
+    size_t    const0PtrInSizet;
 
     set< unsigned > DefButNUsedList;
     set< unsigned > UnDefinedList;
