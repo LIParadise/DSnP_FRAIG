@@ -88,8 +88,20 @@ void
 CirMgr::optimize()
 {
   sweep();
+  getNewGDFSOptRef();
+  ShallBeEliminatedList.clear();
   // FIXME
   // usedList and definedList shall be modified...
+  for( auto it : POIDList ){
+    CirGate* tmp_gate_ptr = GateList.find( it ) -> second;
+    DFS_4_optimize( getPtrInSize_t(tmp_gate_ptr) );
+  }
+
+  for( auto it : ShallBeEliminatedList ){
+    auto itor = GateList.find( it );
+    if ( itor != GateList.end() )
+      GateList.erase(itor);
+  }
 
   DefButNUsedList.clear();
   UnDefinedList  .clear();
@@ -107,3 +119,55 @@ CirMgr::optimize()
 /***************************************************/
 /*   Private member functions about optimization   */
 /***************************************************/
+
+size_t
+CirMgr::DFS_4_optimize( size_t current_gate_with_inv_info ){
+
+  auto workingGatePtr = getPtr( current_gate_with_inv_info );
+
+  if( workingGatePtr -> getTypeStr() == "PI" ||
+      workingGatePtr -> getTypeStr() == "UNDEF" )
+    return getPtrInSize_t(workingGatePtr);
+
+  size_t _parent0           = DFS_4_optimize( _parent[0] );
+  size_t _parent1           = DFS_4_optimize( _parent[1] );
+  size_t const0PtrInSizet   = getPtrInSize_t(GateList.find( 0 ).second);
+  if( isInverted( _parent[0] ) )
+    _parent0 = getXorInv( _parent0 );
+  if( isInverted( _parent[1] ) )
+    _parent1 = getXorInv( _parent1 );
+  if( workingGatePtr -> getTypeStr() == "PO" )
+    if( getPtr( _parent0 ) != nullptr )
+      workingGatePtr -> _parent[0] = _parent0;
+    else if( getPtr( _parent1 ) != nullptr )
+      workingGatePtr -> _parent[0] = _parent1;
+    else{
+#ifdef DEBUG
+      assert( 0 && "weird PO in optimizing" );
+#endif // DEBUG
+    }
+  workingGatePtr -> _parent[1] = nullptr;
+  return nullptr;
+
+
+  if( _parent0 == _parent1 ){
+    tryEliminateMeWith( current_gate_with_inv_info, _parent0);
+    return _parent0;
+  }else if( getXorInv( _parent0 ) == _parent1 ){
+    tryEliminateMeWith( current_gate_with_inv_info, const0PtrInSizet ) ;
+    return const0PtrInSizet;
+  }else if( _parent0 == const0PtrInSizet ||
+      _parent1 == const0PtrInSizet ){
+    tryEliminateMeWith( current_gate_with_inv_info, const0PtrInSizet  );
+    return const0PtrInSizet;
+  }else if( _parent1 == getInvert(const0PtrInSizet) ){
+    tryEliminateMeWith( current_gate_with_inv_info, _parent0  );
+    return _parent0;
+  }else if( _parent0 == getInvert(const0PtrInSizet) ){
+    tryEliminateMeWith( current_gate_with_inv_info, _parent1 );
+    return _parent1
+  }else {
+    return current_gate_with_inv_info;
+  }
+
+}

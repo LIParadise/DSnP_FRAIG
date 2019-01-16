@@ -51,6 +51,7 @@ DEFAULTS	sat/File.h	40;"	d
 DEFAULTS	sat/File.h	48;"	d
 DFS	cir/cirMgr.cpp	/^CirMgr::DFS( CirGate* ptr , unsigned depth ){$/;"	f	class:CirMgr
 DFSList	cir/cirMgr.h	/^    vector< pair<CirGate*, unsigned> > DFSList;$/;"	m	class:CirMgr
+DFS_4_optimize	cir/cirOpt.cpp	/^CirMgr::DFS_4_optimize( size_t current_gate_with_inv_info ){$/;"	f	class:CirMgr
 DUMMY_END	cir/cirMgr.cpp	/^  DUMMY_END$/;"	e	enum:CirParseError	file:
 Datum	sat/Global.h	/^    typedef T   Datum;$/;"	t	class:vec
 DefButNUsedList	cir/cirMgr.h	/^    set< unsigned > DefButNUsedList;$/;"	m	class:CirMgr
@@ -610,6 +611,7 @@ trail_pos	sat/Solver.cpp	/^    const vec<int>& trail_pos;$/;"	m	class:lastToFirs
 trail_pos	sat/Solver.h	/^    vec<int>            trail_pos;        \/\/ 'trail_pos[var]' is the variable's position in 'trail[]'. This supersedes 'level[]' in some sense, and 'level[]' will probably be removed in future releases.$/;"	m	class:Solver
 trav	sat/Proof.h	/^    ProofTraverser* trav;$/;"	m	class:Proof
 traverse	sat/Proof.cpp	/^void Proof::traverse(ProofTraverser& trav, ClauseId goal)$/;"	f	class:Proof
+tryEliminateMeWith	cir/cirMgr.cpp	/^CirMgr::tryEliminateMeWith( unsigned workingGateId,size_t parent_with_inv_info ){$/;"	f	class:CirMgr
 uchar	sat/Global.h	/^typedef unsigned char uchar;$/;"	t
 uint	sat/Global.h	/^typedef unsigned int uint;$/;"	t
 uint64	sat/Global.h	/^typedef UINT64             uint64;$/;"	t

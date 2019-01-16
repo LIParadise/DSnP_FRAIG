@@ -71,16 +71,18 @@ class CirMgr
     ofstream           *_simLog;
 
     // helper functions
-    bool buildDFSList      () ;
-    bool DFS               (CirGate*, unsigned = 0);
-    void DFS_4_optimize    (queue<unsigned>& ) ;
-    void clearGate         () ;
-    void getNewGDFSRef     () ;
-    void getNewGDFSOptRef  () ;
-    void maintainDefinedListAndUsedList
+    size_t DFS_4_optimize    (size_t) ;
+    bool   buildDFSList      () ;
+    bool   DFS               (CirGate*, unsigned = 0);
+    void   clearGate         () ;
+    void   getNewGDFSRef     () ;
+    void   getNewGDFSOptRef  () ;
+    void   maintainDefinedListAndUsedList
       (size_t,size_t);
     // the_gate_we're_working, the_parent_we_want_check
-    void rebuildOutputBak  () ;
+    void   tryEliminateMeWith
+      (unsigned, size_t);
+    void   rebuildOutputBak  () ;
 
     // helper data fields
     set<unsigned>  definedList;

@@ -648,11 +648,6 @@ CirMgr::writeAag(ostream& outfile) const
 {
   for( auto it : output_bak )
     outfile << it << '\n';
-  // FIXME 2019 0115 1554
-  // since the DFS list may be changed after optimize/strash/fraig,
-  // we shall record the updated # of lines of "MILO"
-  // and build the "A" part dynamically, 
-  // according to the DFS list.
 }
 
 void
@@ -759,6 +754,22 @@ CirMgr::rebuildOutputBak() {
       output_bak.push_back(tmp_str);
     }
   }
+}
+
+void 
+CirMgr::tryEliminateMeWith( unsigned workingGateId,size_t parent_with_inv_info ){
+  auto workingGatePtr = GateList.find( workingGateId )->second;
+
+  if( workingGatePtr -> getTypeStr() == "PO" || 
+      workingGatePtr -> getTypeStr() == "PI" || 
+      workingGatePtr -> getTypeStr() == "UNDEF" ){
+    // cannot be eliminated.
+    return;
+  }
+  ShallBeEliminatedList.insert( workingGatePtr -> getGateID() );
+  maintainDefinedListAndUsedList( 
+      getPtrInSize_t(workingGatePtr),
+      parent_with_inv_info );
 }
 
 void
