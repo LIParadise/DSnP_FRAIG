@@ -403,52 +403,7 @@ CirMgr::readCircuit(const string& fileName)
     getline( myfile, tmp_str );
     output_bak.push_back( tmp_str );
   }
-  for( int i = 0; i < MILOA[2]; ++i ) { // L
-    getline( myfile, tmp_str );
-    output_bak.push_back( tmp_str );
-  }
-  for( int i = 0; i < MILOA[3]; ++i ) { // O
-    getline( myfile, tmp_str );
-    output_bak.push_back( tmp_str );
-  }
-
-  for( auto it : DFSList ) {  // A
-
-    if( it.first -> getTypeStr() == "AIG" ) {
-
-      tmp_str =  "";
-      tmp_str += to_string (it.first -> getGateID() * 2 );
-      tmp_str += ' ';
-
-      size_t parent_0_id = 0;
-      size_t parent_1_id = 0;
-
-      if( getPtr( it.first -> _parent[0] ) != nullptr ) {
-        if ( isInverted( it.first -> _parent[0] ) )
-          parent_0_id = ( getPtr( it.first -> _parent[0] )
-              -> getGateID() )* 2 + 1;
-        else
-          parent_0_id = ( getPtr( it.first -> _parent[0] )
-              -> getGateID() )* 2;
-      }
-
-      if( getPtr( it.first -> _parent[1] ) != nullptr ) {
-        if ( isInverted( it.first -> _parent[1] ) )
-          parent_1_id = ( getPtr( it.first -> _parent[1] )
-              -> getGateID() )* 2 + 1;
-        else
-          parent_1_id = ( getPtr( it.first -> _parent[1] )
-              -> getGateID() )* 2;
-      }
-
-      tmp_str += to_string( parent_0_id );
-      tmp_str += ' ';
-      tmp_str += to_string( parent_1_id );
-      output_bak.emplace_back( tmp_str );
-
-    }
-  }
-
+  rebuildOutputBak();
 
   // symbols
   for( size_t idx = 0; idx < PIIDList.size(); ++idx){
@@ -507,7 +462,7 @@ CirMgr::printSummary() const
   cout << "  PO        "  << setw(4) << right << POIDList.size() << endl;
   cout.flags( cout_org_flags );
   cout << "  AIG       "  << setw(4) << right 
-    << GateList.size()-PIIDList.size()-POIDList.size()-UnDefinedList.size() -1 << endl;
+    << GateList.size()-PIIDList.size()-POIDList.size()-1 << endl;
   // minus 1, acting as offset for "CONST 0"
   cout.flags( cout_org_flags );
   cout << "  ==================" << endl;
@@ -658,11 +613,11 @@ CirMgr::writeGate(ostream& outfile, CirGate *g) const
 void
 CirMgr::rebuildOutputBak() {
 
-  output_bak.resize( 1 + PIIDList.size() + POIDList.size());
+  output_bak.resize( 1 + PIIDList.size() );
   string tmp_str;
   string tmp_str1;
   tmp_str = "aag ";
-  tmp_str += to_string(GateList.size()); // M
+  tmp_str += to_string(GateList.size()-POIDList.size()-1); // M
   tmp_str += ' ';
   tmp_str += to_string(PIIDList.size()); // I
   tmp_str += ' ';
@@ -676,7 +631,12 @@ CirMgr::rebuildOutputBak() {
   output_bak[0] = tmp_str;
   tmp_str = "";
 
-  for( auto it : DFSList ) {  // A
+  for( auto it : POIDList ) {   // I
+    output_bak.push_back( to_string ( static_cast<POGate*>(
+        GateList.find( it ) -> second ) -> getRefGateVar()  ) );
+  }
+
+  for( auto it : DFSList ) {    // A
     if( it.first -> getTypeStr() == "AIG"
         && it.first -> getGateID() != 0 ) {
       tmp_str =  "";

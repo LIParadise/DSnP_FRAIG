@@ -316,7 +316,7 @@ getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
 getPtr	cir/cirGate.cpp	/^getPtr( size_t s ) {$/;"	f
 getPtrInSize_t	cir/cirGate.cpp	/^getPtrInSize_t( const void* const ptr ) {$/;"	f
-getRefGateVar	cir/cirGate.h	/^    int            getRefGateVar() const { return refGateVar; }$/;"	f	class:POGate
+getRefGateVar	cir/cirGate.h	/^    unsigned       getRefGateVar() const { return refGateVar; }$/;"	f	class:POGate
 getSymbolMsg	cir/cirGate.h	/^    virtual  string getSymbolMsg() const { return _symbolMsg; }$/;"	f	class:PIGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return ""; }$/;"	f	class:AAGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return _symbolMsg; }$/;"	f	class:POGate

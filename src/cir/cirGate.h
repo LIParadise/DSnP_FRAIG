@@ -106,7 +106,7 @@ class POGate : public CirGate {
     virtual void   printGate()     const ;
     virtual bool   isAig()         const { return false ; }
     virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }
-    int            getRefGateVar() const { return refGateVar; }
+    unsigned       getRefGateVar() const { return refGateVar; }
     void           UpdRefGateVar() ;
   private:
     unsigned       refGateVar;
