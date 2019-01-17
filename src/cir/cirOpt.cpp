@@ -179,25 +179,6 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
       ret1 = getXorInv( ret1 );
   }
 
-#ifdef DEBUG
-  cerr << "\n\nI'm         : " << gateIDIndicator << endl;
-  cerr << "ret0        : " << ret0 << endl;
-  if( getPtr(ret0) != nullptr )
-    cerr 
-      <<  "it's ptr to : " 
-      << ((isInverted(ret0))?"!":"")
-      << getPtr(ret0)->getGateID()<<endl;
-  cerr << "ret1        : " << ret1 << endl;
-  if( getPtr(ret1) != nullptr )
-    cerr 
-      <<  "it's ptr to : " 
-      << ((isInverted(ret1))?"!":"")
-      << getPtr(ret1)->getGateID()<<endl;
-  if( gateIDIndicator == 15 ){
-    cerr << endl << endl;
-    raise( SIGINT );
-  }
-#endif // DEBUG
 
   if( workingGatePtr -> getTypeStr() == "PO" ){
 
@@ -238,14 +219,6 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
     }
   }
 
-#ifdef DEBUG
-  cerr << "to_ret is   : " << to_ret << endl;
-  if( getPtr(to_ret) != nullptr )
-    cerr 
-      <<  "it's ptr to : " 
-      << ((isInverted(to_ret))?"!":"")
-      << getPtr(to_ret)->getGateID()<<endl;
-#endif // DEBUG
   return to_ret;
 
 }
@@ -265,12 +238,6 @@ CirMgr::merge( size_t current_gate_NO_inv_info,
     if( definedListItor != definedList.end() )
       definedList.erase( definedListItor );
   }
-#ifdef DEBUG
-  cerr << workingGatePtr -> getGateID() << "m("
-    << (( isInverted( parent_with_inv_info ) )? "!" : " ")
-    << ((tmp_ptr == nullptr)? 'C':tmp_ptr -> getGateID() )
-    << ")" << endl;
-#endif // DEBUG
 
   // manage parents, eliminate me.
   for( size_t idx = 0; idx < 2; ++idx ){

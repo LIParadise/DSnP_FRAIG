@@ -167,15 +167,17 @@ CirMgr::readCircuit(const string& fileName)
   unsigned  line_count     = 0;
   unsigned  line_count_bak = 0;
   MILOA.reserve(5);
+  for( size_t i = 0; i < 5; ++i )
+    MILOA.push_back( 0 );
 
   getline( myfile, tmp_str ); // string; "aag MILOA";
   stringstream tmp_sstr ( tmp_str );
   tmp_sstr >> tmp_str; // "aag"
   for( int i = 0; i < 5; ++i ){
-    int j = 0;
-    tmp_sstr >> j;
-    MILOA.push_back( j);
+    tmp_sstr >> tmp_str;
+    MILOA[i] = stoi( tmp_str, nullptr, 10 );
   }
+  tmp_str = "";
 
   line_count  = 2;
   PO_start_id = MILOA[0] + 1;
@@ -393,7 +395,8 @@ CirMgr::readCircuit(const string& fileName)
   getline( myfile, tmp_str );
 
   output_bak . push_back ( "" );
-  output_bak[0] = "aag " + to_string(GateList.size()-1) + ' '
+  output_bak[0] = "aag " 
+    +to_string( MILOA[0] ) + ' '
     +to_string( MILOA[1] ) + ' '
     +to_string( 0 )        + ' '
     +to_string( MILOA[3] ) + ' '
@@ -563,7 +566,6 @@ CirMgr::DFS( CirGate* ptr , unsigned depth ){
   ptr           = getPtr( getNonInv( ptr ) );
   for( size_t i = 0; i < 2; ++i ){
     auto it = getNonInv(ptr -> _parent[i]);
-    cerr << "DFS-ing gate " << ptr -> getGateID() << endl;
     if( it ){
       tmp = getPtr( it );
       if( tmp -> getGateRef() != globalDFSRef ){
@@ -616,8 +618,11 @@ CirMgr::rebuildOutputBak() {
   output_bak.resize( 1 + PIIDList.size() );
   string tmp_str;
   string tmp_str1;
+  stringstream ss ( output_bak[0] );
+  ss >> tmp_str1; // aag
+  ss >> tmp_str1; // M
   tmp_str = "aag ";
-  tmp_str += to_string(GateList.size()-POIDList.size()-1); // M
+  tmp_str += tmp_str1;
   tmp_str += ' ';
   tmp_str += to_string(PIIDList.size()); // I
   tmp_str += ' ';
@@ -629,7 +634,8 @@ CirMgr::rebuildOutputBak() {
       GateList.size() - PIIDList.size() -
       POIDList.size() - 1 );             // A
   output_bak[0] = tmp_str;
-  tmp_str = "";
+  tmp_str  = "";
+  tmp_str1 = "";
 
   for( auto it : POIDList ) {   // I
     output_bak.push_back( to_string ( static_cast<POGate*>(
