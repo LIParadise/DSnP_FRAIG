@@ -114,7 +114,7 @@ PIGate	cir/cirGate.h	/^    PIGate(int i): CirGate(i) {}$/;"	f	class:PIGate
 PIGate	cir/cirGate.h	/^class PIGate : public CirGate {$/;"	c
 PIIDList	cir/cirMgr.h	/^    vector< unsigned > PIIDList;$/;"	m	class:CirMgr
 POGate	cir/cirGate.h	/^    POGate(): $/;"	f	class:POGate
-POGate	cir/cirGate.h	/^    POGate(int gid, int refid): $/;"	f	class:POGate
+POGate	cir/cirGate.h	/^    POGate(int gid, unsigned ini): $/;"	f	class:POGate
 POGate	cir/cirGate.h	/^class POGate : public CirGate {$/;"	c
 POIDList	cir/cirMgr.h	/^    vector< unsigned > POIDList;$/;"	m	class:CirMgr
 Proof	sat/Proof.cpp	/^Proof::Proof()$/;"	f	class:Proof
@@ -150,7 +150,6 @@ TRA_INT	sat/Proof.h	/^    int             TRA_INT;$/;"	m	class:Proof
 TempFiles	sat/Proof.cpp	/^class TempFiles {$/;"	c	file:
 UTIL_H	util/util.h	9;"	d
 UnDefinedList	cir/cirMgr.h	/^    set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
-UpdRefGateVar	cir/cirGate.cpp	/^POGate::UpdRefGateVar(){$/;"	f	class:POGate
 Var	sat/SolverTypes.h	/^typedef int Var;$/;"	t
 VarOrder	sat/VarOrder.h	/^    VarOrder(const vec<char>& ass, const vec<double>& act) :$/;"	f	class:VarOrder
 VarOrder	sat/VarOrder.h	/^class VarOrder {$/;"	c
@@ -306,6 +305,7 @@ getGate	cir/cirMgr.cpp	/^CirMgr::getGate( unsigned gid ) const {$/;"	f	class:Cir
 getGateID	cir/cirGate.h	/^    unsigned        getGateID() const { return _gateID; }$/;"	f	class:CirGate
 getGateRef	cir/cirGate.h	/^    size_t          getGateRef  ( )          {return _gateDFSRef ; }$/;"	f	class:CirGate
 getHashSize	util/util.cpp	/^size_t getHashSize(size_t s) {$/;"	f
+getIniInvInfo	cir/cirGate.h	/^    unsigned       getIniInvInfo() const {$/;"	f	class:POGate
 getInt	sat/File.h	/^static inline uint64 getInt  (File& in)             { return decode64(getUInt(in)); }$/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const size_t& s) { $/;"	f
 getInvert	cir/cirGate.cpp	/^getInvert( const void * const ptr ) {$/;"	f
@@ -316,7 +316,7 @@ getNonInv	cir/cirGate.cpp	/^getNonInv( const size_t& s ) {$/;"	f
 getNonInv	cir/cirGate.cpp	/^getNonInv( const void * const ptr ) {$/;"	f
 getPtr	cir/cirGate.cpp	/^getPtr( size_t s ) {$/;"	f
 getPtrInSize_t	cir/cirGate.cpp	/^getPtrInSize_t( const void* const ptr ) {$/;"	f
-getRefGateVar	cir/cirGate.h	/^    unsigned       getRefGateVar() const { return refGateVar; }$/;"	f	class:POGate
+getRefGateVar	cir/cirGate.h	/^    unsigned       getRefGateVar() const {$/;"	f	class:POGate
 getSymbolMsg	cir/cirGate.h	/^    virtual  string getSymbolMsg() const { return _symbolMsg; }$/;"	f	class:PIGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return ""; }$/;"	f	class:AAGate
 getSymbolMsg	cir/cirGate.h	/^    virtual string getSymbolMsg()  const { return _symbolMsg; }$/;"	f	class:POGate
@@ -358,6 +358,7 @@ init	util/myHashMap.h	/^   void init(size_t b) {$/;"	f	class:HashMap
 init	util/myHashMap.h	/^   void init(size_t s) { reset(); _size = s; _cache = new CacheNode[s]; }$/;"	f	class:Cache
 init	util/myHashSet.h	/^   void init(size_t b) { _numBuckets = b; _buckets = new vector<Data>[b]; }$/;"	f	class:HashSet
 initCirCmd	cir/cirCmd.cpp	/^initCirCmd()$/;"	f
+initial_inv_info	cir/cirGate.h	/^    unsigned initial_inv_info;$/;"	m	class:POGate
 initialize	sat/sat.h	/^      void initialize() {$/;"	f	class:SatSolver
 insert	sat/Heap.h	/^    void insert(int n) {$/;"	f	class:Heap
 insert	util/myHashMap.h	/^   bool insert(const HashKey& k, const HashData& d) { return true; }$/;"	f	class:HashMap
@@ -521,7 +522,6 @@ reason	sat/Solver.h	/^    vec<Clause*>        reason;           \/\/ 'reason[var
 rebuildOutputBak	cir/cirMgr.cpp	/^CirMgr::rebuildOutputBak() {$/;"	f	class:CirMgr
 reduceDB	sat/Solver.cpp	/^void Solver::reduceDB()$/;"	f	class:Solver
 reduceDB_lt	sat/Solver.cpp	/^struct reduceDB_lt { bool operator () (Clause* x, Clause* y) { return x->size() > 2 && (y->size() == 2 || x->activity() < y->activity()); } };$/;"	s	file:
-refGateVar	cir/cirGate.h	/^    unsigned       refGateVar;$/;"	m	class:POGate
 release	sat/Global.h	/^    T*       release  (void)           { T* ret = data; data = NULL; sz = 0; cap = 0; return ret; }$/;"	f	class:vec
 releaseDescriptor	sat/File.h	/^    int releaseDescriptor(void) {   \/\/ Don't run UNIX function 'close()' on descriptor in 'File's 'close()'.$/;"	f	class:File
 remove	sat/Solver.cpp	/^void Solver::remove(Clause* c, bool just_dealloc)$/;"	f	class:Solver

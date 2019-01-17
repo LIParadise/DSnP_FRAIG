@@ -19,6 +19,18 @@
 
 using namespace std;
 
+size_t   getInvert       ( const size_t& ) ;
+size_t   getNonInv       ( const size_t& ) ;
+size_t   getXorInv       ( const size_t& ) ;
+size_t   getInvert       ( const void* const ) ;
+size_t   getNonInv       ( const void* const ) ;
+size_t   getXorInv       ( const void* const ) ;
+size_t   getPtrInSize_t  ( const void* const ) ;
+bool     isInverted      ( const size_t ) ;
+bool     isInverted      ( const unsigned ) ;
+bool     isInverted      ( const int ) ;
+CirGate* getPtr          ( size_t  ) ;
+
 class CirGate;
 
 //------------------------------------------------------------------------
@@ -98,18 +110,26 @@ class CirGate
 class POGate : public CirGate {
   public:
     POGate(): 
-      CirGate(), refGateVar(0) {}
-    POGate(int gid, int refid): 
-      CirGate(gid), refGateVar(refid ) {}
+      CirGate(), initial_inv_info(0) {}
+    POGate(int gid, unsigned ini): 
+      CirGate(gid), initial_inv_info(ini) {}
     virtual string getTypeStr()    const { return "PO"; }
     virtual string getSymbolMsg()  const { return _symbolMsg; }
     virtual void   printGate()     const ;
     virtual bool   isAig()         const { return false ; }
     virtual void   setSymbolMsg(const string& str) { _symbolMsg = str ; }
-    unsigned       getRefGateVar() const { return refGateVar; }
-    void           UpdRefGateVar() ;
+    unsigned       getRefGateVar() const {
+      if( isInverted( _parent[0] ) ){
+        return 2*(getPtr(_parent[0])->getGateID())+1;
+      }else{
+        return 2*(getPtr(_parent[0])->getGateID());
+      }
+    }
+    unsigned       getIniInvInfo() const {
+      return initial_inv_info;
+    }
   private:
-    unsigned       refGateVar;
+    unsigned initial_inv_info;
 };
 
 
@@ -144,17 +164,5 @@ class AAGate : public CirGate {
   private:
 };
 
-
-size_t   getInvert       ( const size_t& ) ;
-size_t   getNonInv       ( const size_t& ) ;
-size_t   getXorInv       ( const size_t& ) ;
-size_t   getInvert       ( const void* const ) ;
-size_t   getNonInv       ( const void* const ) ;
-size_t   getXorInv       ( const void* const ) ;
-size_t   getPtrInSize_t  ( const void* const ) ;
-bool     isInverted      ( const size_t ) ;
-bool     isInverted      ( const unsigned ) ;
-bool     isInverted      ( const int ) ;
-CirGate* getPtr          ( size_t  ) ;
 
 #endif // CIR_GATE_H

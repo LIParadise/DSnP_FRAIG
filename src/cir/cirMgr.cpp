@@ -354,9 +354,9 @@ CirMgr::readCircuit(const string& fileName)
     POGate* tmp_PO_ptr = 
       reinterpret_cast<POGate*> ( GateList.find( it)->second );
     auto*   tmp_refG_ptr = 
-      GateList.find( tmp_PO_ptr -> getRefGateVar()/2 )->second;
+      GateList.find( tmp_PO_ptr -> getIniInvInfo()/2 )->second;
     tmp_PO_ptr -> _parent[0] =
-      ( isInverted( tmp_PO_ptr->getRefGateVar() ) )?
+      ( isInverted( tmp_PO_ptr->getIniInvInfo() ) )?
       ( getInvert(  tmp_refG_ptr ) ):
       ( getNonInv(  tmp_refG_ptr ) );
     tmp_PO_ptr -> _parent[1] = 0;

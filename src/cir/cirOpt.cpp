@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <unordered_set>
+#include <csignal>
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
@@ -133,29 +134,70 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
   CirGate* workingGatePtr = getPtr( current_gate_NO_inv_info );
   if( workingGatePtr == nullptr )
     return getPtrInSize_t(nullptr);
-
-  bool ret0_is_xor = isInverted( workingGatePtr -> _parent[0] );
-  bool ret1_is_xor = isInverted( workingGatePtr -> _parent[1] );
-
   if( workingGatePtr -> getTypeStr() == "PI"    ||
       workingGatePtr -> getTypeStr() == "UNDEF" ||
       workingGatePtr -> getGateID()  == 0 ){
     return getNonInv( current_gate_NO_inv_info );
   }
 
-  size_t ret0 = DFS_4_optimize( 
-      getNonInv(workingGatePtr -> _parent[0] ) );
-  size_t ret1 = DFS_4_optimize( 
-      getNonInv(workingGatePtr -> _parent[1] ) );
+  size_t   to_ret   = 0;
+  size_t   ret0     = 0;
+  size_t   ret1     = 0;
+  bool  ret0_is_xor = isInverted( workingGatePtr -> _parent[0] );
+  bool  ret1_is_xor = false;
+  bool  same_parent = false;
+  bool  xor_parents = false;
+#ifdef DEBUG
+  unsigned gateIDIndicator = workingGatePtr -> getGateID();
+#endif // DEBUG
 
+  ret0 = DFS_4_optimize( 
+      getNonInv(workingGatePtr -> _parent[0] ) );
   if( ret0_is_xor )
     ret0 = getXorInv( ret0 );
-  if( ret1_is_xor )
-    ret1 = getXorInv( ret1 );
 
-  bool flag = false;
-  if( workingGatePtr -> getTypeStr() == "PO" )
-    flag = true;
+  same_parent = ( 
+      getNonInv( workingGatePtr -> _parent[0] ) ==
+      getNonInv( workingGatePtr -> _parent[1] ) ) ?
+    true : false;
+  xor_parents = (
+      getXorInv( workingGatePtr -> _parent[0] ) ==
+      workingGatePtr -> _parent[1] ) ?
+    true : false;
+
+  if( same_parent ){
+    if( xor_parents ){
+      ret1 = getXorInv( ret0 );
+    }else{
+      ret1 = ret0;
+    }
+  }else {
+    ret1_is_xor = isInverted( workingGatePtr -> _parent[1] );
+    ret1 = DFS_4_optimize(
+        getNonInv( workingGatePtr -> _parent[1] ) );
+    if( ret1_is_xor )
+      ret1 = getXorInv( ret1 );
+  }
+
+#ifdef DEBUG
+  cerr << "\n\nI'm         : " << gateIDIndicator << endl;
+  cerr << "ret0        : " << ret0 << endl;
+  if( getPtr(ret0) != nullptr )
+    cerr 
+      <<  "it's ptr to : " 
+      << ((isInverted(ret0))?"!":"")
+      << getPtr(ret0)->getGateID()<<endl;
+  cerr << "ret1        : " << ret1 << endl;
+  if( getPtr(ret1) != nullptr )
+    cerr 
+      <<  "it's ptr to : " 
+      << ((isInverted(ret1))?"!":"")
+      << getPtr(ret1)->getGateID()<<endl;
+  if( gateIDIndicator == 15 ){
+    cerr << endl << endl;
+    raise( SIGINT );
+  }
+#endif // DEBUG
 
   if( workingGatePtr -> getTypeStr() == "PO" ){
 
@@ -167,34 +209,44 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
     if( ret1 == ret0 ) {
 
       merge( getNonInv( current_gate_NO_inv_info ), ret0 );
-      return ret0;
+      to_ret = ret0;
 
     } else if( ret1 == getXorInv( ret0 ) ){
 
       merge(getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
-      return const0PtrInSizet;
+      to_ret = const0PtrInSizet;
 
     } else if( ret0 == const0PtrInSizet ||
         ret1        == const0PtrInSizet ){
 
       merge(getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
-      return const0PtrInSizet;
+      to_ret = const0PtrInSizet;
 
     } else if( ret1 == getInvert( const0PtrInSizet ) ){
 
       merge( getNonInv( current_gate_NO_inv_info ), ret0 );
-      return ret0;
+      to_ret = ret0;
 
     } else if( ret0 == getInvert( const0PtrInSizet ) ){
 
       merge( getNonInv( current_gate_NO_inv_info ), ret1 );
-      return ret1;
+      to_ret = ret1;
 
     } else {
 
-      return getNonInv( current_gate_NO_inv_info );
+      to_ret = getNonInv( current_gate_NO_inv_info );
     }
   }
+
+#ifdef DEBUG
+  cerr << "to_ret is   : " << to_ret << endl;
+  if( getPtr(to_ret) != nullptr )
+    cerr 
+      <<  "it's ptr to : " 
+      << ((isInverted(to_ret))?"!":"")
+      << getPtr(to_ret)->getGateID()<<endl;
+#endif // DEBUG
+  return to_ret;
 
 }
 
@@ -214,8 +266,10 @@ CirMgr::merge( size_t current_gate_NO_inv_info,
       definedList.erase( definedListItor );
   }
 #ifdef DEBUG
-  cerr << workingGatePtr -> getGateID() << 'm'
-    <<( (tmp_ptr == nullptr)? 'C' : tmp_ptr -> getGateID() )<<endl;
+  cerr << workingGatePtr -> getGateID() << "m("
+    << (( isInverted( parent_with_inv_info ) )? "!" : " ")
+    << ((tmp_ptr == nullptr)? 'C':tmp_ptr -> getGateID() )
+    << ")" << endl;
 #endif // DEBUG
 
   // manage parents, eliminate me.
@@ -267,10 +321,32 @@ void
 CirMgr::mergePO( size_t current_gate_NO_inv_info,
     size_t parent_with_inv_info ){
 
-  getPtr ( current_gate_NO_inv_info ) -> _parent[0]
-    = parent_with_inv_info;
-  getPtr ( parent_with_inv_info ) -> insertChild(
-      current_gate_NO_inv_info );
-  static_cast < POGate* > (
-      getPtr ( current_gate_NO_inv_info )) -> UpdRefGateVar ();
+  CirGate* workingGatePtr = getPtr( current_gate_NO_inv_info );
+  CirGate* tmp_ptr = nullptr;
+
+  for( size_t i = 0; i < 2; ++i ){
+    tmp_ptr = getPtr( workingGatePtr -> _parent[0] );
+    if( tmp_ptr != nullptr ){
+      auto tmp_child_itor_of_parent = tmp_ptr -> _child.
+        find( current_gate_NO_inv_info );
+      while( tmp_child_itor_of_parent != tmp_ptr -> _child.end() ){
+        tmp_ptr -> _child.erase( tmp_child_itor_of_parent );
+        tmp_child_itor_of_parent = tmp_ptr -> _child.
+          find( current_gate_NO_inv_info );
+      }
+    }
+    if( tmp_ptr -> _child.empty() ){
+      auto usedListItor = usedList.find( tmp_ptr -> getGateID() );
+      if( usedListItor != usedList.end() )
+        usedList.erase( usedListItor );
+    }
+  }
+
+  tmp_ptr       = getPtr( parent_with_inv_info );
+
+  workingGatePtr -> _parent[0] = parent_with_inv_info;
+
+  tmp_ptr -> insertChild( current_gate_NO_inv_info );
+  usedList.insert( tmp_ptr -> getGateID() );
+
 }

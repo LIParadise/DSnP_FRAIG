@@ -214,14 +214,6 @@ CirGate::setLineCnt( unsigned u){
 }
 
 void
-POGate::UpdRefGateVar(){
-  if( isInverted( _parent[0] ) )
-    refGateVar = getPtr( _parent[0] ) -> getGateID() * 2 + 1;
-  else
-    refGateVar = getPtr( _parent[0] ) -> getGateID() * 2 ;
-}
-
-void
 POGate::printGate() const {
   cout << "PO  " << getGateID();
   cout << ' ';
