@@ -108,6 +108,9 @@ class CirMgr
 
     vector< pair<CirGate*, unsigned> > DFSList;
     // second is depth.
+    set< size_t >
+      UNDEFDFSList;
+    // tricky, since we just want to delete part of them, not all of them, when sweeping.;
     vector< string>                    output_bak;
 
 

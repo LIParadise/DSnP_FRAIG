@@ -148,6 +148,7 @@ Sort_h	sat/Sort.h	21;"	d
 TEMPLATE_FAIL	sat/Global.h	62;"	d
 TRA_INT	sat/Proof.h	/^    int             TRA_INT;$/;"	m	class:Proof
 TempFiles	sat/Proof.cpp	/^class TempFiles {$/;"	c	file:
+UNDEFDFSList	cir/cirMgr.h	/^      UNDEFDFSList;$/;"	m	class:CirMgr
 UTIL_H	util/util.h	9;"	d
 UnDefinedList	cir/cirMgr.h	/^    set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
 Var	sat/SolverTypes.h	/^typedef int Var;$/;"	t
@@ -407,8 +408,6 @@ locked	sat/Solver.h	/^    bool     locked          (const Clause* c) const { ret
 lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
 makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
-mask1	cir/cirFraig.cpp	/^  static const size_t mask1 = 0xEEEEEEEE;$/;"	m	struct:myHashK	file:
-mask2	cir/cirFraig.cpp	/^  static const size_t mask2 = 0x77777777;$/;"	m	struct:myHashK	file:
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
@@ -456,7 +455,7 @@ open64	sat/File.h	14;"	d
 operator !=	sat/Global.h	/^    bool  operator != (const lbool& other) const { return value != other.value; }$/;"	f	class:lbool
 operator !=	sat/Global.h	/^template <class T> static inline bool operator != (const T& x, const T& y) { return !(x == y); }$/;"	f
 operator !=	sat/SolverTypes.h	/^    bool        operator != (GClause c) const { return data != c.data; }$/;"	f	class:GClause
-operator ()	cir/cirFraig.cpp	/^    operator () ( CirGate* c1, CirGate* c2 ) const {$/;"	f	struct:myHashEq
+operator ()	cir/cirFraig.cpp	/^  bool operator () ( CirGate* c1, CirGate* c2 ) const {$/;"	f	struct:myHashEq
 operator ()	cir/cirFraig.cpp	/^  size_t operator () (CirGate* c ) const{$/;"	f	struct:myHashK
 operator ()	sat/Solver.cpp	/^    bool operator () (Lit p, Lit q) { return trail_pos[var(p)] > trail_pos[var(q)]; }$/;"	f	class:lastToFirst_lt
 operator ()	sat/Solver.cpp	/^struct reduceDB_lt { bool operator () (Clause* x, Clause* y) { return x->size() > 2 && (y->size() == 2 || x->activity() < y->activity()); } };$/;"	f	struct:reduceDB_lt

@@ -14,18 +14,15 @@
 #include "util.h"
 
 struct myHashK {
-  static const size_t mask1 = 0xEEEEEEEE;
-  static const size_t mask2 = 0x77777777;
   size_t operator () (CirGate* c ) const{
     return ( (size_t)
-        (mask1 & (c -> _parent[0]) ) ^
-        (mask2 & (c -> _parent[1]) ) );
+        ((c -> _parent[0]) ) ^
+        ((c -> _parent[1]) ) );
   }
 } custom_key;
 
 struct myHashEq {
-  bool
-    operator () ( CirGate* c1, CirGate* c2 ) const {
+  bool operator () ( CirGate* c1, CirGate* c2 ) const {
 
       if( c1 == nullptr || c2 == nullptr ){
         if( c1 != nullptr ){
@@ -37,14 +34,15 @@ struct myHashEq {
         }
       }
 
-      if( ( (c1 -> _parent[0] ^ c2 -> _parent[0]) |
-            (c1 -> _parent[1] ^ c2 -> _parent[1]) )
+      if( ( (((size_t)c1->_parent[0])^((size_t)c2->_parent[0])) |
+            (((size_t)c1->_parent[1])^((size_t)c2->_parent[1])) )
           == 0 )
         return true;
-      if( ( (c1 -> _parent[0] ^ c2 -> _parent[1]) |
-            (c1 -> _parent[1] ^ c2 -> _parent[0]) )
+      if( ( (((size_t)c1->_parent[0])^((size_t)c2->_parent[1])) |
+            (((size_t)c1->_parent[1])^((size_t)c2->_parent[0])) )
           == 0 )
         return true;
+
       return false;
 
     }
@@ -75,67 +73,103 @@ CirMgr::strash()
   sweep();
   ShallBeEliminatedList.clear();
   const0PtrInSizet = getPtrInSize_t(GateList.find(0)->second);
-  using mySTLMultiHash = unordered_multiset < CirGate*, myHashK, myHashEq >;
-  mySTLMultiHash strash_hash ;
+  unordered_set< CirGate*, myHashK, myHashEq > strash_hash ;
 
-  // FIXME
-  for( auto it : DFSList ){
-    auto strash_hash_itor = strash_hash.find( it.first );
+  for( auto itor1 : DFSList ){
+
+    auto strash_hash_itor = strash_hash.find( itor1.first );
+
     if( strash_hash_itor != strash_hash.end() ){
 
-      // match
-      if( (*strash_hash_itor) -> getGateID() ==
-          it.first            -> getGateID() )
-        continue;
+      CirGate* mainPtr = (*strash_hash_itor);
+      CirGate* subPtr  = itor1.first;
+      if( ! (
+            (*strash_hash_itor) -> getTypeStr() == "PI"    ||
+            (*strash_hash_itor) -> getTypeStr() == "UNDEF" || 
+            (*strash_hash_itor) -> getGateID()  == 0
+            ) ){
+        if( itor1.first -> getTypeStr() == "PI"    ||
+            itor1.first -> getTypeStr() == "UNDEF" || 
+            itor1.first -> getGateID()  == 0 ){
+          // the new-comer is more suitable for being in hash.
+          subPtr  = (*strash_hash_itor );
+          mainPtr = itor1.first;
+          strash_hash.erase( strash_hash_itor );
+          strash_hash.insert( itor1.first );
+        }
+      }
+      if( mainPtr -> getTypeStr() == "PI"    ||
+          mainPtr -> getTypeStr() == "UNDEF" || 
+          mainPtr -> getGateID()  == 0 ){
+        if( subPtr -> getTypeStr() == "PI" ||
+            subPtr -> getTypeStr() == "UNDEF" || 
+            subPtr -> getGateID() == 0 ){
+          // both cannot be merged, actually.
+          continue;
+        }
+      }
+
+#ifdef DEBUG
+      cerr << "strashing..." << endl;
+      cerr << "mainPtr   : " << mainPtr -> getGateID() << endl;
+      cerr << "subPtr    : " << subPtr  -> getGateID() << endl;
+      if( mainPtr -> getGateID() == 4 ){
+        cerr << "-----" << (size_t)(mainPtr -> _parent[0]) << endl;
+        cerr << "-----" << (size_t)(mainPtr -> _parent[1]) << endl;
+      }
+#endif // DEBUG
 
       // different gate; try merge
-      // "it.first" appears later than "*strash_hash_itor"
-      // thus we shall merge (it.first) to (*strash_hash_itor);
+      // we shall merge subPtr to mainPtr;
       for( size_t i = 0; i < 2; ++i ){
-        auto parent_ptr = getPtr( it.first -> _parent[i] );
+        auto parent_ptr = getPtr( subPtr -> _parent[i] );
         if( parent_ptr != nullptr ){
           auto me_itor = parent_ptr -> _child.find(
-              getPtrInSize_t( it.first ) );
+              getPtrInSize_t( subPtr ) );
           while( me_itor != parent_ptr -> _child.end() ){
             parent_ptr -> _child.erase( me_itor );
             me_itor = parent_ptr -> _child.find(
-                getPtrInSize_t( it.first ) );
+                getPtrInSize_t( subPtr ) );
           }
-          if( parent_ptr -> _child.empty() ){
-            auto tmp_itor = usedList.find( parent_ptr 
-                -> getGateID() );
-            if( tmp_itor != usedList.end() )
-              usedList.erase ( tmp_itor );
-          }
+          // parent_ptr shall not have empty child,
+          // since we're doing strash.
+          // don't touch the usedList;
         }
       }
-      for( auto childPtrInSizeT : it.first -> _child ){
+      for( auto childPtrInSizeT : subPtr -> _child ){
         auto child_ptr = getPtr( childPtrInSizeT );
         if( child_ptr != nullptr ){
           for( size_t i = 0; i < 2; ++i ){
             if ( getNonInv(child_ptr -> _parent[i])
-                == getPtrInSize_t(it.first) ){
+                == getPtrInSize_t(subPtr) ){
               bool invert_info = isInverted(child_ptr->_parent[i] );
               child_ptr -> _parent[i] =
                 ( invert_info )?
-                getInvert( *strash_hash_itor ) :
-                getNonInv( *strash_hash_itor ) ;
+                getInvert( mainPtr ) :
+                getNonInv( mainPtr ) ;
             }
           }
         }
-        (*strash_hash_itor) -> insertChild ( childPtrInSizeT );
+        (mainPtr) -> insertChild ( childPtrInSizeT );
       }
-      if( !((*strash_hash_itor) -> _child.empty()) )
-        usedList.insert ((*strash_hash_itor) -> getGateID() );
-      strash_hash.erase( strash_hash_itor );
-      ShallBeEliminatedList.insert( it.first -> getGateID() );
+      usedList.insert( mainPtr -> getGateID() );
+      if( usedList.find( subPtr -> getGateID() ) != usedList.end() )
+        usedList.erase( usedList.find( subPtr -> getGateID() ) );
+      if( subPtr -> getTypeStr() == "AAG" ){
+        auto definedListItor = definedList.find(subPtr->getGateID());
+        if( definedListItor != definedList.end() )
+          definedList.erase( definedListItor );
+      }
+      ShallBeEliminatedList.insert( subPtr -> getGateID() );
+
     }else{
-      strash_hash.insert( it.first );
+      if( itor1.first -> getTypeStr() != "PO" )
+        strash_hash.insert( itor1.first );
     }
   }
 
-  for( auto it : ShallBeEliminatedList ){
-    auto itor = GateList.find( it );
+  for( auto itor1 : ShallBeEliminatedList ){
+    auto itor = GateList.find( itor1 );
     if ( itor != GateList.end() ){
       delete itor -> second;
       itor -> second = nullptr;

@@ -42,12 +42,17 @@ CirMgr::sweep() {
     ID_in_DFSList.insert( itor -> first -> getGateID() );
   }
 
-  for( auto itor = GateList.begin(); itor != GateList.end(); ++itor ){
+  for( auto itor = GateList.begin();itor != GateList.end();++itor ){
     if( ID_in_DFSList.find( itor -> second -> getGateID() )
         == ID_in_DFSList.end () ){
       if( itor -> second -> getTypeStr() == "UNDEF") {
 
-        auto tmp_itor = usedList.find( itor -> second -> getGateID() );
+        auto iittoorr = UNDEFDFSList.find( 
+            getPtrInSize_t( itor -> second ) );
+        if ( iittoorr != UNDEFDFSList.end () )
+          continue;
+
+        auto tmp_itor = usedList.find( itor->second->getGateID() );
         if( tmp_itor != usedList.end() )
           usedList.erase( tmp_itor );
 

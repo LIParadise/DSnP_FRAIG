@@ -270,8 +270,10 @@ CirGate::makeForgetMe() {
     auto tmp_parent_ptr = getPtr( _parent[i] );
     if( tmp_parent_ptr != nullptr ){
       auto me_itor = tmp_parent_ptr -> findChild( getPtrInSize_t( this));
-      if( me_itor != tmp_parent_ptr -> _child.end() )
+      while( me_itor != tmp_parent_ptr -> _child.end() ){
         tmp_parent_ptr -> _child . erase( me_itor );
+        me_itor = tmp_parent_ptr -> findChild( getPtrInSize_t( this));
+      }
     }
   }
 

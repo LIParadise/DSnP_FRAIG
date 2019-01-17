@@ -543,6 +543,7 @@ myPairUnsignedCharCmp(
 bool
 CirMgr::buildDFSList() {
   getNewGDFSRef();
+  UNDEFDFSList.clear();
   for( auto it : POIDList ){
     CirGate* ptr = GateList.find( it) -> second;
     if( ! DFS(ptr) ){
@@ -566,8 +567,8 @@ CirMgr::DFS( CirGate* ptr , unsigned depth ){
   ptr           = getPtr( getNonInv( ptr ) );
   for( size_t i = 0; i < 2; ++i ){
     auto it = getNonInv(ptr -> _parent[i]);
-    if( it ){
-      tmp = getPtr( it );
+    tmp = getPtr( it );
+    if( tmp != nullptr ){
       if( tmp -> getGateRef() != globalDFSRef ){
         tmp -> setGateRef( globalDFSRef );
         tmp -> setActive();
@@ -583,6 +584,8 @@ CirMgr::DFS( CirGate* ptr , unsigned depth ){
   }
   if( ptr -> isDefined() )
     DFSList.push_back( make_pair(ptr, depth ));
+  else
+    UNDEFDFSList.insert( getPtrInSize_t( ptr ) );
   return true;
 }
 
@@ -632,7 +635,7 @@ CirMgr::rebuildOutputBak() {
   tmp_str += ' ';
   tmp_str += to_string(
       GateList.size() - PIIDList.size() -
-      POIDList.size() - 1 );             // A
+      POIDList.size() - UNDEFDFSList.size() -1 );             // A
   output_bak[0] = tmp_str;
   tmp_str  = "";
   tmp_str1 = "";
