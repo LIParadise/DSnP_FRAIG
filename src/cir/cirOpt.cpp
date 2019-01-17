@@ -153,38 +153,47 @@ CirMgr::DFS_4_optimize( size_t current_gate_NO_inv_info ){
   if( ret1_is_xor )
     ret1 = getXorInv( ret1 );
 
-  if( ret1 == ret0 ) {
+  bool flag = false;
+  if( workingGatePtr -> getTypeStr() == "PO" )
+    flag = true;
 
-    merge( getNonInv( current_gate_NO_inv_info ), ret0 );
-    return ret0;
+  if( workingGatePtr -> getTypeStr() == "PO" ){
 
-  } else if( ret1 == getXorInv( ret0 ) ){
-
-    merge( getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
-    return const0PtrInSizet;
-  
-  } else if( ret0 == const0PtrInSizet ||
-      ret1        == const0PtrInSizet ){
-
-    merge( getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
-    return const0PtrInSizet;
-
-  } else if( ret1 == getInvert( const0PtrInSizet ) ){
-
-    merge( getNonInv( current_gate_NO_inv_info ), ret0 );
-    return ret0;
-
-  } else if( ret0 == getInvert( const0PtrInSizet ) ){
-     
-    merge( getNonInv( current_gate_NO_inv_info ), ret1 );
-    return ret1;
+    mergePO( getNonInv( current_gate_NO_inv_info ), ret0 );
+    return current_gate_NO_inv_info ;
 
   } else {
 
-    if( workingGatePtr -> getTypeStr() == "PO" ){
-      mergePO( getNonInv( current_gate_NO_inv_info ), ret0 );
+    if( ret1 == ret0 ) {
+
+      merge( getNonInv( current_gate_NO_inv_info ), ret0 );
+      return ret0;
+
+    } else if( ret1 == getXorInv( ret0 ) ){
+
+      merge(getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
+      return const0PtrInSizet;
+
+    } else if( ret0 == const0PtrInSizet ||
+        ret1        == const0PtrInSizet ){
+
+      merge(getNonInv( current_gate_NO_inv_info ), const0PtrInSizet);
+      return const0PtrInSizet;
+
+    } else if( ret1 == getInvert( const0PtrInSizet ) ){
+
+      merge( getNonInv( current_gate_NO_inv_info ), ret0 );
+      return ret0;
+
+    } else if( ret0 == getInvert( const0PtrInSizet ) ){
+
+      merge( getNonInv( current_gate_NO_inv_info ), ret1 );
+      return ret1;
+
+    } else {
+
+      return getNonInv( current_gate_NO_inv_info );
     }
-    return getNonInv( current_gate_NO_inv_info );
   }
 
 }
@@ -262,4 +271,6 @@ CirMgr::mergePO( size_t current_gate_NO_inv_info,
     = parent_with_inv_info;
   getPtr ( parent_with_inv_info ) -> insertChild(
       current_gate_NO_inv_info );
+  static_cast < POGate* > (
+      getPtr ( current_gate_NO_inv_info )) -> UpdRefGateVar ();
 }

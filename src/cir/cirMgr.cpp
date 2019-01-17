@@ -205,7 +205,7 @@ CirMgr::readCircuit(const string& fileName)
   for( int i = 0; i < MILOA[3]; ++i ) { // O
     // set usedList
     getline( myfile, tmp_str );
-    int id  = stoi( tmp_str, nullptr, 10 );
+    unsigned id  = stoi( tmp_str, nullptr, 10 );
     usedList.insert( id/2 );
     // remark: to store inv info for PO,
     // "int id" is not an gate id, but an gate var.

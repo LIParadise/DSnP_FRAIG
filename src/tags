@@ -150,6 +150,7 @@ TRA_INT	sat/Proof.h	/^    int             TRA_INT;$/;"	m	class:Proof
 TempFiles	sat/Proof.cpp	/^class TempFiles {$/;"	c	file:
 UTIL_H	util/util.h	9;"	d
 UnDefinedList	cir/cirMgr.h	/^    set< unsigned > UnDefinedList;$/;"	m	class:CirMgr
+UpdRefGateVar	cir/cirGate.cpp	/^POGate::UpdRefGateVar(){$/;"	f	class:POGate
 Var	sat/SolverTypes.h	/^typedef int Var;$/;"	t
 VarOrder	sat/VarOrder.h	/^    VarOrder(const vec<char>& ass, const vec<double>& act) :$/;"	f	class:VarOrder
 VarOrder	sat/VarOrder.h	/^class VarOrder {$/;"	c
@@ -520,7 +521,7 @@ reason	sat/Solver.h	/^    vec<Clause*>        reason;           \/\/ 'reason[var
 rebuildOutputBak	cir/cirMgr.cpp	/^CirMgr::rebuildOutputBak() {$/;"	f	class:CirMgr
 reduceDB	sat/Solver.cpp	/^void Solver::reduceDB()$/;"	f	class:Solver
 reduceDB_lt	sat/Solver.cpp	/^struct reduceDB_lt { bool operator () (Clause* x, Clause* y) { return x->size() > 2 && (y->size() == 2 || x->activity() < y->activity()); } };$/;"	s	file:
-refGateVar	cir/cirGate.h	/^    int    refGateVar;$/;"	m	class:POGate
+refGateVar	cir/cirGate.h	/^    unsigned       refGateVar;$/;"	m	class:POGate
 release	sat/Global.h	/^    T*       release  (void)           { T* ret = data; data = NULL; sz = 0; cap = 0; return ret; }$/;"	f	class:vec
 releaseDescriptor	sat/File.h	/^    int releaseDescriptor(void) {   \/\/ Don't run UNIX function 'close()' on descriptor in 'File's 'close()'.$/;"	f	class:File
 remove	sat/Solver.cpp	/^void Solver::remove(Clause* c, bool just_dealloc)$/;"	f	class:Solver
