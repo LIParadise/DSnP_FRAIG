@@ -14,6 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include <set>
+#include <unordered_set>
 #include <map>
 #include <utility>
 #include <ctime>
@@ -33,7 +34,8 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
   public:
-    CirMgr():globalDFSRef(0){mysrand_sse(time(NULL));}
+    CirMgr():
+      globalDFSRef(0){mysrand_sse(time(NULL));}
     ~CirMgr() { clearGate();}
 
     // Access functions
@@ -114,6 +116,7 @@ class CirMgr
 bool myPairUnsignedCharCmp (
     const pair< unsigned, char>& ,
     const pair< unsigned, char>& ) ; 
+
 
 #endif // CIR_MGR_H
 

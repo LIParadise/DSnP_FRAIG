@@ -32,7 +32,7 @@ CirGate	cir/cirGate.h	/^    CirGate(): $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^    CirGate(int i) : $/;"	f	class:CirGate
 CirGate	cir/cirGate.h	/^class CirGate$/;"	c
 CirGateCmd	cir/cirCmd.h	/^CmdClass(CirGateCmd);$/;"	v
-CirMgr	cir/cirMgr.h	/^    CirMgr():globalDFSRef(0){mysrand_sse(time(NULL));}$/;"	f	class:CirMgr
+CirMgr	cir/cirMgr.h	/^    CirMgr():$/;"	f	class:CirMgr
 CirMgr	cir/cirMgr.h	/^class CirMgr$/;"	c
 CirOptCmd	cir/cirCmd.h	/^CmdClass(CirOptCmd);$/;"	v
 CirParseError	cir/cirMgr.cpp	/^enum CirParseError {$/;"	g	file:
@@ -255,6 +255,8 @@ copyTo	sat/Global.h	/^    void copyTo(vec<T>& copy) const { copy.clear(); copy.g
 cpuTime	sat/Global.h	/^static inline double cpuTime(void) {$/;"	f
 curCmd	cir/cirCmd.cpp	/^static CirCmdState curCmd = CIRINIT;$/;"	v	file:
 cur_seed	util/test_random_generator_intel.cpp	/^__attribute__ ((aligned(16))) static __m128i cur_seed;$/;"	v	file:
+custom_eq	cir/cirFraig.cpp	/^} custom_eq ;$/;"	v	typeref:struct:myHashEq
+custom_key	cir/cirFraig.cpp	/^} custom_key;$/;"	v	typeref:struct:myHashK
 data	sat/Global.h	/^    T*  data;$/;"	m	class:vec
 data	sat/SolverTypes.h	/^    Lit     data[1];$/;"	m	class:Clause
 data	sat/SolverTypes.h	/^    void*   data;$/;"	m	class:GClause
@@ -405,6 +407,8 @@ locked	sat/Solver.h	/^    bool     locked          (const Clause* c) const { ret
 lseek64	sat/File.h	13;"	d
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
 makeForgetMe	cir/cirGate.cpp	/^CirGate::makeForgetMe() {$/;"	f	class:CirGate
+mask1	cir/cirFraig.cpp	/^  static const size_t mask1 = 0xEEEEEEEE;$/;"	m	struct:myHashK	file:
+mask2	cir/cirFraig.cpp	/^  static const size_t mask2 = 0x77777777;$/;"	m	struct:myHashK	file:
 max	sat/Global.h	/^template<class T> static inline T max(T x, T y) { return (x > y) ? x : y; }$/;"	f
 max_literals	sat/Solver.h	/^    int64   clauses_literals, learnts_literals, max_literals, tot_literals;$/;"	m	struct:SolverStats
 memReadStat	sat/Global.h	/^static inline int memReadStat(int field)$/;"	f
@@ -419,6 +423,8 @@ modelValue	sat/Solver.h	/^    lbool   modelValue(Var x) const { return model[x];
 moveTo	sat/Global.h	/^    void moveTo(vec<T>& dest) { dest.clear(true); dest.data = data; dest.sz = sz; dest.cap = cap; data = NULL; sz = 0; cap = 0; }$/;"	f	class:vec
 myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
 myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
+myHashEq	cir/cirFraig.cpp	/^struct myHashEq {$/;"	s	file:
+myHashK	cir/cirFraig.cpp	/^struct myHashK {$/;"	s	file:
 myPairUnsignedCharCmp	cir/cirMgr.cpp	/^myPairUnsignedCharCmp($/;"	f
 myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
 myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t pos = 0,$/;"	f
@@ -450,6 +456,8 @@ open64	sat/File.h	14;"	d
 operator !=	sat/Global.h	/^    bool  operator != (const lbool& other) const { return value != other.value; }$/;"	f	class:lbool
 operator !=	sat/Global.h	/^template <class T> static inline bool operator != (const T& x, const T& y) { return !(x == y); }$/;"	f
 operator !=	sat/SolverTypes.h	/^    bool        operator != (GClause c) const { return data != c.data; }$/;"	f	class:GClause
+operator ()	cir/cirFraig.cpp	/^    operator () ( CirGate* c1, CirGate* c2 ) const {$/;"	f	struct:myHashEq
+operator ()	cir/cirFraig.cpp	/^  size_t operator () (CirGate* c ) const{$/;"	f	struct:myHashK
 operator ()	sat/Solver.cpp	/^    bool operator () (Lit p, Lit q) { return trail_pos[var(p)] > trail_pos[var(q)]; }$/;"	f	class:lastToFirst_lt
 operator ()	sat/Solver.cpp	/^struct reduceDB_lt { bool operator () (Clause* x, Clause* y) { return x->size() > 2 && (y->size() == 2 || x->activity() < y->activity()); } };$/;"	f	struct:reduceDB_lt
 operator ()	sat/Sort.h	/^    bool operator () (T x, T y) { return x < y; }$/;"	f	struct:LessThan_default

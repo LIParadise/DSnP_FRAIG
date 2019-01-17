@@ -42,9 +42,9 @@ set shortmess=aoO
 badd +1 src/cir/cirDef.h
 badd +1 src/cir/cirFraig.cpp
 badd +212 src/cir/cirGate.cpp
-badd +157 src/cir/cirGate.h
+badd +117 src/cir/cirGate.h
 badd +83 src/cir/cirMgr.h
-badd +466 src/cir/cirMgr.cpp
+badd +164 src/cir/cirMgr.cpp
 badd +1 src/cir/cirSim.cpp
 badd +179 src/cir/cirOpt.cpp
 badd +53 /mnt/data/Document/DSnP/DSnP_hw6/src/cir/cirGate.h
@@ -60,12 +60,25 @@ argglobal
 silent! argdel *
 argadd src/cir/cirDef.h
 set stal=2
-edit src/cir/cirFraig.cpp
+edit src/cir/cirMgr.h
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
+exe '1resize ' . ((&lines * 19 + 21) / 42)
+exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe '2resize ' . ((&lines * 19 + 21) / 42)
+exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -178,12 +191,259 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 35 - ((25 * winheight(0) + 19) / 39)
+let s:l = 111 - ((16 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-35
-normal! 05|
+111
+normal! 040|
+wincmd w
+argglobal
+edit src/cir/cirOpt.cpp
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 103 - ((8 * winheight(0) + 9) / 19)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+103
+normal! 0
+wincmd w
+argglobal
+edit src/cir/cirFraig.cpp
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 28 - ((13 * winheight(0) + 19) / 39)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+28
+normal! 040|
+wincmd w
+3wincmd w
+exe '1resize ' . ((&lines * 19 + 21) / 42)
+exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe '2resize ' . ((&lines * 19 + 21) / 42)
+exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
 tabedit src/cir/cirGate.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -315,11 +575,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 31 - ((15 * winheight(0) + 10) / 20)
+let s:l = 17 - ((10 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-31
+17
 normal! 012|
 wincmd w
 argglobal
@@ -435,11 +695,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 124 - ((6 * winheight(0) + 9) / 18)
+let s:l = 75 - ((7 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-124
+75
 normal! 07|
 wincmd w
 argglobal
@@ -567,7 +827,7 @@ exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe '2resize ' . ((&lines * 18 + 21) / 42)
 exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
 exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
-tabedit src/cir/cirGate.h
+tabedit src/cir/cirMgr.h
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -698,16 +958,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 115 - ((4 * winheight(0) + 9) / 19)
+let s:l = 119 - ((1 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-115
-normal! 011|
+119
+normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 argglobal
-edit /mnt/data/Document/DSnP/fraig/src/cir/cirMgr.cpp
+edit /mnt/data/Document/DSnP/fraig/src/cir/cirMgr.h
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -819,11 +1079,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 616 - ((2 * winheight(0) + 9) / 19)
+let s:l = 101 - ((6 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-616
+101
 normal! 0
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
@@ -943,32 +1203,32 @@ silent! normal! zE
 37,57fold
 37,57fold
 71,154fold
-161,473fold
-499,516fold
-520,529fold
-533,538fold
-542,547fold
-659,730fold
+161,476fold
+502,519fold
+523,532fold
+536,541fold
+545,550fold
+665,736fold
 37
 normal! zo
 161
 normal! zo
-499
+502
 normal! zo
-520
+523
 normal! zo
-533
+536
 normal! zo
-542
+545
 normal! zo
-659
+665
 normal! zo
-let s:l = 359 - ((16 * winheight(0) + 19) / 39)
+let s:l = 403 - ((19 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-359
-normal! 014|
+403
+normal! 028|
 wincmd w
 exe '1resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 1resize ' . ((&columns * 59 + 73) / 146)
@@ -1099,14 +1359,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-182,200fold
-182
-normal! zo
-let s:l = 201 - ((16 * winheight(0) + 19) / 39)
+let s:l = 225 - ((20 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-201
+225
 normal! 0
 wincmd w
 argglobal
@@ -1222,14 +1479,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 347 - ((25 * winheight(0) + 19) / 39)
+let s:l = 241 - ((20 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-347
+241
 normal! 0
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 tabedit /mnt/data/Document/DSnP/fraig/src/cir/cirSim.cpp
@@ -1481,12 +1737,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 136 - ((17 * winheight(0) + 19) / 39)
+let s:l = 364 - ((35 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-136
-normal! 017|
+364
+normal! 04|
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 argglobal
@@ -1623,7 +1879,7 @@ set nosplitright
 wincmd t
 set winheight=1 winwidth=1
 exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
-exe 'vert 2resize ' . ((&columns * 86 + 73) / 146)
+exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -1736,7 +1992,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 20) / 40)
+let s:l = 7 - ((6 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1857,7 +2113,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 101 - ((18 * winheight(0) + 20) / 40)
+let s:l = 101 - ((18 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1866,8 +2122,8 @@ normal! 033|
 lcd /mnt/data/Document/DSnP/fraig
 wincmd w
 exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
-exe 'vert 2resize ' . ((&columns * 86 + 73) / 146)
-tabnext 4
+exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
+tabnext 1
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
